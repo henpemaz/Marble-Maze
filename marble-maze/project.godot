@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Marble Maze"
+run/main_scene="uid://ds2xjtudnb6f4"
+config/features=PackedStringArray("4.5", "Forward Plus")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1368
+window/size/viewport_height=768
+
+[layer_names]
+
+3d_physics/layer_1="player"
+3d_physics/layer_2="interactables"
+3d_physics/layer_3="puzzle"
+3d_physics/layer_4="holder"
+
+[physics]
+
+common/physics_ticks_per_second=120

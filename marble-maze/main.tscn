@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://ds2xjtudnb6f4"]
+
+[ext_resource type="Script" uid="uid://c7l4bxavwhobj" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dteluc1k3fxsf" path="res://puzzle.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cwgl7byxhneea" path="res://ball.tscn" id="3_1bvp3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h2yge"]
+
+[sub_resource type="Sky" id="Sky_1bvp3"]
+sky_material = SubResource("ProceduralSkyMaterial_h2yge")
+
+[sub_resource type="Environment" id="Environment_lquwl"]
+background_mode = 2
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_1bvp3")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_h2yge")
+
+[node name="Puzzle" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="Ball" parent="." instance=ExtResource("3_1bvp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.656454, 9.758982, -0.012744188)
+gravity_scale = 50.0
+can_sleep = false
+continuous_cd = true
+
+[node name="CameraRig" type="Node3D" parent="."]
+transform = Transform3D(-4.371139e-08, -0.5697386, 0.821826, 0, 0.821826, 0.5697386, -1, 2.4904068e-08, -3.5923154e-08, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5067062e-14, -1.5885137e-14, 20.802622)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lquwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+light_angular_distance = 45.0
+light_specular = 0.0
+shadow_enabled = true
