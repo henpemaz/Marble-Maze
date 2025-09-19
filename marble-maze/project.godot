@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1368
 window/size/viewport_height=768
+window/size/mode=3
 
 [layer_names]
 
@@ -30,3 +31,7 @@ window/size/viewport_height=768
 [physics]
 
 common/physics_ticks_per_second=120
+3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/velocity_steps=20
+jolt_physics_3d/simulation/position_steps=8
+jolt_physics_3d/simulation/generate_all_kinematic_contacts=true
