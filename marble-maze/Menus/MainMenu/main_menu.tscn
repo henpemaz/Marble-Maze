@@ -1,0 +1,344 @@
+[gd_scene load_steps=16 format=3 uid="uid://cacdholw1mgou"]
+
+[ext_resource type="Script" uid="uid://b7x2yhjijm7xr" path="res://Menus/MainMenu/main_menu.gd" id="1_adu2g"]
+[ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="1_qgdf6"]
+[ext_resource type="Texture2D" uid="uid://rvfhiocj2vx2" path="res://Menus/MainMenu/Assets/menu art.png" id="2_0qgbs"]
+[ext_resource type="AudioStream" uid="uid://uyca3bg10ljp" path="res://Assets/Music/tunes/Track 1.ogg" id="2_e5cb7"]
+[ext_resource type="PackedScene" uid="uid://d2iet2vmuvxoj" path="res://Menus/Components/ItemButton/item_button.tscn" id="3_2r307"]
+[ext_resource type="LabelSettings" uid="uid://cfp4r10si73k5" path="res://Assets/Style/title_style.tres" id="3_adu2g"]
+[ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="4_0qgbs"]
+[ext_resource type="Script" uid="uid://diujs1h8q6yal" path="res://addons/MenuTree/back_button.gd" id="6_0l8wx"]
+[ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_8n28k"]
+[ext_resource type="PackedScene" uid="uid://hbovykt2mf3c" path="res://Menus/Components/LevelButton/level_button.tscn" id="7_n5jej"]
+[ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="9_83n0s"]
+[ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="9_no1ml"]
+
+[sub_resource type="Resource" id="Resource_iej5p"]
+script = ExtResource("6_8n28k")
+do_fadeout = true
+do_fadein = true
+metadata/_custom_type_script = "uid://nafvgiykrl1a"
+
+[sub_resource type="LabelSettings" id="LabelSettings_8n28k"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_n5jej"]
+font_size = 64
+font_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_adu2g")
+menu_music = ExtResource("2_e5cb7")
+levelButton = ExtResource("7_n5jej")
+itemButton = ExtResource("3_2r307")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ArtHolder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MenuArt" type="Sprite2D" parent="ArtHolder"]
+position = Vector2(-639, 44)
+texture = ExtResource("2_0qgbs")
+
+[node name="MenuTree" type="Control" parent="." node_paths=PackedStringArray("entry_point")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qgdf6")
+default_transition = SubResource("Resource_iej5p")
+entry_point = NodePath("Main")
+metadata/_custom_type_script = "uid://cxyftya0q4lhn"
+
+[node name="Main" type="Control" parent="MenuTree"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MenuTree/Main"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 116.0
+offset_top = -288.0
+offset_right = 608.0
+offset_bottom = -208.0
+grow_vertical = 2
+text = "Game Title"
+label_settings = ExtResource("3_adu2g")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Main"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 117.0
+offset_top = -213.0
+offset_right = 609.0
+offset_bottom = 28.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/Main/PanelContainer"]
+layout_mode = 2
+
+[node name="MainInterface" type="VBoxContainer" parent="MenuTree/Main/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PlayButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+layout_mode = 2
+text = "Play"
+
+[node name="FocusHelper" type="Control" parent="MenuTree/Main/PanelContainer/MainInterface/PlayButton"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_no1ml")
+metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
+
+[node name="ContinueButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+visible = false
+layout_mode = 2
+text = "Continue"
+
+[node name="LevelSelectButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+layout_mode = 2
+text = "Level Select"
+script = ExtResource("4_0qgbs")
+tree = NodePath("../../../..")
+to_menu = NodePath("../../../../LevelSelect")
+metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
+
+[node name="CollectionButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+layout_mode = 2
+text = "Collection"
+script = ExtResource("4_0qgbs")
+tree = NodePath("../../../..")
+to_menu = NodePath("../../../../Collection")
+metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
+
+[node name="SettingsButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("4_0qgbs")
+tree = NodePath("../../../..")
+to_menu = NodePath("../../../../SettingsMenu")
+metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
+
+[node name="ExitButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+layout_mode = 2
+text = "Quit"
+
+[node name="ConfirmRestart" type="Control" parent="MenuTree"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Prompt" type="Label" parent="MenuTree/ConfirmRestart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -247.0
+offset_top = -96.5
+offset_right = 247.0
+offset_bottom = -55.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Would you like to restart the campaign?"
+label_settings = SubResource("LabelSettings_8n28k")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/ConfirmRestart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -51.0
+offset_right = 246.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart/PanelContainer"]
+layout_mode = 2
+
+[node name="MainInterface" type="VBoxContainer" parent="MenuTree/ConfirmRestart/PanelContainer"]
+layout_mode = 2
+
+[node name="Confirm" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface"]
+layout_mode = 2
+text = "Yes"
+
+[node name="Refuse" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface" node_paths=PackedStringArray("tree")]
+layout_mode = 2
+text = "No"
+script = ExtResource("6_0l8wx")
+tree = NodePath("../../../..")
+metadata/_custom_type_script = "uid://diujs1h8q6yal"
+
+[node name="LevelSelect" type="Control" parent="MenuTree"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Prompt" type="Label" parent="MenuTree/LevelSelect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 118.0
+offset_top = -272.0
+offset_right = 612.0
+offset_bottom = -200.0
+grow_vertical = 2
+text = "Level Select"
+label_settings = SubResource("LabelSettings_n5jej")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/LevelSelect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 117.0
+offset_top = -192.0
+offset_right = 609.0
+offset_bottom = -102.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/LevelSelect/PanelContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MenuTree/LevelSelect/PanelContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Collection" type="Control" parent="MenuTree"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Prompt" type="Label" parent="MenuTree/Collection"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 118.0
+offset_top = -272.0
+offset_right = 612.0
+offset_bottom = -200.0
+grow_vertical = 2
+text = "Collection"
+label_settings = SubResource("LabelSettings_n5jej")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Collection"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 117.0
+offset_top = -192.0
+offset_right = 609.0
+offset_bottom = -102.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/Collection/PanelContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MenuTree/Collection/PanelContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Description" type="PanelContainer" parent="MenuTree/Collection"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 117.0
+offset_top = -3.0
+offset_right = 609.0
+offset_bottom = 354.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuTree/Collection/Description"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuTree/Collection/Description"]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="SettingsMenu" parent="MenuTree" instance=ExtResource("9_83n0s")]
+visible = false
+layout_mode = 1
+offset_left = -886.0
+offset_top = -258.0
+offset_right = -194.0
+offset_bottom = 250.0
+
+[node name="Back" parent="MenuTree/SettingsMenu/BottomRow" index="1" node_paths=PackedStringArray("tree")]
+tree = NodePath("../../..")
+
+[connection signal="back" from="MenuTree" to="." method="quit"]
+[connection signal="pressed" from="MenuTree/Main/PanelContainer/MainInterface/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MenuTree/Main/PanelContainer/MainInterface/ContinueButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MenuTree/Main/PanelContainer/MainInterface/ExitButton" to="." method="quit"]
+[connection signal="pressed" from="MenuTree/ConfirmRestart/PanelContainer/MainInterface/Confirm" to="." method="_on_confirm_pressed"]
+
+[editable path="MenuTree/SettingsMenu"]

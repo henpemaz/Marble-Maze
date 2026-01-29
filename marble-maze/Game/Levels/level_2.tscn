@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy65gqvxu5cp7"]
+
+[ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_ll1bl"]
+[ext_resource type="Texture2D" uid="uid://g2q481w5mlyd" path="res://Game/Entities/Assets/leaf.tres" id="2_kbe2v"]
+[ext_resource type="AudioStream" uid="uid://bngdogkdd3jyl" path="res://Assets/Music/tunes/Track 2.ogg" id="2_sjnbl"]
+
+[sub_resource type="Shader" id="Shader_m6uo5"]
+code = "shader_type canvas_item;
+
+uniform vec4 color: source_color;
+void vertex() {
+
+}
+void fragment() {
+  COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbe2v"]
+shader = SubResource("Shader_m6uo5")
+shader_parameter/color = Color(0.5327463, 0.7729108, 0.6270711, 1)
+
+[node name="Game" instance=ExtResource("1_ll1bl")]
+music = ExtResource("2_sjnbl")
+
+[node name="Background" parent="Gameplay" index="0"]
+material = SubResource("ShaderMaterial_kbe2v")
+
+[node name="Player" parent="Gameplay" index="1"]
+position = Vector2(928, 122)
+
+[node name="Enemy" parent="Gameplay" index="2"]
+position = Vector2(933, 482)
+
+[node name="Teleporter" parent="Gameplay" index="3"]
+position = Vector2(940, 899)
+
+[node name="Collectible" parent="Gameplay" index="4"]
+position = Vector2(251, 469)
+item_id = &"leaf"
+
+[node name="Twig" parent="Gameplay/Collectible" index="1"]
+texture = ExtResource("2_kbe2v")
+
+[editable path="Gameplay/Collectible"]
+[editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

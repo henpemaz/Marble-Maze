@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://b8ohsq5l5yxg8"]
+
+[ext_resource type="Texture2D" uid="uid://cxw1i5sa0wrj1" path="res://Menus/LoadingScreen/Assets/loading0000.png" id="1_6ww4n"]
+[ext_resource type="Script" uid="uid://b71w8n70rpl64" path="res://Menus/LoadingScreen/loading_screen.gd" id="1_7maco"]
+[ext_resource type="Texture2D" uid="uid://mc63sf4ewigl" path="res://Menus/LoadingScreen/Assets/loading0001.png" id="2_7maco"]
+[ext_resource type="Texture2D" uid="uid://slmpx2e0r64w" path="res://Menus/LoadingScreen/Assets/loading0002.png" id="3_ey40y"]
+[ext_resource type="Texture2D" uid="uid://dytq4s02lkqju" path="res://Menus/LoadingScreen/Assets/loading0003.png" id="4_rqbi1"]
+[ext_resource type="Texture2D" uid="uid://dfi4b7yxq0vnx" path="res://Menus/LoadingScreen/Assets/loading0004.png" id="5_d7bk1"]
+[ext_resource type="Texture2D" uid="uid://do6mond5bdv6j" path="res://Menus/LoadingScreen/Assets/loading0005.png" id="6_cngru"]
+[ext_resource type="Texture2D" uid="uid://b81ssv24a2aro" path="res://Menus/LoadingScreen/Assets/loading0006.png" id="7_t601y"]
+[ext_resource type="Texture2D" uid="uid://doypn7sov1e2w" path="res://Menus/LoadingScreen/Assets/loading0007.png" id="8_qq53b"]
+[ext_resource type="FontFile" uid="uid://ijxbi6egmk7v" path="res://Assets/Style/Fonts/cats_4/CatsFont-Regular.ttf" id="10_ey40y"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_xfrjx"]
+frames = 8
+speed_scale = 8.0
+frame_0/texture = ExtResource("1_6ww4n")
+frame_1/texture = ExtResource("2_7maco")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_ey40y")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("4_rqbi1")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("5_d7bk1")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("6_cngru")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("7_t601y")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("8_qq53b")
+frame_7/duration = 1.0
+
+[node name="LoadingScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7maco")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 401.0
+offset_top = -183.0
+offset_right = -401.0
+offset_bottom = -156.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Corner" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -370.0
+offset_top = -256.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="Corner"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -357.0
+offset_top = -225.0
+offset_right = -101.0
+offset_bottom = -45.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = SubResource("AnimatedTexture_xfrjx")
+
+[node name="Label" type="RichTextLabel" parent="Corner"]
+layout_mode = 0
+offset_top = -18.0
+offset_right = 305.0
+offset_bottom = 47.0
+theme_override_fonts/normal_font = ExtResource("10_ey40y")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "[color=black][wave amp=80.0 freq=4.0 connected=1]Loading...[/wave]
+"
+horizontal_alignment = 1
+vertical_alignment = 1

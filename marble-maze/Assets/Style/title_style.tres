@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cfp4r10si73k5"]
+
+[ext_resource type="FontFile" uid="uid://8yj6jnj766bw" path="res://Assets/Style/Fonts/catcut/Catcut.otf" id="1_tm6wq"]
+
+[resource]
+font = ExtResource("1_tm6wq")
+font_size = 60
+font_color = Color(0, 0, 0, 1)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b440u8raqw0tk"]
+
+[ext_resource type="Script" uid="uid://ct4u6wghwobij" path="res://Autoloads/Progress/progress.gd" id="1_owo7l"]
+
+[node name="Progress" type="Node"]
+script = ExtResource("1_owo7l")

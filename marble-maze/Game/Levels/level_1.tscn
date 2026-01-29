@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://4q2t4lpmv6rj"]
+
+[ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_3hls8"]
+[ext_resource type="AudioStream" uid="uid://uyca3bg10ljp" path="res://Assets/Music/tunes/Track 1.ogg" id="2_yq1ce"]
+
+[node name="Game" instance=ExtResource("1_3hls8")]
+music = ExtResource("2_yq1ce")
+
+[node name="Collectible" parent="Gameplay" index="4"]
+item_id = &"twig"
+
+[editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

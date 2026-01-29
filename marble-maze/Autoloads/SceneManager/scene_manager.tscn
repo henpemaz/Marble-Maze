@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5wkxdk8i8l3"]
+
+[ext_resource type="Script" uid="uid://i5sf4yerv4bs" path="res://Autoloads/SceneManager/scene_manager.gd" id="1_7qwa0"]
+[ext_resource type="PackedScene" uid="uid://b8ohsq5l5yxg8" path="res://Menus/LoadingScreen/loading_screen.tscn" id="2_k3dtw"]
+
+[node name="SceneManager" type="CanvasLayer"]
+process_mode = 3
+layer = 256
+script = ExtResource("1_7qwa0")
+_loading_screen = ExtResource("2_k3dtw")
+
+[node name="FadeRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

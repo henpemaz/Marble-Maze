@@ -1,0 +1,627 @@
+[gd_scene load_steps=20 format=3 uid="uid://b3ttch8na3727"]
+
+[ext_resource type="PackedScene" uid="uid://diiredb0vks6j" path="res://Game/Entities/player.tscn" id="1_5ubxa"]
+[ext_resource type="PackedScene" uid="uid://dfhp75skyaab" path="res://Game/Entities/enemy.tscn" id="2_uda3f"]
+[ext_resource type="PackedScene" uid="uid://dea1chann5xk8" path="res://Game/Entities/teleporter.tscn" id="3_jycte"]
+[ext_resource type="PackedScene" uid="uid://b0e4vgoixxtk1" path="res://Game/Entities/collectible.tscn" id="4_ev4ff"]
+[ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="5_jycte"]
+[ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
+[ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_xfsjo"]
+[ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="7_odbtj"]
+[ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
+
+[sub_resource type="GDScript" id="GDScript_i2xhy"]
+script/source = "extends Node
+
+@onready var pause_pannel: Panel = $UI/PauseScreen
+@onready var win_pannel: Panel = $UI/WinPannel
+@onready var lose_pannel: Panel = $UI/LosePannel
+
+@export var music:AudioStream
+
+@export var credits_cutscene_id:StringName
+
+func _ready() -> void:
+	MusicPlayer.request_music(music)
+
+var paused := false
+var frozen := false
+func pause() -> void:
+	if frozen: return
+	print(\"pause\")
+	paused = true
+	_freeze_gameplay()
+	pause_pannel.show()
+	
+func unpause():
+	if frozen: return
+	print(\"unpause\")
+	paused = false
+	_unfreeze_gameplay()
+	pause_pannel.hide()
+
+func win():
+	frozen = true
+	_freeze_gameplay()
+	Campaign.level_completed()
+	if Campaign.get_next_level(Campaign.current_level.id) == null:
+		$UI/WinPannel/Main/HBoxContainer/ContinueButton.hide()
+		win_pannel.show()
+		await run_credits()
+	else:
+		win_pannel.show()
+
+func lose():
+	frozen = true
+	_freeze_gameplay()
+	lose_pannel.show()
+
+func run_credits():
+	$UI/WinPannel/AnimationPlayer.play(\"roll_credits\")
+	await $UI/WinPannel/AnimationPlayer.animation_finished
+	Progress.cutscene_watched(credits_cutscene_id)
+	Progress.save_progress()
+
+func restart():
+	Campaign.restart_level()
+
+func quit_to_menu():
+	Campaign.quit_to_menu()
+
+func to_next_level():
+	Campaign.continue_from_level()
+
+func _freeze_gameplay():
+	#$Gameplay.process_mode = Node.PROCESS_MODE_DISABLED
+	$Gameplay.set_deferred(\"process_mode\", Node.PROCESS_MODE_DISABLED)
+
+func _unfreeze_gameplay():
+	#$Gameplay.process_mode = Node.PROCESS_MODE_INHERIT
+	$Gameplay.set_deferred(\"process_mode\", Node.PROCESS_MODE_INHERIT)
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"ui_cancel\"):
+		if not paused:
+			pause()
+			get_viewport().set_input_as_handled()
+			return
+			
+	if event.is_action_pressed(\"ui_accept\") || event.is_action_pressed(\"ui_cancel\"):
+		if $UI/WinPannel/AnimationPlayer.current_animation != \"\":
+			if Progress.can_skip_cutscene(credits_cutscene_id):
+				if $UI/WinPannel/AnimationPlayer.current_animation_position < ($UI/WinPannel/AnimationPlayer.current_animation_length - 0.5):
+					$UI/WinPannel/AnimationPlayer.advance($UI/WinPannel/AnimationPlayer.current_animation_length - $UI/WinPannel/AnimationPlayer.current_animation_position - 0.5)
+					get_viewport().set_input_as_handled()
+					return
+"
+
+[sub_resource type="Shader" id="Shader_m6uo5"]
+code = "shader_type canvas_item;
+
+uniform vec4 color: source_color;
+void vertex() {
+
+}
+void fragment() {
+  COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2xhy"]
+shader = SubResource("Shader_m6uo5")
+shader_parameter/color = Color(0.9471994, 0.9471994, 0.9471994, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wmo6t"]
+size = Vector2(5, 5)
+
+[sub_resource type="Resource" id="Resource_qe8hq"]
+script = ExtResource("6_xfsjo")
+do_fadeout = true
+do_fadein = true
+metadata/_custom_type_script = "uid://nafvgiykrl1a"
+
+[sub_resource type="Animation" id="Animation_xfsjo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Credits:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Credits/Fade/Control:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6.999962, 905.81104)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Main:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ev4ff"]
+resource_name = "roll_credits"
+length = 10.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10.000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Credits:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10.000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Credits/Fade/Control:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10.000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(808.00006, 905.811), Vector2(-847.99994, 905.81104)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Main:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(10.000001, 10.500001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qe8hq"]
+_data = {
+&"RESET": SubResource("Animation_xfsjo"),
+&"roll_credits": SubResource("Animation_ev4ff")
+}
+
+[sub_resource type="Gradient" id="Gradient_ev4ff"]
+offsets = PackedFloat32Array(0, 0.14925373, 0.84648186, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xfsjo"]
+gradient = SubResource("Gradient_ev4ff")
+
+[node name="Game" type="Node"]
+script = SubResource("GDScript_i2xhy")
+credits_cutscene_id = &"credits"
+
+[node name="Gameplay" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Gameplay"]
+material = SubResource("ShaderMaterial_i2xhy")
+position = Vector2(960.00006, 539.99994)
+scale = Vector2(383.99997, 216)
+texture = SubResource("PlaceholderTexture2D_wmo6t")
+
+[node name="Player" parent="Gameplay" instance=ExtResource("1_5ubxa")]
+position = Vector2(211, 517)
+
+[node name="Enemy" parent="Gameplay" instance=ExtResource("2_uda3f")]
+position = Vector2(991, 847)
+
+[node name="Teleporter" parent="Gameplay" instance=ExtResource("3_jycte")]
+position = Vector2(1611, 539)
+
+[node name="Collectible" parent="Gameplay" instance=ExtResource("4_ev4ff")]
+position = Vector2(1004, 193)
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="PauseScreen" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -751.0
+offset_top = -468.0
+offset_right = 751.0
+offset_bottom = 468.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuTree" type="Control" parent="UI/PauseScreen" node_paths=PackedStringArray("entry_point")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_jycte")
+default_transition = SubResource("Resource_qe8hq")
+entry_point = NodePath("Main")
+metadata/_custom_type_script = "uid://cxyftya0q4lhn"
+
+[node name="Main" type="Control" parent="UI/PauseScreen/MenuTree"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/PauseScreen/MenuTree/Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = -139.5
+offset_right = 152.0
+offset_bottom = -102.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Paused"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/PauseScreen/MenuTree/Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -96.0
+offset_right = 202.0
+offset_bottom = 96.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Resume"
+
+[node name="FocusHelper" type="Control" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_odbtj")
+metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
+
+[node name="RestartButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Restart Level"
+
+[node name="SettingsButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" node_paths=PackedStringArray("tree", "to_menu")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Settings"
+script = ExtResource("6_ev4ff")
+tree = NodePath("../../..")
+to_menu = NodePath("../../../SettingsMenu")
+metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
+
+[node name="MainMenuButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "To Main Menu"
+
+[node name="SettingsMenu" parent="UI/PauseScreen/MenuTree" instance=ExtResource("8_xfsjo")]
+visible = false
+layout_mode = 1
+offset_left = -346.0
+offset_top = -254.0
+offset_right = 346.0
+offset_bottom = 254.0
+
+[node name="Back" parent="UI/PauseScreen/MenuTree/SettingsMenu/BottomRow" index="1" node_paths=PackedStringArray("tree")]
+tree = NodePath("../../..")
+
+[node name="WinPannel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -751.0
+offset_top = -468.0
+offset_right = 751.0
+offset_bottom = 468.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/WinPannel"]
+libraries = {
+&"": SubResource("AnimationLibrary_qe8hq")
+}
+
+[node name="Credits" type="Control" parent="UI/WinPannel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fade" type="TextureRect" parent="UI/WinPannel/Credits"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1236.811
+offset_top = 42.000008
+offset_right = 589.9441
+offset_bottom = 20.820313
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+texture = SubResource("GradientTexture1D_xfsjo")
+
+[node name="Control" type="Control" parent="UI/WinPannel/Credits/Fade"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.999962
+offset_top = 905.81104
+offset_right = 40.6698
+offset_bottom = 870.9907
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/WinPannel/Credits/Fade/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 76.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+
+[node name="Label" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "A game by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Concept by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Design by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Art by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Programming by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "SFX by Henrique Maziero
+(samples from freesound.org)"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Music by Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+layout_mode = 2
+text = "Special thanks: Henrique Maziero"
+horizontal_alignment = 1
+
+[node name="Main" type="Control" parent="UI/WinPannel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="UI/WinPannel/Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 579.0
+offset_top = 380.5
+offset_right = 883.0
+offset_bottom = 417.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You won"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/WinPannel/Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 529.0
+offset_top = 463.0
+offset_right = 933.0
+offset_bottom = 513.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ContinueButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Continue"
+
+[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/ContinueButton"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_odbtj")
+metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
+
+[node name="MainMenuButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "To Main Menu"
+
+[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/MainMenuButton"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_odbtj")
+metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
+
+[node name="LosePannel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -751.0
+offset_top = -468.0
+offset_right = 751.0
+offset_bottom = 468.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/LosePannel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = -67.5
+offset_right = 152.0
+offset_bottom = -30.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You lose"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LosePannel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.0
+offset_top = 15.0
+offset_right = 197.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResetButton" type="Button" parent="UI/LosePannel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Restart"
+
+[node name="FocusHelper" type="Control" parent="UI/LosePannel/HBoxContainer/ResetButton"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_odbtj")
+metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
+
+[node name="MainMenuButton" type="Button" parent="UI/LosePannel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "To Main Menu"
+
+[connection signal="gameover" from="Gameplay/Player" to="." method="lose"]
+[connection signal="win" from="Gameplay/Teleporter" to="." method="win"]
+[connection signal="back" from="UI/PauseScreen/MenuTree" to="." method="unpause"]
+[connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton" to="." method="unpause"]
+[connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/RestartButton" to="." method="restart"]
+[connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/MainMenuButton" to="." method="quit_to_menu"]
+[connection signal="pressed" from="UI/WinPannel/Main/HBoxContainer/ContinueButton" to="." method="to_next_level"]
+[connection signal="pressed" from="UI/WinPannel/Main/HBoxContainer/MainMenuButton" to="." method="quit_to_menu"]
+[connection signal="pressed" from="UI/LosePannel/HBoxContainer/ResetButton" to="." method="restart"]
+[connection signal="pressed" from="UI/LosePannel/HBoxContainer/MainMenuButton" to="." method="quit_to_menu"]
+
+[editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

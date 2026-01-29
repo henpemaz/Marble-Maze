@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://dea1chann5xk8"]
+
+[ext_resource type="Texture2D" uid="uid://c8tpslpi3usr0" path="res://Game/Entities/Assets/food.tres" id="1_lrna1"]
+
+[sub_resource type="GDScript" id="GDScript_rf6l5"]
+script/source = "extends Area2D
+
+signal win
+
+func _on_body_entered(_body: Node2D) -> void:
+	win.emit()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rf6l5"]
+size = Vector2(99, 58)
+
+[node name="Teleporter" type="Area2D"]
+script = SubResource("GDScript_rf6l5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 0)
+shape = SubResource("RectangleShape2D_rf6l5")
+
+[node name="Food" type="Sprite2D" parent="."]
+texture = ExtResource("1_lrna1")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

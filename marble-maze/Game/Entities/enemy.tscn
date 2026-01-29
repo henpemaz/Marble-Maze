@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfhp75skyaab"]
+
+[ext_resource type="Texture2D" uid="uid://34j1ul83oxql" path="res://Game/Entities/Assets/cucumber.tres" id="1_ab0ny"]
+
+[sub_resource type="GDScript" id="GDScript_rfktq"]
+resource_name = "Enemy"
+script/source = "extends Area2D
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.has_method(\"take_damage\"):
+		body.take_damage()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0urlm"]
+size = Vector2(81, 65)
+
+[node name="Enemy" type="Area2D"]
+script = SubResource("GDScript_rfktq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 1.5)
+shape = SubResource("RectangleShape2D_0urlm")
+
+[node name="Cucumber" type="Sprite2D" parent="."]
+texture = ExtResource("1_ab0ny")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

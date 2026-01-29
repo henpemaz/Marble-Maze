@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2iet2vmuvxoj"]
+
+[ext_resource type="Script" uid="uid://ds8j1tdpgnqud" path="res://Menus/Components/ItemButton/item_button.gd" id="1_cfe4u"]
+[ext_resource type="Texture2D" uid="uid://kwwvthbsp6lv" path="res://Autoloads/Campaign/Previews/missing preview.png" id="2_7gv32"]
+
+[node name="ItemButton" type="Button"]
+custom_minimum_size = Vector2(160, 90)
+script = ExtResource("1_cfe4u")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_7gv32")
+expand_mode = 1
+stretch_mode = 6

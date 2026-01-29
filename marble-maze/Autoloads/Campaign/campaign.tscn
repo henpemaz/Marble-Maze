@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://50l25pkybi6n"]
+
+[ext_resource type="Script" uid="uid://blant0lv6gnw6" path="res://Autoloads/Campaign/campaign.gd" id="1_eule2"]
+[ext_resource type="Script" uid="uid://7kon725peoki" path="res://Autoloads/Campaign/level.gd" id="2_uurhf"]
+[ext_resource type="Script" uid="uid://cn8vmtuquvjux" path="res://Autoloads/Campaign/item.gd" id="6_8xpxa"]
+
+[sub_resource type="Resource" id="Resource_5y57w"]
+script = ExtResource("2_uurhf")
+id = &"level_1"
+preview_path = "uid://cll8ff7n2a1yy"
+game_scene = "uid://4q2t4lpmv6rj"
+metadata/_custom_type_script = "uid://7kon725peoki"
+
+[sub_resource type="Resource" id="Resource_bfp14"]
+script = ExtResource("2_uurhf")
+id = &"level_2"
+preview_path = "uid://bix8dsb01fhbn"
+game_scene = "uid://dy65gqvxu5cp7"
+metadata/_custom_type_script = "uid://7kon725peoki"
+
+[sub_resource type="Resource" id="Resource_dfqd3"]
+script = ExtResource("2_uurhf")
+id = &"level_3"
+preview_path = "uid://dqkc8y13fe0fw"
+game_scene = "uid://pfw7mmigdsov"
+metadata/_custom_type_script = "uid://7kon725peoki"
+
+[sub_resource type="Resource" id="Resource_sari5"]
+script = ExtResource("6_8xpxa")
+id = &"twig"
+preview_path = "uid://dydm5j1usmqst"
+description = "its a twig"
+metadata/_custom_type_script = "uid://cn8vmtuquvjux"
+
+[sub_resource type="Resource" id="Resource_ip3jx"]
+script = ExtResource("6_8xpxa")
+id = &"leaf"
+preview_path = "uid://g2q481w5mlyd"
+description = "it goes with the wind"
+metadata/_custom_type_script = "uid://cn8vmtuquvjux"
+
+[sub_resource type="Resource" id="Resource_k7ggy"]
+script = ExtResource("6_8xpxa")
+id = &"rock"
+preview_path = "uid://bcdvbpx8hy2a5"
+description = "hard as"
+metadata/_custom_type_script = "uid://cn8vmtuquvjux"
+
+[node name="Campaign" type="Node"]
+script = ExtResource("1_eule2")
+main_menu_scene = "uid://cacdholw1mgou"
+levels = Array[ExtResource("2_uurhf")]([SubResource("Resource_5y57w"), SubResource("Resource_bfp14"), SubResource("Resource_dfqd3")])
+items = Array[ExtResource("6_8xpxa")]([SubResource("Resource_sari5"), SubResource("Resource_ip3jx"), SubResource("Resource_k7ggy")])
