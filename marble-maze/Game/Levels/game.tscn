@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cngd0s8xa651l" path="res://Game/Levels/game.gd" id="1_ejc32"]
 [ext_resource type="PackedScene" uid="uid://dnb3wx7gvo0lo" path="res://Game/Levels/environment.tscn" id="2_uio3x"]
 [ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Levels/puzzle.tscn" id="3_uio3x"]
+[ext_resource type="Script" uid="uid://c7mdqsbx7qw2s" path="res://Game/Levels/controls.gd" id="4_mt08e"]
 [ext_resource type="LightmapGIData" uid="uid://dxvd1n8rt7l77" path="res://Game/Levels/game.lmbake" id="4_odbtj"]
 [ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="5_jycte"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
@@ -164,19 +165,23 @@ camera_attributes = SubResource("CameraAttributesPractical_odbtj")
 
 [node name="house" parent="Gameplay" unique_id=1409814169 instance=ExtResource("2_uio3x")]
 
-[node name="Pivot" type="Node3D" parent="Gameplay" unique_id=29022451]
+[node name="Controls" type="Node3D" parent="Gameplay" unique_id=29022451]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
+script = ExtResource("4_mt08e")
+cam_speed = 0.003
+puzzle_speed = 0.003
+cam_pitch_min = -1.4049900478554354
+cam_pitch_max = 1.213003830136059
 
-[node name="Puzzle" parent="Gameplay/Pivot" unique_id=1051238040 instance=ExtResource("3_uio3x")]
+[node name="Puzzle" parent="Gameplay/Controls" unique_id=1051238040 instance=ExtResource("3_uio3x")]
 
-[node name="Camera3D" type="Camera3D" parent="Gameplay/Pivot" unique_id=656062]
+[node name="CameraPivot" type="Node3D" parent="Gameplay/Controls" unique_id=1088660874]
+
+[node name="Camera3D" type="Camera3D" parent="Gameplay/Controls/CameraPivot" unique_id=656062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.27887103)
 fov = 66.0
 near = 0.03
 far = 20.0
-
-[node name="LightmapProbe" type="LightmapProbe" parent="Gameplay/Pivot" unique_id=1739414398]
-visible = false
 
 [node name="Room" type="OmniLight3D" parent="Gameplay" unique_id=911252367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18189234, 2.0296369, -0.1325891)
@@ -205,6 +210,10 @@ shadow_enabled = true
 [node name="roof" type="MeshInstance3D" parent="Gameplay" unique_id=108707800]
 transform = Transform3D(7.485, 0, 0, 0, -3.2717975e-07, 7.485, 0, -7.485, -3.2717975e-07, 0, 4.042903, 0.87495255)
 mesh = SubResource("QuadMesh_uio3x")
+
+[node name="LightmapProbe" type="LightmapProbe" parent="Gameplay" unique_id=1739414398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
+visible = false
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=363509072]
 layer = 3
