@@ -11,27 +11,13 @@ config_version=5
 [application]
 
 config/name="Marble Maze"
-run/main_scene="uid://ds2xjtudnb6f4"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
-
-[display]
-
-window/size/viewport_width=1368
-window/size/viewport_height=768
-window/size/mode=3
-
-[layer_names]
-
-3d_physics/layer_1="player"
-3d_physics/layer_2="interactables"
-3d_physics/layer_3="puzzle"
-3d_physics/layer_4="holder"
 
 [physics]
 
-common/physics_ticks_per_second=120
 3d/physics_engine="Jolt Physics"
-jolt_physics_3d/simulation/velocity_steps=20
-jolt_physics_3d/simulation/position_steps=8
-jolt_physics_3d/simulation/generate_all_kinematic_contacts=true
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
