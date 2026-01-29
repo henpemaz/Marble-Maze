@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dnb3wx7gvo0lo"]
+
+[ext_resource type="PackedScene" uid="uid://de1gne7f46v2u" path="res://Game/Assets/house.glb" id="1_e6qrq"]
+
+[node name="house" unique_id=230903555 instance=ExtResource("1_e6qrq")]
+
+[node name="window" parent="window 3x" parent_id_path=PackedInt32Array(393504613) index="0" unique_id=2020783605]
+cast_shadow = 0
+
+[node name="window_001" parent="window 3x" parent_id_path=PackedInt32Array(393504613) index="1" unique_id=1617251395]
+cast_shadow = 0
+
+[node name="window_002" parent="window 3x" parent_id_path=PackedInt32Array(393504613) index="2" unique_id=373864253]
+cast_shadow = 0
+
+[node name="window_004" parent="window 2x" parent_id_path=PackedInt32Array(1159615116) index="0" unique_id=374390056]
+cast_shadow = 0
+
+[node name="window_005" parent="window 2x" parent_id_path=PackedInt32Array(1159615116) index="1" unique_id=272872951]
+cast_shadow = 0

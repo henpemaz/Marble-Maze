@@ -43,6 +43,10 @@ folder_colors={
 "res://Menus/": "yellow"
 }
 
+[filesystem]
+
+import/blender/enabled=false
+
 [gui]
 
 theme/custom="uid://bldutygrka02y"

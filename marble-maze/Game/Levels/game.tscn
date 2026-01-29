@@ -1,119 +1,28 @@
-[gd_scene load_steps=20 format=3 uid="uid://b3ttch8na3727"]
+[gd_scene format=3 uid="uid://b3ttch8na3727"]
 
-[ext_resource type="PackedScene" uid="uid://diiredb0vks6j" path="res://Game/Entities/player.tscn" id="1_5ubxa"]
-[ext_resource type="PackedScene" uid="uid://dfhp75skyaab" path="res://Game/Entities/enemy.tscn" id="2_uda3f"]
-[ext_resource type="PackedScene" uid="uid://dea1chann5xk8" path="res://Game/Entities/teleporter.tscn" id="3_jycte"]
-[ext_resource type="PackedScene" uid="uid://b0e4vgoixxtk1" path="res://Game/Entities/collectible.tscn" id="4_ev4ff"]
+[ext_resource type="Script" uid="uid://cngd0s8xa651l" path="res://Game/Levels/game.gd" id="1_ejc32"]
+[ext_resource type="PackedScene" uid="uid://dnb3wx7gvo0lo" path="res://Game/Levels/environment.tscn" id="2_uio3x"]
+[ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Levels/puzzle.tscn" id="3_uio3x"]
 [ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="5_jycte"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
 [ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_xfsjo"]
 [ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="7_odbtj"]
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 
-[sub_resource type="GDScript" id="GDScript_i2xhy"]
-script/source = "extends Node
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odbtj"]
 
-@onready var pause_pannel: Panel = $UI/PauseScreen
-@onready var win_pannel: Panel = $UI/WinPannel
-@onready var lose_pannel: Panel = $UI/LosePannel
+[sub_resource type="Sky" id="Sky_mt08e"]
+sky_material = SubResource("ProceduralSkyMaterial_odbtj")
 
-@export var music:AudioStream
-
-@export var credits_cutscene_id:StringName
-
-func _ready() -> void:
-	MusicPlayer.request_music(music)
-
-var paused := false
-var frozen := false
-func pause() -> void:
-	if frozen: return
-	print(\"pause\")
-	paused = true
-	_freeze_gameplay()
-	pause_pannel.show()
-	
-func unpause():
-	if frozen: return
-	print(\"unpause\")
-	paused = false
-	_unfreeze_gameplay()
-	pause_pannel.hide()
-
-func win():
-	frozen = true
-	_freeze_gameplay()
-	Campaign.level_completed()
-	if Campaign.get_next_level(Campaign.current_level.id) == null:
-		$UI/WinPannel/Main/HBoxContainer/ContinueButton.hide()
-		win_pannel.show()
-		await run_credits()
-	else:
-		win_pannel.show()
-
-func lose():
-	frozen = true
-	_freeze_gameplay()
-	lose_pannel.show()
-
-func run_credits():
-	$UI/WinPannel/AnimationPlayer.play(\"roll_credits\")
-	await $UI/WinPannel/AnimationPlayer.animation_finished
-	Progress.cutscene_watched(credits_cutscene_id)
-	Progress.save_progress()
-
-func restart():
-	Campaign.restart_level()
-
-func quit_to_menu():
-	Campaign.quit_to_menu()
-
-func to_next_level():
-	Campaign.continue_from_level()
-
-func _freeze_gameplay():
-	#$Gameplay.process_mode = Node.PROCESS_MODE_DISABLED
-	$Gameplay.set_deferred(\"process_mode\", Node.PROCESS_MODE_DISABLED)
-
-func _unfreeze_gameplay():
-	#$Gameplay.process_mode = Node.PROCESS_MODE_INHERIT
-	$Gameplay.set_deferred(\"process_mode\", Node.PROCESS_MODE_INHERIT)
-
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(\"ui_cancel\"):
-		if not paused:
-			pause()
-			get_viewport().set_input_as_handled()
-			return
-			
-	if event.is_action_pressed(\"ui_accept\") || event.is_action_pressed(\"ui_cancel\"):
-		if $UI/WinPannel/AnimationPlayer.current_animation != \"\":
-			if Progress.can_skip_cutscene(credits_cutscene_id):
-				if $UI/WinPannel/AnimationPlayer.current_animation_position < ($UI/WinPannel/AnimationPlayer.current_animation_length - 0.5):
-					$UI/WinPannel/AnimationPlayer.advance($UI/WinPannel/AnimationPlayer.current_animation_length - $UI/WinPannel/AnimationPlayer.current_animation_position - 0.5)
-					get_viewport().set_input_as_handled()
-					return
-"
-
-[sub_resource type="Shader" id="Shader_m6uo5"]
-code = "shader_type canvas_item;
-
-uniform vec4 color: source_color;
-void vertex() {
-
-}
-void fragment() {
-  COLOR = color;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2xhy"]
-shader = SubResource("Shader_m6uo5")
-shader_parameter/color = Color(0.9471994, 0.9471994, 0.9471994, 1)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wmo6t"]
-size = Vector2(5, 5)
+[sub_resource type="Environment" id="Environment_ojvjq"]
+background_mode = 2
+sky = SubResource("Sky_mt08e")
+ambient_light_source = 3
+ambient_light_color = Color(0.65006363, 0.39677256, 0.26959184, 1)
+ambient_light_sky_contribution = 0.02
+ambient_light_energy = 0.02
+reflected_light_source = 2
+ssao_enabled = true
 
 [sub_resource type="Resource" id="Resource_qe8hq"]
 script = ExtResource("6_xfsjo")
@@ -237,34 +146,70 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_xfsjo"]
 gradient = SubResource("Gradient_ev4ff")
 
-[node name="Game" type="Node"]
-script = SubResource("GDScript_i2xhy")
+[node name="Game" type="Node" unique_id=618378998]
+script = ExtResource("1_ejc32")
 credits_cutscene_id = &"credits"
 
-[node name="Gameplay" type="Node2D" parent="."]
+[node name="Gameplay" type="Node3D" parent="." unique_id=603060878]
 
-[node name="Background" type="Sprite2D" parent="Gameplay"]
-material = SubResource("ShaderMaterial_i2xhy")
-position = Vector2(960.00006, 539.99994)
-scale = Vector2(383.99997, 216)
-texture = SubResource("PlaceholderTexture2D_wmo6t")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Gameplay" unique_id=1636714739]
+environment = SubResource("Environment_ojvjq")
 
-[node name="Player" parent="Gameplay" instance=ExtResource("1_5ubxa")]
-position = Vector2(211, 517)
+[node name="house" parent="Gameplay" unique_id=230903555 instance=ExtResource("2_uio3x")]
 
-[node name="Enemy" parent="Gameplay" instance=ExtResource("2_uda3f")]
-position = Vector2(991, 847)
+[node name="Pivot" type="Node3D" parent="Gameplay" unique_id=29022451]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
 
-[node name="Teleporter" parent="Gameplay" instance=ExtResource("3_jycte")]
-position = Vector2(1611, 539)
+[node name="Puzzle" parent="Gameplay/Pivot" unique_id=1051238040 instance=ExtResource("3_uio3x")]
 
-[node name="Collectible" parent="Gameplay" instance=ExtResource("4_ev4ff")]
-position = Vector2(1004, 193)
+[node name="Camera3D" type="Camera3D" parent="Gameplay/Pivot" unique_id=656062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.27887103)
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Window1" type="OmniLight3D" parent="Gameplay" unique_id=1292487738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6000496, 1.4758699, -1.5595773)
+light_energy = 0.615
+light_size = 1.0
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="Window2" type="OmniLight3D" parent="Gameplay" unique_id=1269967917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1275881, 1.3441268, 2.483433)
+light_energy = 0.615
+light_size = 1.0
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="Window3" type="OmniLight3D" parent="Gameplay" unique_id=906300421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1496574, 0.64240444, -1.9183463)
+light_energy = 0.615
+light_size = 1.0
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="Window4" type="OmniLight3D" parent="Gameplay" unique_id=35661189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1568838, 0.533136, 1.9905517)
+light_energy = 0.615
+light_size = 1.0
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="Room" type="OmniLight3D" parent="Gameplay" unique_id=911252367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18189234, 2.0296369, -0.1325891)
+light_color = Color(1.2695014, 1.2223895, 1.1438694, 1)
+light_specular = 0.15
+shadow_enabled = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Gameplay" unique_id=363882570]
+transform = Transform3D(0.70255053, -0.5032011, 0.5032011, 0, 0.7071068, 0.70710677, -0.71163386, -0.49677825, 0.4967783, 1, 1, 2)
+light_color = Color(0.9764706, 0.8862745, 0.8666667, 1)
+light_energy = 4.0
+light_indirect_energy = 4.0
+shadow_enabled = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=363509072]
 layer = 3
 
-[node name="PauseScreen" type="Panel" parent="UI"]
+[node name="PauseScreen" type="Panel" parent="UI" unique_id=2107011003]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -278,7 +223,7 @@ offset_bottom = 468.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MenuTree" type="Control" parent="UI/PauseScreen" node_paths=PackedStringArray("entry_point")]
+[node name="MenuTree" type="Control" parent="UI/PauseScreen" unique_id=1371231605 node_paths=PackedStringArray("entry_point")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -296,7 +241,7 @@ default_transition = SubResource("Resource_qe8hq")
 entry_point = NodePath("Main")
 metadata/_custom_type_script = "uid://cxyftya0q4lhn"
 
-[node name="Main" type="Control" parent="UI/PauseScreen/MenuTree"]
+[node name="Main" type="Control" parent="UI/PauseScreen/MenuTree" unique_id=767096691]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -310,7 +255,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="UI/PauseScreen/MenuTree/Main"]
+[node name="Label" type="Label" parent="UI/PauseScreen/MenuTree/Main" unique_id=1624024142]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -326,7 +271,7 @@ grow_vertical = 2
 text = "Game Paused"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="VBoxContainer" parent="UI/PauseScreen/MenuTree/Main"]
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/PauseScreen/MenuTree/Main" unique_id=543909661]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -341,24 +286,24 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="ResumeButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+[node name="ResumeButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" unique_id=409951631]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Resume"
 
-[node name="FocusHelper" type="Control" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton"]
+[node name="FocusHelper" type="Control" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton" unique_id=1230576772]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_odbtj")
 metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
 
-[node name="RestartButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+[node name="RestartButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" unique_id=372145783]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Restart Level"
 
-[node name="SettingsButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" node_paths=PackedStringArray("tree", "to_menu")]
+[node name="SettingsButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" unique_id=248638429 node_paths=PackedStringArray("tree", "to_menu")]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Settings"
@@ -367,12 +312,12 @@ tree = NodePath("../../..")
 to_menu = NodePath("../../../SettingsMenu")
 metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
 
-[node name="MainMenuButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="UI/PauseScreen/MenuTree/Main/HBoxContainer" unique_id=1336020352]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "To Main Menu"
 
-[node name="SettingsMenu" parent="UI/PauseScreen/MenuTree" instance=ExtResource("8_xfsjo")]
+[node name="SettingsMenu" parent="UI/PauseScreen/MenuTree" unique_id=2015635167 instance=ExtResource("8_xfsjo")]
 visible = false
 layout_mode = 1
 offset_left = -346.0
@@ -383,7 +328,7 @@ offset_bottom = 254.0
 [node name="Back" parent="UI/PauseScreen/MenuTree/SettingsMenu/BottomRow" index="1" node_paths=PackedStringArray("tree")]
 tree = NodePath("../../..")
 
-[node name="WinPannel" type="Panel" parent="UI"]
+[node name="WinPannel" type="Panel" parent="UI" unique_id=721294333]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -397,12 +342,10 @@ offset_bottom = 468.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/WinPannel"]
-libraries = {
-&"": SubResource("AnimationLibrary_qe8hq")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/WinPannel" unique_id=1710915375]
+libraries/ = SubResource("AnimationLibrary_qe8hq")
 
-[node name="Credits" type="Control" parent="UI/WinPannel"]
+[node name="Credits" type="Control" parent="UI/WinPannel" unique_id=1559430518]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -411,7 +354,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Fade" type="TextureRect" parent="UI/WinPannel/Credits"]
+[node name="Fade" type="TextureRect" parent="UI/WinPannel/Credits" unique_id=1848025097]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -426,7 +369,7 @@ grow_vertical = 2
 rotation = 1.5707964
 texture = SubResource("GradientTexture1D_xfsjo")
 
-[node name="Control" type="Control" parent="UI/WinPannel/Credits/Fade"]
+[node name="Control" type="Control" parent="UI/WinPannel/Credits/Fade" unique_id=142856883]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -439,7 +382,7 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = -1.5707964
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/WinPannel/Credits/Fade/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/WinPannel/Credits/Fade/Control" unique_id=2039958239]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -450,53 +393,53 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 60
 
-[node name="Label" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=1416333570]
 layout_mode = 2
 text = "A game by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label2" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=1194195644]
 layout_mode = 2
 text = "Concept by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label3" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=1213801389]
 layout_mode = 2
 text = "Design by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label4" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label4" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=2135752825]
 layout_mode = 2
 text = "Art by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label5" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label5" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=388996354]
 layout_mode = 2
 text = "Programming by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label6" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label6" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=592709179]
 layout_mode = 2
 text = "SFX by Henrique Maziero
 (samples from freesound.org)"
 horizontal_alignment = 1
 
-[node name="Label7" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label7" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=1593130208]
 layout_mode = 2
 text = "Music by Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Label8" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer"]
+[node name="Label8" type="Label" parent="UI/WinPannel/Credits/Fade/Control/VBoxContainer" unique_id=1227011030]
 layout_mode = 2
 text = "Special thanks: Henrique Maziero"
 horizontal_alignment = 1
 
-[node name="Main" type="Control" parent="UI/WinPannel"]
+[node name="Main" type="Control" parent="UI/WinPannel" unique_id=341338290]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="UI/WinPannel/Main"]
+[node name="Label" type="Label" parent="UI/WinPannel/Main" unique_id=84297475]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -512,7 +455,7 @@ grow_vertical = 2
 text = "You won"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/WinPannel/Main"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/WinPannel/Main" unique_id=1650104728]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -527,31 +470,31 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="ContinueButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer"]
+[node name="ContinueButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer" unique_id=175098808]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Continue"
 
-[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/ContinueButton"]
+[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/ContinueButton" unique_id=187837546]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_odbtj")
 metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
 
-[node name="MainMenuButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="UI/WinPannel/Main/HBoxContainer" unique_id=1594096934]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "To Main Menu"
 
-[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/MainMenuButton"]
+[node name="FocusHelper" type="Control" parent="UI/WinPannel/Main/HBoxContainer/MainMenuButton" unique_id=1654029054]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_odbtj")
 metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
 
-[node name="LosePannel" type="Panel" parent="UI"]
+[node name="LosePannel" type="Panel" parent="UI" unique_id=2020159407]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -565,7 +508,7 @@ offset_bottom = 468.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="UI/LosePannel"]
+[node name="Label" type="Label" parent="UI/LosePannel" unique_id=615002527]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -581,7 +524,7 @@ grow_vertical = 2
 text = "You lose"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LosePannel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LosePannel" unique_id=152729988]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -596,25 +539,23 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="ResetButton" type="Button" parent="UI/LosePannel/HBoxContainer"]
+[node name="ResetButton" type="Button" parent="UI/LosePannel/HBoxContainer" unique_id=168848041]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Restart"
 
-[node name="FocusHelper" type="Control" parent="UI/LosePannel/HBoxContainer/ResetButton"]
+[node name="FocusHelper" type="Control" parent="UI/LosePannel/HBoxContainer/ResetButton" unique_id=1889297003]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_odbtj")
 metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
 
-[node name="MainMenuButton" type="Button" parent="UI/LosePannel/HBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="UI/LosePannel/HBoxContainer" unique_id=2122137696]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "To Main Menu"
 
-[connection signal="gameover" from="Gameplay/Player" to="." method="lose"]
-[connection signal="win" from="Gameplay/Teleporter" to="." method="win"]
 [connection signal="back" from="UI/PauseScreen/MenuTree" to="." method="unpause"]
 [connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton" to="." method="unpause"]
 [connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/RestartButton" to="." method="restart"]
