@@ -67,85 +67,148 @@ data = PackedVector3Array(-0.02, 0.035099998, -0.0150999995, -0.02, -0.059899997
 
 [node name="Puzzle" unique_id=1051238040 instance=ExtResource("1_cd4hj")]
 
+[node name="geo_020" parent="." index="0" unique_id=299312337]
+gi_mode = 2
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=583348100]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_cd4hj")
+
+[node name="geo_019" parent="." index="2" unique_id=1247144461]
+gi_mode = 2
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="3" unique_id=361655041]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_3d7w2")
 
+[node name="geo_018" parent="." index="4" unique_id=1967252263]
+gi_mode = 2
+
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="5" unique_id=1129376481]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_tw484")
+
+[node name="geo_017" parent="." index="6" unique_id=823155403]
+gi_mode = 2
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." index="7" unique_id=2101842174]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_2wl3l")
 
+[node name="geo_016" parent="." index="8" unique_id=678504491]
+gi_mode = 2
+
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." index="9" unique_id=1029585463]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_bwps8")
+
+[node name="geo_015" parent="." index="10" unique_id=1751387867]
+gi_mode = 2
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="." index="11" unique_id=1761972754]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_a3ivr")
 
+[node name="geo_014" parent="." index="12" unique_id=937020148]
+gi_mode = 2
+
 [node name="CollisionShape3D7" type="CollisionShape3D" parent="." index="13" unique_id=1630778119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_gsrur")
+
+[node name="geo_013" parent="." index="14" unique_id=608011949]
+gi_mode = 2
 
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="." index="15" unique_id=964507436]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_eqw7d")
 
+[node name="geo_012" parent="." index="16" unique_id=860619535]
+gi_mode = 2
+
 [node name="CollisionShape3D9" type="CollisionShape3D" parent="." index="17" unique_id=319939173]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_3k5q5")
+
+[node name="geo_011" parent="." index="18" unique_id=1350070778]
+gi_mode = 2
 
 [node name="CollisionShape3D10" type="CollisionShape3D" parent="." index="19" unique_id=727610612]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_shk7v")
 
+[node name="geo_010" parent="." index="20" unique_id=1309539759]
+gi_mode = 2
+
 [node name="CollisionShape3D11" type="CollisionShape3D" parent="." index="21" unique_id=695256510]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_smiq0")
+
+[node name="geo_009" parent="." index="22" unique_id=2114126845]
+gi_mode = 2
 
 [node name="CollisionShape3D12" type="CollisionShape3D" parent="." index="23" unique_id=127185785]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_lrfuw")
 
+[node name="geo_008" parent="." index="24" unique_id=1367513874]
+gi_mode = 2
+
 [node name="CollisionShape3D13" type="CollisionShape3D" parent="." index="25" unique_id=12113613]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_awun3")
+
+[node name="geo_007" parent="." index="26" unique_id=376618051]
+gi_mode = 2
 
 [node name="CollisionShape3D14" type="CollisionShape3D" parent="." index="27" unique_id=80488497]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_htqp1")
 
+[node name="geo_006" parent="." index="28" unique_id=783015846]
+gi_mode = 2
+
 [node name="CollisionShape3D15" type="CollisionShape3D" parent="." index="29" unique_id=1237687536]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_oaq01")
+
+[node name="geo_005" parent="." index="30" unique_id=1342178462]
+gi_mode = 2
 
 [node name="CollisionShape3D16" type="CollisionShape3D" parent="." index="31" unique_id=1425584370]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_e83ej")
 
+[node name="geo_004" parent="." index="32" unique_id=1953983133]
+gi_mode = 2
+
 [node name="CollisionShape3D17" type="CollisionShape3D" parent="." index="33" unique_id=1111865793]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_sgwws")
+
+[node name="geo_003" parent="." index="34" unique_id=1548788758]
+gi_mode = 2
 
 [node name="CollisionShape3D18" type="CollisionShape3D" parent="." index="35" unique_id=2032332666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_p4roh")
 
+[node name="geo_002" parent="." index="36" unique_id=1655690196]
+gi_mode = 2
+
 [node name="CollisionShape3D19" type="CollisionShape3D" parent="." index="37" unique_id=1587812381]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_e1i6x")
 
+[node name="geo_001" parent="." index="38" unique_id=375732879]
+gi_mode = 2
+
 [node name="CollisionShape3D20" type="CollisionShape3D" parent="." index="39" unique_id=68706338]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
 shape = SubResource("ConcavePolygonShape3D_gss4o")
+
+[node name="geo" parent="." index="40" unique_id=1294407035]
+gi_mode = 2
 
 [node name="CollisionShape3D21" type="CollisionShape3D" parent="." index="41" unique_id=680697296]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.04)
