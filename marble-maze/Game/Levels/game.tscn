@@ -12,10 +12,25 @@
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 
 [sub_resource type="Environment" id="Environment_odbtj"]
+ssao_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(1.353256, 1.0773891, 0.8193202, 1)
+fog_depth_begin = 0.2
+fog_depth_end = 20.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.1413
+volumetric_fog_albedo = Color(1, 0.9137255, 0.83137256, 1)
+volumetric_fog_length = 20.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_odbtj"]
+dof_blur_far_enabled = true
 dof_blur_far_distance = 0.33
 dof_blur_far_transition = 0.5
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.3
+dof_blur_amount = 0.22
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mt08e"]
 margin = 0.002
@@ -184,6 +199,7 @@ cam_pitch_max = 1.213003830136059
 [node name="Puzzle" parent="Gameplay/Controls" unique_id=1051238040 instance=ExtResource("3_uio3x")]
 
 [node name="CameraPivot" type="Node3D" parent="Gameplay/Controls" unique_id=1088660874]
+transform = Transform3D(-4.103599e-08, -0.34447908, 0.938794, -1.5057658e-08, 0.938794, 0.34447908, -1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Gameplay/Controls/CameraPivot" unique_id=656062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.27887103)
@@ -203,9 +219,6 @@ angular_damp_mode = 1
 shape = SubResource("SphereShape3D_mt08e")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Gameplay/Controls/Pebble" unique_id=323493962]
-mesh = SubResource("SphereMesh_ojvjq")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Gameplay/Controls/Pebble" unique_id=775306350]
 mesh = SubResource("SphereMesh_ojvjq")
 
 [node name="Room" type="OmniLight3D" parent="Gameplay" unique_id=911252367]
