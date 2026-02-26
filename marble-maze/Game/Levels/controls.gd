@@ -12,11 +12,11 @@ extends Node3D
 var puzzle_motion:Vector2
 var camera_motion:Vector2
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if Input.is_action_pressed("pan_camera"):
 			camera_motion -= event.screen_relative
-		if Input.is_action_pressed("pan_puzzle"):
+		if Input.is_action_pressed("pan_puzzle") && not gizmo_grabbed:
 			puzzle_motion += event.screen_relative
 
 func _process(delta: float) -> void:
@@ -29,5 +29,25 @@ func _physics_process(delta: float) -> void:
 	change = change.rotated(Vector3.RIGHT, puzzle_motion.y * puzzle_speed)
 	change = change.rotated(Vector3.UP, puzzle_motion.x * puzzle_speed)
 	change = camera_pivot.transform.basis * change * camera_pivot.transform.basis.inverse()
-	puzzle.transform.basis = change * puzzle.transform.basis
+	puzzle.transform.basis = (change * puzzle.transform.basis).orthonormalized()
 	puzzle_motion = Vector2.ZERO
+	
+	# TODO the above overwrites whatever was set outside of physics update
+
+
+func _on_gizmo_y_dragged(offset: float) -> void:
+	puzzle.rotate_object_local(Vector3.UP, offset)
+
+func _on_gizmo_x_dragged(offset: float) -> void:
+	puzzle.rotate_object_local(Vector3.LEFT, offset)
+
+func _on_gizmo_z_dragged(offset: float) -> void:
+	puzzle.rotate_object_local(Vector3.BACK, offset)
+
+
+var gizmo_grabbed:bool
+func _on_gizmo_grabbed() -> void:
+	gizmo_grabbed = true
+
+func _on_gizmo_released() -> void:
+	gizmo_grabbed = false

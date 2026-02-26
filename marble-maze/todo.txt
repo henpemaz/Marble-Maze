@@ -1,0 +1,21 @@
+
+Add gismos
+	moving and stationary for reference
+
+Add material to pebble
+Add see-through overlay to pebble
+
+Add checkpoint and load from checkpoint system
+
+Add gameover condition
+Add win condition
+
+Make menu environment
+Make menu animation
+Make menu pretty and functional
+
+Update credits
+
+Prototype more levels?
+
+Integrate save system with checkpoint system

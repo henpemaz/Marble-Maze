@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dhhq8sls5diik"]
+
+[ext_resource type="Script" uid="uid://bj5dq1tm8twea" path="res://Game/Components/gizmo.gd" id="1_cdglj"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_mt08e"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mt08e"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pv5pe"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[node name="Gizmo" type="Area3D" unique_id=1731333145]
+input_capture_on_drag = true
+script = ExtResource("1_cdglj")
+mesh = SubResource("TorusMesh_mt08e")
+material = SubResource("StandardMaterial3D_mt08e")
+shape = SubResource("CylinderShape3D_pv5pe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1312112141]
+shape = SubResource("CylinderShape3D_pv5pe")
+
+[node name="Ring" type="MeshInstance3D" parent="." unique_id=453618484]
+mesh = SubResource("TorusMesh_mt08e")
+surface_material_override/0 = SubResource("StandardMaterial3D_mt08e")
