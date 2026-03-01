@@ -2,7 +2,7 @@ extends Area3D
 
 
 @export var mesh:TorusMesh
-@export var material:Material
+@export var material:StandardMaterial3D
 @export var shape:CylinderShape3D
 
 @export var active_gizmo_layer:int = 1<<15
@@ -10,6 +10,10 @@ extends Area3D
 @export_range(0,0.4,0.00001) var base_size:float = 0.1605
 @export_range(0,0.01,0.00005) var min_swell:float = 0.001
 @export_range(0,0.01,0.00005) var max_swell:float = 0.004
+
+@export var inactive_alpha := 0.2
+@export var hover_alpha := 0.5
+@export var active_alpha := 1.0
 
 signal dragged(offset:float)
 signal gizmo_grabbed
@@ -29,20 +33,35 @@ func _input_event(_camera: Camera3D, event: InputEvent, _event_position: Vector3
 			
 	if grabbed:
 		if event is InputEventMouseMotion:
-			new_grab_position(get_viewport().get_mouse_position())
+			if not Input.is_action_pressed("pan_puzzle"): # if mouse drags out of window we never get the event???
+				grabbed = false
+				released()
+			else:
+				new_grab_position(get_viewport().get_mouse_position())
 
 
 var original_shape_height:float
 var plane:Plane
+var grabbed_from_side:bool
 var grabbed_point:Vector3
 func grabbed_at_position(mouse_position:Vector2):
-	plane = Plane(global_transform.inverse()*Vector3.UP, global_transform.origin)
+	plane = Plane(global_basis.y, global_transform.origin)
 	collision_layer |= active_gizmo_layer
+	
 	original_shape_height = shape.height
-	shape.height = 1 # grow
+	var camera := get_viewport().get_camera_3d()
+	if abs(camera.global_basis.z.dot(global_basis.y)) < 0.2: # from side
+		print("dragged from side!")
+		grabbed_from_side = true
+		shape.height = 1 # extend
+	else:
+		print("dragged from front!")
+		grabbed_from_side = false
+		shape.height = 0.0 # shrimk
 	
 	grabbed_point = point_of_mouse(mouse_position)
 	
+	update_graphics()
 	gizmo_grabbed.emit()
 	
 	print("dragged!")
@@ -50,6 +69,7 @@ func grabbed_at_position(mouse_position:Vector2):
 func released():
 	collision_layer &= ~active_gizmo_layer
 	shape.height = original_shape_height
+	update_graphics()
 	
 	gizmo_released.emit()
 	
@@ -78,7 +98,9 @@ func point_of_mouse(mouse_position:Vector2)->Vector3:
 		print("shape hit")
 		print(hit)
 		return hit
-	
+	if grabbed_from_side: # cilinder only
+		return Vector3.ZERO
+		
 	result = plane.intersects_ray(ray_origin, ray_normal)
 	if result:
 		var hit:Vector3 = global_transform.inverse() * result
@@ -91,14 +113,34 @@ func point_of_mouse(mouse_position:Vector2)->Vector3:
 	return Vector3.ZERO
 
 
+var hover:bool
+
 var swell:float:
 	set(val):
 		swell = val
 		mesh.inner_radius = base_size - lerp(min_swell, max_swell, swell)
 		mesh.outer_radius = base_size + lerp(min_swell, max_swell, swell)
 
+var alpha:float:
+	set(val):
+		alpha = val
+		material.albedo_color.a = val
+
 func _mouse_enter() -> void:
-	swell = 1
+	hover = true
+	update_graphics()
 
 func _mouse_exit() -> void:
-	swell = 0
+	hover = false
+	update_graphics()
+
+func update_graphics():
+	if grabbed:
+		swell = 1
+		alpha = active_alpha
+	elif hover:
+		swell = 1
+		alpha = hover_alpha
+	else:
+		swell = 0
+		alpha = inactive_alpha

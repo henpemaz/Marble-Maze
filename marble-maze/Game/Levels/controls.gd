@@ -6,8 +6,8 @@ extends Node3D
 @export var cam_speed := 0.02
 @export var puzzle_speed := 0.02
 
-@export_range(-90, 0, 0.1, "radians_as_degrees") var cam_pitch_min := 0.0
-@export_range(0, 90, 0.1, "radians_as_degrees") var cam_pitch_max := 0.0
+@export_range(-90, 0, 0.1, "radians_as_degrees") var cam_pitch_min := -80.0
+@export_range(0, 90, 0.1, "radians_as_degrees") var cam_pitch_max := 70.0
 
 var puzzle_motion:Vector2
 var camera_motion:Vector2
@@ -32,18 +32,20 @@ func _physics_process(delta: float) -> void:
 	puzzle.transform.basis = (change * puzzle.transform.basis).orthonormalized()
 	puzzle_motion = Vector2.ZERO
 	
-	# TODO the above overwrites whatever was set outside of physics update
+	puzzle.rotate_object_local(Vector3.UP, gizmo_motion.y)
+	puzzle.rotate_object_local(Vector3.LEFT, gizmo_motion.x)
+	puzzle.rotate_object_local(Vector3.BACK, gizmo_motion.z)
+	gizmo_motion = Vector3.ZERO
 
-
+var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:
-	puzzle.rotate_object_local(Vector3.UP, offset)
+	gizmo_motion.y += offset
 
 func _on_gizmo_x_dragged(offset: float) -> void:
-	puzzle.rotate_object_local(Vector3.LEFT, offset)
+	gizmo_motion.x += offset
 
 func _on_gizmo_z_dragged(offset: float) -> void:
-	puzzle.rotate_object_local(Vector3.BACK, offset)
-
+	gizmo_motion.z += offset
 
 var gizmo_grabbed:bool
 func _on_gizmo_grabbed() -> void:
