@@ -262,7 +262,7 @@ puzzle_speed = 0.003
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 
-[node name="Puzzle" parent="Gameplay/Controls" unique_id=1051238040 instance=ExtResource("3_uio3x")]
+[node name="Puzzle" parent="Gameplay/Controls" unique_id=1541671838 instance=ExtResource("3_uio3x")]
 
 [node name="GizmoY" parent="Gameplay/Controls/Puzzle" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
 mesh = SubResource("TorusMesh_ojvjq")

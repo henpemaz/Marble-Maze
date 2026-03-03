@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var puzzle: AnimatableBody3D = $Puzzle
+@onready var puzzle: RigidBody3D = $Puzzle
 @onready var camera_pivot: Node3D = $CameraPivot
 
 @export var cam_speed := 0.02
@@ -29,12 +29,14 @@ func _physics_process(delta: float) -> void:
 	change = change.rotated(Vector3.RIGHT, puzzle_motion.y * puzzle_speed)
 	change = change.rotated(Vector3.UP, puzzle_motion.x * puzzle_speed)
 	change = camera_pivot.transform.basis * change * camera_pivot.transform.basis.inverse()
-	puzzle.transform.basis = (change * puzzle.transform.basis).orthonormalized()
-	puzzle_motion = Vector2.ZERO
 	
-	puzzle.rotate_object_local(Vector3.UP, gizmo_motion.y)
-	puzzle.rotate_object_local(Vector3.LEFT, gizmo_motion.x)
-	puzzle.rotate_object_local(Vector3.BACK, gizmo_motion.z)
+	change = change.rotated(puzzle.basis*Vector3.UP, gizmo_motion.y)
+	change = change.rotated(puzzle.basis*Vector3.LEFT, gizmo_motion.x)
+	change = change.rotated(puzzle.basis*Vector3.BACK, gizmo_motion.z)
+	
+	puzzle.angular_velocity = change.get_euler()/delta
+	
+	puzzle_motion = Vector2.ZERO
 	gizmo_motion = Vector3.ZERO
 
 var gizmo_motion:Vector3
