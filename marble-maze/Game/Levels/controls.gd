@@ -26,18 +26,34 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	var change := Basis()
-	change = change.rotated(Vector3.RIGHT, puzzle_motion.y * puzzle_speed)
-	change = change.rotated(Vector3.UP, puzzle_motion.x * puzzle_speed)
-	change = camera_pivot.transform.basis * change * camera_pivot.transform.basis.inverse()
-	
-	change = change.rotated(puzzle.basis*Vector3.UP, gizmo_motion.y)
-	change = change.rotated(puzzle.basis*Vector3.LEFT, gizmo_motion.x)
-	change = change.rotated(puzzle.basis*Vector3.BACK, gizmo_motion.z)
-	
-	puzzle.angular_velocity = change.get_euler()/delta
+	if puzzle_motion:
+		change = change.rotated(Vector3.RIGHT, puzzle_motion.y * puzzle_speed)
+		change = change.rotated(Vector3.UP, puzzle_motion.x * puzzle_speed)
+		change = camera_pivot.basis * change * camera_pivot.basis.inverse()
+	elif gizmo_motion.y:
+		change = change.rotated(puzzle.basis.y, gizmo_motion.y)
+	elif gizmo_motion.x:
+		change = change.rotated(puzzle.basis.x, gizmo_motion.x)
+	elif gizmo_motion.z:
+		change = change.rotated(puzzle.basis.z, gizmo_motion.z)
 	
 	puzzle_motion = Vector2.ZERO
 	gizmo_motion = Vector3.ZERO
+	
+	# puzzle.angular_velocity = change.get_euler()/delta # not so simple huh
+	# this has errors at high speed, moves other axis
+	
+	# Actually maybe our rotation matrix is the tensor already
+	#puzzle.angular_velocity.x = change.y.z/delta
+	#puzzle.angular_velocity.y = change.z.x/delta
+	#puzzle.angular_velocity.z = change.x.y/delta
+	# nope, rotational tensor also only works for ||w|| << 1 since we are a rotating frame
+	
+	# Solve by du = w*u https://physics.stackexchange.com/questions/511227/a-question-about-the-angular-velocity-vector
+	var b = puzzle.basis
+	var nb = change * b
+	var db = Basis(nb.x-b.x,nb.y-b.y,nb.z-b.z)
+	puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:

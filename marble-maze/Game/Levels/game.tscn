@@ -263,6 +263,7 @@ cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 
 [node name="Puzzle" parent="Gameplay/Controls" unique_id=1541671838 instance=ExtResource("3_uio3x")]
+custom_integrator = true
 
 [node name="GizmoY" parent="Gameplay/Controls/Puzzle" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
 mesh = SubResource("TorusMesh_ojvjq")
@@ -270,13 +271,13 @@ material = SubResource("StandardMaterial3D_3tkys")
 shape = SubResource("CylinderShape3D_78l5e")
 
 [node name="GizmoX" parent="Gameplay/Controls/Puzzle" unique_id=28477053 instance=ExtResource("6_ojvjq")]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("TorusMesh_3oj00")
 material = SubResource("StandardMaterial3D_ubs0m")
 shape = SubResource("CylinderShape3D_ei3f0")
 
 [node name="GizmoZ" parent="Gameplay/Controls/Puzzle" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
 mesh = SubResource("TorusMesh_04jbb")
 material = SubResource("StandardMaterial3D_eksgd")
 shape = SubResource("CylinderShape3D_1ffif")

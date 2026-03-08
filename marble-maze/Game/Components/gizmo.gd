@@ -15,6 +15,8 @@ extends Area3D
 @export var hover_alpha := 0.5
 @export var active_alpha := 1.0
 
+@export var debug:bool
+
 signal dragged(offset:float)
 signal gizmo_grabbed
 signal gizmo_released
@@ -51,11 +53,11 @@ func grabbed_at_position(mouse_position:Vector2):
 	original_shape_height = shape.height
 	var camera := get_viewport().get_camera_3d()
 	if abs(camera.global_basis.z.dot(global_basis.y)) < 0.2: # from side
-		print("dragged from side!")
+		if debug: print("dragged from side!")
 		grabbed_from_side = true
 		shape.height = 1 # extend
 	else:
-		print("dragged from front!")
+		if debug: print("dragged from front!")
 		grabbed_from_side = false
 		shape.height = 0.0 # shrimk
 	
@@ -64,7 +66,7 @@ func grabbed_at_position(mouse_position:Vector2):
 	update_graphics()
 	gizmo_grabbed.emit()
 	
-	print("dragged!")
+	if debug: print("dragged!")
 
 func released():
 	collision_layer &= ~active_gizmo_layer
@@ -73,13 +75,13 @@ func released():
 	
 	gizmo_released.emit()
 	
-	print("released!")
+	if debug: print("released!")
 
 func new_grab_position(mouse_position:Vector2):
 	var new_grabbed_point := point_of_mouse(mouse_position)
 	var angle_offset := grabbed_point.signed_angle_to(new_grabbed_point, Vector3.UP)
 	dragged.emit(angle_offset)
-	print(angle_offset)
+	if debug: print(angle_offset)
 
 
 func point_of_mouse(mouse_position:Vector2)->Vector3:
@@ -95,8 +97,8 @@ func point_of_mouse(mouse_position:Vector2)->Vector3:
 	if result:
 		var hit:Vector3 = global_transform.inverse() * result["position"]
 		hit.y = 0
-		print("shape hit")
-		print(hit)
+		if debug: print("shape hit")
+		if debug: print(hit)
 		return hit
 	if grabbed_from_side: # cilinder only
 		return Vector3.ZERO
@@ -105,11 +107,11 @@ func point_of_mouse(mouse_position:Vector2)->Vector3:
 	if result:
 		var hit:Vector3 = global_transform.inverse() * result
 		hit.y = 0
-		print("plane hit")
-		print(hit)
+		if debug: print("plane hit")
+		if debug: print(hit)
 		return hit
 	
-	push_error("no result")
+	if debug: push_error("no result")
 	return Vector3.ZERO
 
 
