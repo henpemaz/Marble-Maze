@@ -50,10 +50,14 @@ func _physics_process(delta: float) -> void:
 	# nope, rotational tensor also only works for ||w|| << 1 since we are a rotating frame
 	
 	# Solve by du = w*u https://physics.stackexchange.com/questions/511227/a-question-about-the-angular-velocity-vector
-	var b = puzzle.basis
-	var nb = change * b
-	var db = Basis(nb.x-b.x,nb.y-b.y,nb.z-b.z)
-	puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
+	#var b = puzzle.basis
+	#var nb = change * b
+	#var db = Basis(nb.x-b.x,nb.y-b.y,nb.z-b.z)
+	#puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
+	
+	# Simpler method?
+	var q = change.get_rotation_quaternion()
+	puzzle.angular_velocity = q.get_axis() * q.get_angle() / delta
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:
