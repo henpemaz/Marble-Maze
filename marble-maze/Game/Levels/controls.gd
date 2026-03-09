@@ -55,9 +55,14 @@ func _physics_process(delta: float) -> void:
 	#var db = Basis(nb.x-b.x,nb.y-b.y,nb.z-b.z)
 	#puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
 	
-	# Simpler method?
-	var q = change.get_rotation_quaternion()
-	puzzle.angular_velocity = q.get_axis() * q.get_angle() / delta
+	# Simpler method
+	var q := change.get_rotation_quaternion()
+	var qmotion := q.get_axis() * q.get_angle()
+	if not qmotion.is_zero_approx():
+		puzzle.angular_velocity = qmotion / delta
+	else: # above lacks precision
+		# bellow doesn't work at high angles
+		puzzle.angular_velocity = change.get_euler()/delta
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:
