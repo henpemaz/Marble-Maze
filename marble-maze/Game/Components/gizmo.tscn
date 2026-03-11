@@ -21,11 +21,11 @@ height = 0.01
 radius = 0.165
 
 [node name="Gizmo" type="Area3D" unique_id=1731333145]
-input_capture_on_drag = true
 script = ExtResource("1_cdglj")
 mesh = SubResource("TorusMesh_mt08e")
 material = SubResource("StandardMaterial3D_mt08e")
 shape = SubResource("CylinderShape3D_pv5pe")
+debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1312112141]
 shape = SubResource("CylinderShape3D_pv5pe")

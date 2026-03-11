@@ -1,5 +1,5 @@
 extends Area3D
-
+class_name Gizmo
 
 @export var mesh:TorusMesh
 @export var material:StandardMaterial3D
@@ -22,31 +22,40 @@ signal gizmo_grabbed
 signal gizmo_released
 
 var grabbed:bool
-func _input_event(_camera: Camera3D, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
+
+# had to switch from ray-pick to this because of the order of events
+# had to move most of this to a different object because this needs to be here for update-order
+# but also would need to have higher input priority
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("pan_puzzle"):
-		if grabbed != event.is_pressed(): # so we don't eat release-events on accident
-			grabbed = event.is_pressed()
-			if grabbed:
-				grabbed_at_position(get_viewport().get_mouse_position())
-			else:
-				released()
+		print("action!")
+		if grabbed && !event.is_pressed():
+			print("release!")
+			released()
 			get_viewport().set_input_as_handled()
 			return
-			
-	if grabbed:
-		if event is InputEventMouseMotion:
-			if not Input.is_action_pressed("pan_puzzle"): # if mouse drags out of window we never get the event???
-				grabbed = false
-				released()
-			else:
-				new_grab_position(get_viewport().get_mouse_position())
 
+func input_picked(mouse_position:Vector2):
+	if !grabbed:
+		print("grab!")
+		grabbed_at_position(mouse_position)
+		get_viewport().set_input_as_handled()
+		return
+
+func _physics_process(_delta: float) -> void:
+	if grabbed:
+		if not Input.is_action_pressed("pan_puzzle"): # if mouse drags out of window we never get the event???
+			grabbed = false
+			released()
+		else:
+			new_grab_position(get_viewport().get_mouse_position())
 
 var original_shape_height:float
 var plane:Plane
 var grabbed_from_side:bool
 var grabbed_point:Vector3
 func grabbed_at_position(mouse_position:Vector2):
+	grabbed = true
 	plane = Plane(global_basis.y, global_transform.origin)
 	collision_layer |= active_gizmo_layer
 	
@@ -61,7 +70,7 @@ func grabbed_at_position(mouse_position:Vector2):
 		grabbed_from_side = false
 		shape.height = 0.0 # shrimk
 	
-	grabbed_point = point_of_mouse(mouse_position)
+	grabbed_point = point_of_mouse(mouse_position, true)
 	
 	update_graphics()
 	gizmo_grabbed.emit()
@@ -69,6 +78,7 @@ func grabbed_at_position(mouse_position:Vector2):
 	if debug: print("dragged!")
 
 func released():
+	grabbed = false
 	collision_layer &= ~active_gizmo_layer
 	shape.height = original_shape_height
 	update_graphics()
@@ -78,13 +88,12 @@ func released():
 	if debug: print("released!")
 
 func new_grab_position(mouse_position:Vector2):
-	var new_grabbed_point := point_of_mouse(mouse_position)
+	var new_grabbed_point := point_of_mouse(mouse_position, grabbed_from_side)
 	var angle_offset := grabbed_point.signed_angle_to(new_grabbed_point, Vector3.UP)
 	dragged.emit(angle_offset)
 	if debug: print(angle_offset)
 
-
-func point_of_mouse(mouse_position:Vector2)->Vector3:
+func point_of_mouse(mouse_position:Vector2, cylinder_only:bool)->Vector3:
 	var camera := get_viewport().get_camera_3d()
 	var ray_origin := camera.project_ray_origin(mouse_position)
 	var ray_normal := camera.project_ray_normal(mouse_position)
@@ -100,7 +109,7 @@ func point_of_mouse(mouse_position:Vector2)->Vector3:
 		if debug: print("shape hit")
 		if debug: print(hit)
 		return hit
-	if grabbed_from_side: # cilinder only
+	if cylinder_only: # cilinder only
 		return Vector3.ZERO
 		
 	result = plane.intersects_ray(ray_origin, ray_normal)

@@ -6,9 +6,11 @@
 [ext_resource type="Script" uid="uid://c7mdqsbx7qw2s" path="res://Game/Levels/controls.gd" id="4_mt08e"]
 [ext_resource type="LightmapGIData" uid="uid://dxvd1n8rt7l77" path="res://Game/Levels/game.lmbake" id="4_odbtj"]
 [ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="5_jycte"]
+[ext_resource type="Script" uid="uid://vf31pcqflju7" path="res://Game/Levels/gizmos.gd" id="6_3tkys"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
 [ext_resource type="PackedScene" uid="uid://dhhq8sls5diik" path="res://Game/Components/gizmo.tscn" id="6_ojvjq"]
 [ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_xfsjo"]
+[ext_resource type="Script" uid="uid://lnk8yrcf51qe" path="res://Game/Levels/gizmo_event_picker.gd" id="7_78l5e"]
 [ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="7_odbtj"]
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 
@@ -41,13 +43,6 @@ fog_depth_end = 20.0
 volumetric_fog_enabled = true
 volumetric_fog_albedo = Color(0.93185276, 0.5686022, 3.8889648e-05, 1)
 volumetric_fog_length = 20.0
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_odbtj"]
-dof_blur_far_enabled = true
-dof_blur_far_distance = 0.5
-dof_blur_far_transition = 0.5
-dof_blur_near_distance = 0.3
-dof_blur_amount = 0.22
 
 [sub_resource type="TorusMesh" id="TorusMesh_78l5e"]
 resource_local_to_scene = true
@@ -135,6 +130,13 @@ transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5512851, 0.000703094, 0.6474879, 1)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_odbtj"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 0.5
+dof_blur_far_transition = 0.5
+dof_blur_near_distance = 0.3
+dof_blur_amount = 0.22
 
 [sub_resource type="QuadMesh" id="QuadMesh_uio3x"]
 
@@ -280,54 +282,56 @@ light_data = ExtResource("4_odbtj")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Gameplay" unique_id=1636714739]
 environment = SubResource("Environment_odbtj")
-camera_attributes = SubResource("CameraAttributesPractical_odbtj")
 
 [node name="house" parent="Gameplay" unique_id=1409814169 instance=ExtResource("2_uio3x")]
 
-[node name="Controls" type="Node3D" parent="Gameplay" unique_id=29022451]
+[node name="GameplayOrigin" type="Node3D" parent="Gameplay" unique_id=474484639]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
-script = ExtResource("4_mt08e")
-cam_speed = 0.003
-puzzle_speed = 0.003
-cam_pitch_min = -1.4049900478554354
-cam_pitch_max = 1.213003830136059
 
-[node name="Puzzle" parent="Gameplay/Controls" unique_id=1541671838 instance=ExtResource("3_uio3x")]
-custom_integrator = true
+[node name="Gizmos" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=2041267576 node_paths=PackedStringArray("puzzle")]
+script = ExtResource("6_3tkys")
+puzzle = NodePath("../Puzzle")
 
-[node name="GizmoY" parent="Gameplay/Controls/Puzzle" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
+[node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
 mesh = SubResource("TorusMesh_78l5e")
 material = SubResource("StandardMaterial3D_3oj00")
 shape = SubResource("CylinderShape3D_ubs0m")
 
-[node name="GizmoX" parent="Gameplay/Controls/Puzzle" unique_id=28477053 instance=ExtResource("6_ojvjq")]
+[node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=28477053 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("TorusMesh_ei3f0")
 material = SubResource("StandardMaterial3D_04jbb")
 shape = SubResource("CylinderShape3D_eksgd")
 
-[node name="GizmoZ" parent="Gameplay/Controls/Puzzle" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
+[node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
 mesh = SubResource("TorusMesh_1ffif")
 material = SubResource("StandardMaterial3D_jg6aq")
 shape = SubResource("CylinderShape3D_1cvfv")
 
-[node name="Area3D" type="Area3D" parent="Gameplay/Controls/Puzzle" unique_id=1159704396]
+[node name="Area3D" type="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1159704396]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Controls/Puzzle/Area3D" unique_id=77531814]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Gizmos/Area3D" unique_id=77531814]
 shape = SubResource("SphereShape3D_3tkys")
 
-[node name="CameraPivot" type="Node3D" parent="Gameplay/Controls" unique_id=1088660874]
-transform = Transform3D(-4.103599e-08, -0.34447908, 0.938794, -1.5057658e-08, 0.938794, 0.34447908, -1, 0, -4.371139e-08, 0, 0, 0)
+[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("puzzle", "camera_pivot")]
+script = ExtResource("4_mt08e")
+puzzle = NodePath("../Puzzle")
+camera_pivot = NodePath("../CameraPivot")
+cam_speed = 0.003
+puzzle_speed = 0.003
+cam_pitch_min = -1.4049900478554354
+cam_pitch_max = 1.213003830136059
 
-[node name="Camera3D" type="Camera3D" parent="Gameplay/Controls/CameraPivot" unique_id=656062]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.220446e-16, 9.313226e-10, 0.5084141)
-fov = 33.0
-near = 0.2
-far = 20.0
+[node name="GizmoEventPicker" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=571043768]
+script = ExtResource("7_78l5e")
 
-[node name="Pebble" type="RigidBody3D" parent="Gameplay/Controls" unique_id=403682055]
+[node name="Puzzle" parent="Gameplay/GameplayOrigin" unique_id=1541671838 instance=ExtResource("3_uio3x")]
+custom_integrator = true
+
+[node name="Pebble" type="RigidBody3D" parent="Gameplay/GameplayOrigin" unique_id=403682055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10497412, 0.05917698, 0)
+input_ray_pickable = false
 mass = 0.1
 gravity_scale = 0.5
 can_sleep = false
@@ -335,20 +339,30 @@ continuous_cd = true
 linear_damp_mode = 1
 angular_damp_mode = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Controls/Pebble" unique_id=1501734776]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Pebble" unique_id=1501734776]
 transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
 shape = SubResource("SphereShape3D_mt08e")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Gameplay/Controls/Pebble" unique_id=323493962]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gameplay/GameplayOrigin/Pebble" unique_id=323493962]
 transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_aymda")
 material_overlay = SubResource("StandardMaterial3D_ojvjq")
 mesh = SubResource("SphereMesh_ojvjq")
 
-[node name="Ring" type="MeshInstance3D" parent="Gameplay/Controls" unique_id=1778632841]
+[node name="Ring" type="MeshInstance3D" parent="Gameplay/GameplayOrigin" unique_id=1778632841]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
 mesh = SubResource("TorusMesh_mt08e")
 surface_material_override/0 = SubResource("StandardMaterial3D_78l5e")
+
+[node name="CameraPivot" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=1088660874]
+transform = Transform3D(-4.103599e-08, -0.34447908, 0.938794, -1.5057658e-08, 0.938794, 0.34447908, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=656062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.220446e-16, 9.313226e-10, 0.5084141)
+attributes = SubResource("CameraAttributesPractical_odbtj")
+fov = 33.0
+near = 0.2
+far = 20.0
 
 [node name="Room" type="OmniLight3D" parent="Gameplay" unique_id=911252367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18189234, 2.0296369, -0.1325891)
@@ -733,15 +747,15 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "To Main Menu"
 
-[connection signal="dragged" from="Gameplay/Controls/Puzzle/GizmoY" to="Gameplay/Controls" method="_on_gizmo_y_dragged"]
-[connection signal="gizmo_grabbed" from="Gameplay/Controls/Puzzle/GizmoY" to="Gameplay/Controls" method="_on_gizmo_grabbed"]
-[connection signal="gizmo_released" from="Gameplay/Controls/Puzzle/GizmoY" to="Gameplay/Controls" method="_on_gizmo_released"]
-[connection signal="dragged" from="Gameplay/Controls/Puzzle/GizmoX" to="Gameplay/Controls" method="_on_gizmo_x_dragged"]
-[connection signal="gizmo_grabbed" from="Gameplay/Controls/Puzzle/GizmoX" to="Gameplay/Controls" method="_on_gizmo_grabbed"]
-[connection signal="gizmo_released" from="Gameplay/Controls/Puzzle/GizmoX" to="Gameplay/Controls" method="_on_gizmo_released"]
-[connection signal="dragged" from="Gameplay/Controls/Puzzle/GizmoZ" to="Gameplay/Controls" method="_on_gizmo_z_dragged"]
-[connection signal="gizmo_grabbed" from="Gameplay/Controls/Puzzle/GizmoZ" to="Gameplay/Controls" method="_on_gizmo_grabbed"]
-[connection signal="gizmo_released" from="Gameplay/Controls/Puzzle/GizmoZ" to="Gameplay/Controls" method="_on_gizmo_released"]
+[connection signal="dragged" from="Gameplay/GameplayOrigin/Gizmos/GizmoY" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_y_dragged"]
+[connection signal="gizmo_grabbed" from="Gameplay/GameplayOrigin/Gizmos/GizmoY" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_grabbed"]
+[connection signal="gizmo_released" from="Gameplay/GameplayOrigin/Gizmos/GizmoY" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_released"]
+[connection signal="dragged" from="Gameplay/GameplayOrigin/Gizmos/GizmoX" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_x_dragged"]
+[connection signal="gizmo_grabbed" from="Gameplay/GameplayOrigin/Gizmos/GizmoX" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_grabbed"]
+[connection signal="gizmo_released" from="Gameplay/GameplayOrigin/Gizmos/GizmoX" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_released"]
+[connection signal="dragged" from="Gameplay/GameplayOrigin/Gizmos/GizmoZ" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_z_dragged"]
+[connection signal="gizmo_grabbed" from="Gameplay/GameplayOrigin/Gizmos/GizmoZ" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_grabbed"]
+[connection signal="gizmo_released" from="Gameplay/GameplayOrigin/Gizmos/GizmoZ" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_released"]
 [connection signal="back" from="UI/PauseScreen/MenuTree" to="." method="unpause"]
 [connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/ResumeButton" to="." method="unpause"]
 [connection signal="pressed" from="UI/PauseScreen/MenuTree/Main/HBoxContainer/RestartButton" to="." method="restart"]

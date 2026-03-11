@@ -1,7 +1,7 @@
 extends Node3D
 
-@onready var puzzle: RigidBody3D = $Puzzle
-@onready var camera_pivot: Node3D = $CameraPivot
+@export var puzzle: RigidBody3D
+@export var camera_pivot: Node3D
 
 @export var cam_speed := 0.02
 @export var puzzle_speed := 0.02
@@ -60,19 +60,19 @@ func _physics_process(delta: float) -> void:
 	var qmotion := q.get_axis() * q.get_angle()
 	if not qmotion.is_zero_approx():
 		puzzle.angular_velocity = qmotion / delta
-	else: # above lacks precision
+	else: # above lacks precision at low angles
 		# bellow doesn't work at high angles
 		puzzle.angular_velocity = change.get_euler()/delta
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:
-	gizmo_motion.y += offset
+	gizmo_motion.y = offset
 
 func _on_gizmo_x_dragged(offset: float) -> void:
-	gizmo_motion.x += offset
+	gizmo_motion.x = offset
 
 func _on_gizmo_z_dragged(offset: float) -> void:
-	gizmo_motion.z += offset
+	gizmo_motion.z = offset
 
 var gizmo_grabbed:bool
 func _on_gizmo_grabbed() -> void:

@@ -1,9 +1,9 @@
 
 Add gismos
-	moving and stationary for reference
+	moving and stationary for reference DONE
 
-Add material to pebble
-Add see-through overlay to pebble
+Add material to pebble DONE
+Add see-through overlay to pebble DONE
 
 Add checkpoint and load from checkpoint system
 
