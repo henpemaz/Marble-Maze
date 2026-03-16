@@ -2,20 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cll8ff7n2a1yy"
-path="res://.godot/imported/level_1.png-5b6f121bb033a6d59b456477fa3c3c7b.ctex"
+uid="uid://dg5vkj3cl1423"
+path.s3tc="res://.godot/imported/simple_puzzle_pattern_2.png-e4a5348542f1bd85838814a3d316dea0.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "fc07a9364f74705466cf75ea94117c5d"
 }
 
 [deps]
 
-source_file="res://Autoloads/Campaign/Previews/level_1.png"
-dest_files=["res://.godot/imported/level_1.png-5b6f121bb033a6d59b456477fa3c3c7b.ctex"]
+source_file="res://Game/Assets/simple_puzzle_pattern_2.png"
+dest_files=["res://.godot/imported/simple_puzzle_pattern_2.png-e4a5348542f1bd85838814a3d316dea0.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -23,7 +27,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

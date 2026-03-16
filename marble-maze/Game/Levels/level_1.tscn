@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://cqk36vsc16ev0"]
+
+[ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_yq1ce"]
+[ext_resource type="PackedScene" uid="uid://cetjveh2w0506" path="res://Game/Components/simple_puzzle.tscn" id="2_hxy2c"]
+[ext_resource type="PackedScene" uid="uid://dufh6o6vmdinn" path="res://Game/Components/pebble.tscn" id="3_hxy2c"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_hxy2c"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_615i5"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_auaak"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[sub_resource type="TorusMesh" id="TorusMesh_170jj"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f7ty0"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1dpfp"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[sub_resource type="TorusMesh" id="TorusMesh_88uh3"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0f71"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_t4bmb"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[node name="Game" unique_id=618378998 instance=ExtResource("1_yq1ce")]
+
+[node name="Gizmos" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="0" unique_id=2041267576 node_paths=PackedStringArray("puzzle")]
+puzzle = NodePath("../SimplePuzzle")
+
+[node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" index="0" unique_id=1731333145]
+mesh = SubResource("TorusMesh_hxy2c")
+material = SubResource("StandardMaterial3D_615i5")
+shape = SubResource("CylinderShape3D_auaak")
+
+[node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" index="1" unique_id=28477053]
+mesh = SubResource("TorusMesh_170jj")
+material = SubResource("StandardMaterial3D_f7ty0")
+shape = SubResource("CylinderShape3D_1dpfp")
+
+[node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" index="2" unique_id=2113012164]
+mesh = SubResource("TorusMesh_88uh3")
+material = SubResource("StandardMaterial3D_n0f71")
+shape = SubResource("CylinderShape3D_t4bmb")
+
+[node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle")]
+puzzle = NodePath("../SimplePuzzle")
+
+[node name="SimplePuzzle" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=1401497948 instance=ExtResource("2_hxy2c")]
+
+[node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=317528949 instance=ExtResource("3_hxy2c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830355, 0.029176593, -0.08523701)
+continuous_cd = false
+
+[editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

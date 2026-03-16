@@ -26,6 +26,7 @@ var grabbed:bool
 # had to switch from ray-pick to this because of the order of events
 # had to move most of this to a different object because this needs to be here for update-order
 # but also would need to have higher input priority
+# but also godot suggests using _unhandled_input for gameplay and _input for UI so /shrug
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("pan_puzzle"):
 		print("action!")
@@ -35,6 +36,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 
+# called by GizmoEventPicker
 func input_picked(mouse_position:Vector2):
 	if !grabbed:
 		print("grab!")

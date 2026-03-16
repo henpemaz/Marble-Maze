@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dufh6o6vmdinn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mt08e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
+albedo_color = Color(0.5681342, 0.5935658, 0.65258235, 1)
+metallic = 1.0
+metallic_specular = 0.52
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ojvjq"]
+transparency = 1
+depth_test = 1
+disable_specular_occlusion = true
+albedo_color = Color(0.92156863, 0.93333334, 1, 0.17254902)
+metallic = 0.8
+metallic_specular = 0.28
+roughness = 0.63
+
+[sub_resource type="SphereMesh" id="SphereMesh_ojvjq"]
+
+[node name="Pebble" type="RigidBody3D" unique_id=317528949]
+input_ray_pickable = false
+mass = 0.1
+gravity_scale = 0.5
+can_sleep = false
+continuous_cd = true
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=851780660]
+transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
+shape = SubResource("SphereShape3D_mt08e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=435810303]
+transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_aymda")
+material_overlay = SubResource("StandardMaterial3D_ojvjq")
+mesh = SubResource("SphereMesh_ojvjq")
