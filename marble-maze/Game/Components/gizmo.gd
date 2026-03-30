@@ -23,6 +23,9 @@ signal gizmo_released
 
 var grabbed:bool
 
+func _ready() -> void:
+	update_graphics()
+
 # had to switch from ray-pick to this because of the order of events
 # had to move most of this to a different object because this needs to be here for update-order
 # but also would need to have higher input priority

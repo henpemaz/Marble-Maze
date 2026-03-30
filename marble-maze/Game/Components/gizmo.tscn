@@ -25,7 +25,8 @@ script = ExtResource("1_cdglj")
 mesh = SubResource("TorusMesh_mt08e")
 material = SubResource("StandardMaterial3D_mt08e")
 shape = SubResource("CylinderShape3D_pv5pe")
-debug = true
+inactive_alpha = 0.1
+hover_alpha = 0.3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1312112141]
 shape = SubResource("CylinderShape3D_pv5pe")
