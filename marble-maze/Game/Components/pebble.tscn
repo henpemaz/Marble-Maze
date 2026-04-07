@@ -24,9 +24,6 @@ input_ray_pickable = false
 mass = 0.1
 gravity_scale = 0.5
 can_sleep = false
-continuous_cd = true
-linear_damp_mode = 1
-angular_damp_mode = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=851780660]
 transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)

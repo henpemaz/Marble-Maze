@@ -5,10 +5,14 @@ Add gismos
 Add material to pebble DONE
 Add see-through overlay to pebble DONE
 
-Add checkpoint and load from checkpoint system
+Add "Tap" action, applies impulse to the puzzle DONE
+
+Enable and fix phys interpolation
 
 Add gameover condition
 Add win condition
+
+Add checkpoint and load from checkpoint system
 
 Make menu environment
 Make menu animation
@@ -17,5 +21,9 @@ Make menu pretty and functional
 Update credits
 
 Prototype more levels?
+"disc with pits"
+two-sided labyrinth
+cube/hypercube labyrinth
+"obstacle course"
 
 Integrate save system with checkpoint system

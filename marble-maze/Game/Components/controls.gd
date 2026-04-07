@@ -24,18 +24,19 @@ func _process(delta: float) -> void:
 	camera_pivot.rotation.y += camera_motion.x * cam_speed
 	camera_motion = Vector2.ZERO
 
+var puzzle_goal:Basis
 func _physics_process(delta: float) -> void:
-	var change := Basis()
 	if puzzle_motion:
+		var change := Basis()
 		change = change.rotated(Vector3.RIGHT, puzzle_motion.y * puzzle_speed)
 		change = change.rotated(Vector3.UP, puzzle_motion.x * puzzle_speed)
-		change = camera_pivot.basis * change * camera_pivot.basis.inverse()
+		puzzle_goal = camera_pivot.basis * change * camera_pivot.basis.inverse() * puzzle_goal
 	elif gizmo_motion.y:
-		change = change.rotated(puzzle.basis.y, gizmo_motion.y)
+		puzzle_goal = puzzle_goal.rotated(puzzle_goal.y.normalized(), gizmo_motion.y)
 	elif gizmo_motion.x:
-		change = change.rotated(puzzle.basis.x, gizmo_motion.x)
+		puzzle_goal = puzzle_goal.rotated(puzzle_goal.x.normalized(), gizmo_motion.x)
 	elif gizmo_motion.z:
-		change = change.rotated(puzzle.basis.z, gizmo_motion.z)
+		puzzle_goal = puzzle_goal.rotated(puzzle_goal.z.normalized(), gizmo_motion.z)
 	
 	puzzle_motion = Vector2.ZERO
 	gizmo_motion = Vector3.ZERO
@@ -56,13 +57,24 @@ func _physics_process(delta: float) -> void:
 	#puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
 	
 	# Simpler method
-	var q := change.get_rotation_quaternion()
+	puzzle.apply_torque_impulse(-1.0 * puzzle.inertia * puzzle.angular_velocity)
+	var q := (puzzle_goal * puzzle.basis.inverse()).get_rotation_quaternion()
 	var qmotion := q.get_axis() * q.get_angle()
 	if not qmotion.is_zero_approx():
-		puzzle.angular_velocity = qmotion / delta
+		#puzzle.angular_velocity = qmotion / delta
+		puzzle.apply_torque_impulse(puzzle.inertia * (qmotion / delta))
 	else: # above lacks precision at low angles
 		# bellow doesn't work at high angles
-		puzzle.angular_velocity = change.get_euler()/delta
+		#puzzle.angular_velocity = (puzzle_goal * puzzle.basis.inverse()).get_euler()/delta
+		puzzle.apply_torque_impulse(puzzle.inertia * ((puzzle_goal * puzzle.basis.inverse()).get_euler()/delta))
+	
+	# Tap tap
+	if Input.is_action_just_pressed("tap_puzzle"):
+		print("tap")
+		puzzle.apply_central_impulse(0.3 * puzzle.mass *(puzzle.basis*Vector3.UP))
+	
+	puzzle.apply_central_force((-0.5 / delta) * puzzle.mass * puzzle.linear_velocity)
+	puzzle.apply_central_force((-20 / delta ) * puzzle.mass * puzzle.position)
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:
