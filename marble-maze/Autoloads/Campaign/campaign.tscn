@@ -7,14 +7,14 @@
 [sub_resource type="Resource" id="Resource_5y57w"]
 script = ExtResource("2_uurhf")
 id = &"level_1"
-preview_path = "uid://cll8ff7n2a1yy"
+preview_path = "uid://bqu0w31lgtat2"
 game_scene = "uid://cqk36vsc16ev0"
 metadata/_custom_type_script = "uid://7kon725peoki"
 
 [sub_resource type="Resource" id="Resource_bfp14"]
 script = ExtResource("2_uurhf")
 id = &"level_2"
-preview_path = "uid://bix8dsb01fhbn"
+preview_path = "uid://dx0hcmjp4dfsi"
 game_scene = "uid://cny3ugtadfupp"
 metadata/_custom_type_script = "uid://7kon725peoki"
 
