@@ -24,6 +24,8 @@ func start_level(with_id:StringName)->void:
 	SceneManager.set_fake_loading_time(0.4)
 
 func level_completed():
+	if current_level == null:
+		return
 	Progress.level_completed(current_level.id)
 	Progress.save_progress()
 

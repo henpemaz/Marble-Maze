@@ -12,10 +12,15 @@ Enable and fix phys interpolation DONE
 Add gameover condition DONE
 Add win condition DONE
 
-Add checkpoint and load from checkpoint system
+Add timer before win trigger DONE
+Add win fanfarre DONE
 
-Add timer before win trigger
-Add win fanfarre
+Add texture overlay to level 1
+
+Add pebble roll SFX
+Add pebble hit SFX
+
+Add ambience/music
 
 Make menu environment
 Make menu animation
@@ -28,5 +33,3 @@ Prototype more levels?
 two-sided labyrinth
 cube/hypercube labyrinth
 "obstacle course"
-
-Integrate save system with checkpoint system

@@ -5,56 +5,56 @@
 [ext_resource type="Script" uid="uid://c4k8majle4rjd" path="res://Game/win.gd" id="3_615i5"]
 [ext_resource type="PackedScene" uid="uid://dufh6o6vmdinn" path="res://Game/Components/pebble.tscn" id="3_hxy2c"]
 
-[sub_resource type="TorusMesh" id="TorusMesh_hxy2c"]
+[sub_resource type="TorusMesh" id="TorusMesh_615i5"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_615i5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auaak"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_auaak"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_170jj"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_170jj"]
+[sub_resource type="TorusMesh" id="TorusMesh_f7ty0"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f7ty0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1dpfp"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1dpfp"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_88uh3"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_88uh3"]
+[sub_resource type="TorusMesh" id="TorusMesh_n0f71"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0f71"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4bmb"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_t4bmb"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ujkyb"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
@@ -74,19 +74,19 @@ size = Vector3(0.05, 0.005, 0.05)
 puzzle = NodePath("../SimplePuzzle")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" index="0" unique_id=1731333145]
-mesh = SubResource("TorusMesh_hxy2c")
-material = SubResource("StandardMaterial3D_615i5")
-shape = SubResource("CylinderShape3D_auaak")
+mesh = SubResource("TorusMesh_615i5")
+material = SubResource("StandardMaterial3D_auaak")
+shape = SubResource("CylinderShape3D_170jj")
 
 [node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" index="1" unique_id=28477053]
-mesh = SubResource("TorusMesh_170jj")
-material = SubResource("StandardMaterial3D_f7ty0")
-shape = SubResource("CylinderShape3D_1dpfp")
+mesh = SubResource("TorusMesh_f7ty0")
+material = SubResource("StandardMaterial3D_1dpfp")
+shape = SubResource("CylinderShape3D_88uh3")
 
 [node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" index="2" unique_id=2113012164]
-mesh = SubResource("TorusMesh_88uh3")
-material = SubResource("StandardMaterial3D_n0f71")
-shape = SubResource("CylinderShape3D_t4bmb")
+mesh = SubResource("TorusMesh_n0f71")
+material = SubResource("StandardMaterial3D_t4bmb")
+shape = SubResource("CylinderShape3D_ujkyb")
 
 [node name="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" index="3" unique_id=1159704396]
 editor_description = "This captures clicks that shouldn't reach gizmos"
@@ -124,7 +124,11 @@ shape = SubResource("BoxShape3D_170jj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830355, 0.029176593, -0.08523701)
 
 [node name="Playarea" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=1865640190 node_paths=PackedStringArray("monitor_body")]
+input_ray_pickable = false
 monitor_body = NodePath("../Pebble")
+
+[node name="WinFanfarre" parent="UI" parent_id_path=PackedInt32Array(363509072) index="3" unique_id=499827643]
+mouse_filter = 2
 
 [connection signal="body_entered" from="Gameplay/GameplayOrigin/SimplePuzzle/Win" to="Gameplay/GameplayOrigin/SimplePuzzle/Win" method="_on_body_entered"]
 
