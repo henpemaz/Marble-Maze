@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_yq1ce"]
 [ext_resource type="PackedScene" uid="uid://cetjveh2w0506" path="res://Game/Components/simple_puzzle.tscn" id="2_hxy2c"]
+[ext_resource type="Script" uid="uid://c4k8majle4rjd" path="res://Game/win.gd" id="3_615i5"]
 [ext_resource type="PackedScene" uid="uid://dufh6o6vmdinn" path="res://Game/Components/pebble.tscn" id="3_hxy2c"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_hxy2c"]
@@ -58,6 +59,15 @@ resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_auaak"]
+size = Vector3(0.01, 0.005, 0.01)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ujkyb"]
+size = Vector3(0.05, 0.005, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_170jj"]
+size = Vector3(0.05, 0.005, 0.05)
+
 [node name="Game" unique_id=618378998 instance=ExtResource("1_yq1ce")]
 
 [node name="Gizmos" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="0" unique_id=2041267576 node_paths=PackedStringArray("puzzle")]
@@ -87,10 +97,35 @@ pebble = NodePath("../Pebble")
 
 [node name="SimplePuzzle" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="4" unique_id=1401497948 instance=ExtResource("2_hxy2c")]
 
+[node name="Win" type="Area3D" parent="Gameplay/GameplayOrigin/SimplePuzzle" index="33" unique_id=1421273019 node_paths=PackedStringArray("monitor_body", "game", "prime_area", "unprime_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.031044126, 0, 0.035173416)
+script = ExtResource("3_615i5")
+monitor_body = NodePath("../../Pebble")
+game = NodePath("../../../..")
+prime_area = NodePath("../Prime")
+unprime_area = NodePath("../Unprime")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/SimplePuzzle/Win" index="0" unique_id=838085155]
+shape = SubResource("BoxShape3D_auaak")
+
+[node name="Prime" type="Area3D" parent="Gameplay/GameplayOrigin/SimplePuzzle" index="34" unique_id=125149541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.031044126, 0.0089485645, 0.035173416)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/SimplePuzzle/Prime" index="0" unique_id=1666971687]
+shape = SubResource("BoxShape3D_ujkyb")
+
+[node name="Unprime" type="Area3D" parent="Gameplay/GameplayOrigin/SimplePuzzle" index="35" unique_id=414009939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.029826105, -0.011888623, 0.035681874)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/SimplePuzzle/Unprime" index="0" unique_id=668936737]
+shape = SubResource("BoxShape3D_170jj")
+
 [node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=317528949 instance=ExtResource("3_hxy2c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830355, 0.029176593, -0.08523701)
 
 [node name="Playarea" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=1865640190 node_paths=PackedStringArray("monitor_body")]
 monitor_body = NodePath("../Pebble")
+
+[connection signal="body_entered" from="Gameplay/GameplayOrigin/SimplePuzzle/Win" to="Gameplay/GameplayOrigin/SimplePuzzle/Win" method="_on_body_entered"]
 
 [editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

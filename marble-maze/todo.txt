@@ -10,9 +10,12 @@ Add "Tap" action, applies impulse to the puzzle DONE
 Enable and fix phys interpolation DONE
 
 Add gameover condition DONE
-Add win condition
+Add win condition DONE
 
 Add checkpoint and load from checkpoint system
+
+Add timer before win trigger
+Add win fanfarre
 
 Make menu environment
 Make menu animation
