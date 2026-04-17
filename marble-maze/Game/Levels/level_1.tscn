@@ -78,13 +78,13 @@ mesh = SubResource("TorusMesh_88uh3")
 material = SubResource("StandardMaterial3D_n0f71")
 shape = SubResource("CylinderShape3D_t4bmb")
 
-[node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle")]
+[node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle", "pebble")]
 puzzle = NodePath("../SimplePuzzle")
+pebble = NodePath("../Pebble")
 
 [node name="SimplePuzzle" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="4" unique_id=1401497948 instance=ExtResource("2_hxy2c")]
 
 [node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=317528949 instance=ExtResource("3_hxy2c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830355, 0.029176593, -0.08523701)
-mass = 1.0
 
 [editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

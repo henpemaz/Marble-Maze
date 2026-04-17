@@ -91,6 +91,7 @@ tap_puzzle={
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/simulation/penetration_slop=0.001
 jolt_physics_3d/simulation/continuous_cd_movement_threshold=0.25
+common/physics_interpolation=true
 
 [rendering]
 

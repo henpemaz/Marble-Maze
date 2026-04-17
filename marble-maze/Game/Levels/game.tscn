@@ -295,8 +295,6 @@ shape = SubResource("SphereShape3D_3tkys")
 [node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot")]
 script = ExtResource("4_mt08e")
 camera_pivot = NodePath("../CameraPivot")
-cam_speed = 0.003
-puzzle_speed = 0.003
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 

@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/simple_puzzle.glb-1be7d81392deb341a5faf70e493
 
 [params]
 
-nodes/root_type="RigidBody3D"
+nodes/root_type="AnimatableBody3D"
 nodes/root_name="SimplePuzzle"
 nodes/root_script=null
 nodes/apply_root_scale=true
