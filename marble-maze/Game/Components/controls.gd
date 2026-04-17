@@ -39,7 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_pressed("pan_puzzle") && not gizmo_grabbed:
 			puzzle_motion += event.screen_relative
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	camera_pivot.rotation.x = clampf(camera_pivot.rotation.x + camera_motion.y * cam_pan_speed, cam_pitch_min,cam_pitch_max)
 	camera_pivot.rotation.y += camera_motion.x * cam_pan_speed
 	camera_motion = Vector2.ZERO
