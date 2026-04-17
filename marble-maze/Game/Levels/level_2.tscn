@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://cny3ugtadfupp"]
+
+[ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_4uqwg"]
+[ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Components/puzzle.tscn" id="2_4uqwg"]
+[ext_resource type="Script" uid="uid://c4k8majle4rjd" path="res://Game/win.gd" id="3_cxmng"]
+[ext_resource type="PackedScene" uid="uid://dufh6o6vmdinn" path="res://Game/Components/pebble.tscn" id="4_d07f7"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_4uqwg"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wb05x"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cxmng"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[sub_resource type="TorusMesh" id="TorusMesh_d07f7"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gyb0"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ydoul"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[sub_resource type="TorusMesh" id="TorusMesh_fk35g"]
+resource_local_to_scene = true
+inner_radius = 0.16
+outer_radius = 0.161
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtip3"]
+resource_local_to_scene = true
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_62yrm"]
+resource_local_to_scene = true
+height = 0.01
+radius = 0.165
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w3g7y"]
+size = Vector3(0.01, 0.01, 0.01)
+
+[node name="Game" unique_id=618378998 instance=ExtResource("1_4uqwg")]
+
+[node name="Gizmos" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="0" unique_id=2041267576 node_paths=PackedStringArray("puzzle")]
+puzzle = NodePath("../Puzzle")
+
+[node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" index="0" unique_id=1731333145]
+mesh = SubResource("TorusMesh_4uqwg")
+material = SubResource("StandardMaterial3D_wb05x")
+shape = SubResource("CylinderShape3D_cxmng")
+
+[node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" index="1" unique_id=28477053]
+mesh = SubResource("TorusMesh_d07f7")
+material = SubResource("StandardMaterial3D_3gyb0")
+shape = SubResource("CylinderShape3D_ydoul")
+
+[node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" index="2" unique_id=2113012164]
+mesh = SubResource("TorusMesh_fk35g")
+material = SubResource("StandardMaterial3D_mtip3")
+shape = SubResource("CylinderShape3D_62yrm")
+
+[node name="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" index="3" unique_id=1159704396]
+editor_description = "This captures clicks that shouldn't reach gizmos"
+
+[node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle", "pebble")]
+puzzle = NodePath("../Puzzle")
+pebble = NodePath("../Pebble")
+
+[node name="Puzzle" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="4" unique_id=709713352 instance=ExtResource("2_4uqwg")]
+
+[node name="Win" type="Area3D" parent="Gameplay/GameplayOrigin/Puzzle" index="42" unique_id=1421273019 node_paths=PackedStringArray("monitor_body", "game")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020641595, 0.062615514, -0.0011579096)
+script = ExtResource("3_cxmng")
+monitor_body = NodePath("../../Pebble")
+game = NodePath("../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Puzzle/Win" index="0" unique_id=838085155]
+shape = SubResource("BoxShape3D_w3g7y")
+
+[node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=317528949 instance=ExtResource("4_d07f7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11357485, 0.033993363, 0.0002092123)
+
+[node name="Playarea" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=1865640190 node_paths=PackedStringArray("monitor_body")]
+input_ray_pickable = false
+monitor_body = NodePath("../Pebble")
+
+[node name="WinFanfarre" parent="UI" parent_id_path=PackedInt32Array(363509072) index="3" unique_id=499827643]
+mouse_filter = 2
+
+[connection signal="body_entered" from="Gameplay/GameplayOrigin/Puzzle/Win" to="Gameplay/GameplayOrigin/Puzzle/Win" method="_on_body_entered"]
+
+[editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

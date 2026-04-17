@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://50l25pkybi6n"]
+[gd_scene format=3 uid="uid://50l25pkybi6n"]
 
 [ext_resource type="Script" uid="uid://blant0lv6gnw6" path="res://Autoloads/Campaign/campaign.gd" id="1_eule2"]
 [ext_resource type="Script" uid="uid://7kon725peoki" path="res://Autoloads/Campaign/level.gd" id="2_uurhf"]
@@ -8,21 +8,14 @@
 script = ExtResource("2_uurhf")
 id = &"level_1"
 preview_path = "uid://cll8ff7n2a1yy"
-game_scene = "uid://4q2t4lpmv6rj"
+game_scene = "uid://cqk36vsc16ev0"
 metadata/_custom_type_script = "uid://7kon725peoki"
 
 [sub_resource type="Resource" id="Resource_bfp14"]
 script = ExtResource("2_uurhf")
 id = &"level_2"
 preview_path = "uid://bix8dsb01fhbn"
-game_scene = "uid://dy65gqvxu5cp7"
-metadata/_custom_type_script = "uid://7kon725peoki"
-
-[sub_resource type="Resource" id="Resource_dfqd3"]
-script = ExtResource("2_uurhf")
-id = &"level_3"
-preview_path = "uid://dqkc8y13fe0fw"
-game_scene = "uid://pfw7mmigdsov"
+game_scene = "uid://cny3ugtadfupp"
 metadata/_custom_type_script = "uid://7kon725peoki"
 
 [sub_resource type="Resource" id="Resource_sari5"]
@@ -46,8 +39,8 @@ preview_path = "uid://bcdvbpx8hy2a5"
 description = "hard as"
 metadata/_custom_type_script = "uid://cn8vmtuquvjux"
 
-[node name="Campaign" type="Node"]
+[node name="Campaign" type="Node" unique_id=1170086519]
 script = ExtResource("1_eule2")
 main_menu_scene = "uid://cacdholw1mgou"
-levels = Array[ExtResource("2_uurhf")]([SubResource("Resource_5y57w"), SubResource("Resource_bfp14"), SubResource("Resource_dfqd3")])
+levels = Array[ExtResource("2_uurhf")]([SubResource("Resource_5y57w"), SubResource("Resource_bfp14")])
 items = Array[ExtResource("6_8xpxa")]([SubResource("Resource_sari5"), SubResource("Resource_ip3jx"), SubResource("Resource_k7ggy")])

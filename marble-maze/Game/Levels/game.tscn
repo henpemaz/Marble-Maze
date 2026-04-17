@@ -44,7 +44,7 @@ volumetric_fog_enabled = true
 volumetric_fog_albedo = Color(0.93185276, 0.5686022, 3.8889648e-05, 1)
 volumetric_fog_length = 20.0
 
-[sub_resource type="TorusMesh" id="TorusMesh_3tkys"]
+[sub_resource type="TorusMesh" id="TorusMesh_78l5e"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
@@ -374,7 +374,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 script = ExtResource("6_3tkys")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
-mesh = SubResource("TorusMesh_3tkys")
+mesh = SubResource("TorusMesh_78l5e")
 material = SubResource("StandardMaterial3D_3oj00")
 shape = SubResource("CylinderShape3D_ubs0m")
 
@@ -417,6 +417,7 @@ near = 0.2
 far = 20.0
 
 [node name="Playarea" type="Area3D" parent="Gameplay/GameplayOrigin" unique_id=1865640190 node_paths=PackedStringArray("game")]
+collision_layer = 0
 script = ExtResource("7_3tkys")
 game = NodePath("../../..")
 
