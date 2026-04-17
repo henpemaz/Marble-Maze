@@ -7,9 +7,9 @@ Add see-through overlay to pebble DONE
 
 Add "Tap" action, applies impulse to the puzzle DONE
 
-Enable and fix phys interpolation
+Enable and fix phys interpolation DONE
 
-Add gameover condition
+Add gameover condition DONE
 Add win condition
 
 Add checkpoint and load from checkpoint system

@@ -90,4 +90,7 @@ pebble = NodePath("../Pebble")
 [node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=317528949 instance=ExtResource("3_hxy2c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830355, 0.029176593, -0.08523701)
 
+[node name="Playarea" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=1865640190 node_paths=PackedStringArray("monitor_body")]
+monitor_body = NodePath("../Pebble")
+
 [editable path="UI/PauseScreen/MenuTree/SettingsMenu"]
