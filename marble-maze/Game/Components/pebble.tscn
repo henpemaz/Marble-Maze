@@ -22,7 +22,7 @@ roughness = 0.63
 [node name="Pebble" type="RigidBody3D" unique_id=317528949]
 input_ray_pickable = false
 mass = 0.1
-gravity_scale = 0.5
+gravity_scale = 0.8
 can_sleep = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=851780660]

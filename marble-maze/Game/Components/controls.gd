@@ -11,8 +11,8 @@ extends Node3D
 @export_range(0, 90, 0.1, "radians_as_degrees") var cam_pitch_max := 70.0
 
 @export var puzzle_damping := 30.0
-@export var puzzle_spring_force := 600.0
-@export var puzzle_tap_amount := 0.3
+@export var puzzle_spring_force := 1000.0
+@export var puzzle_tap_amount := 0.5
 
 var puzzle_motion:Vector2
 var camera_motion:Vector2
@@ -63,14 +63,14 @@ func _physics_process(delta: float) -> void:
 	puzzle_motion = Vector2.ZERO
 	gizmo_motion = Vector3.ZERO
 	
-	puzzle_velocity *= (1 - (puzzle_damping * delta))
-	puzzle_velocity -= puzzle_offset * (puzzle_spring_force * delta)
 	## Tap tap
 	if Input.is_action_just_pressed("tap_puzzle"):
 		print("tap")
 		puzzle_velocity += puzzle.basis.y * puzzle_tap_amount
-		pebble.apply_impulse(puzzle.basis.y * (pebble.mass * puzzle_tap_amount))
+		pebble.apply_impulse(puzzle.basis.y * (pebble.mass * pebble.gravity_scale * puzzle_tap_amount))
 	
+	puzzle_velocity *= (1 - (puzzle_damping * delta))
+	puzzle_velocity -= puzzle_offset * (puzzle_spring_force * delta)
 	puzzle_offset += puzzle_velocity * delta
 	
 	# godot moment: AnimatableBody3D's transform can only be assigned once per tick

@@ -78,6 +78,9 @@ mesh = SubResource("TorusMesh_88uh3")
 material = SubResource("StandardMaterial3D_n0f71")
 shape = SubResource("CylinderShape3D_t4bmb")
 
+[node name="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" index="3" unique_id=1159704396]
+editor_description = "This captures clicks that shouldn't reach gizmos"
+
 [node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle", "pebble")]
 puzzle = NodePath("../SimplePuzzle")
 pebble = NodePath("../Pebble")
