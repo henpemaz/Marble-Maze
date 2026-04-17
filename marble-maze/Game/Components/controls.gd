@@ -12,7 +12,26 @@ extends Node3D
 var puzzle_motion:Vector2
 var camera_motion:Vector2
 
+func _ready() -> void:
+	# ain't godot just stupid
+	puzzle.inertia = PhysicsServer3D.body_get_direct_state(puzzle.get_rid()).inverse_inertia.inverse()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("pan_puzzle") && event.is_pressed():
+		# manually ray-pick me
+		var mouse_position := get_viewport().get_mouse_position()
+		var camera := get_viewport().get_camera_3d()
+		var ray_origin := camera.project_ray_origin(mouse_position)
+		var ray_normal := camera.project_ray_normal(mouse_position)
+		
+		var space_state = get_world_3d().direct_space_state
+		var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal)
+		query.collide_with_areas = true
+		
+		var result = space_state.intersect_ray(query)
+		if result && result["collider"] is Gizmo:
+			result["collider"].input_picked(mouse_position)
+	
 	if event is InputEventMouseMotion:
 		if Input.is_action_pressed("pan_camera"):
 			camera_motion -= event.screen_relative
@@ -41,37 +60,23 @@ func _physics_process(delta: float) -> void:
 	puzzle_motion = Vector2.ZERO
 	gizmo_motion = Vector3.ZERO
 	
-	# puzzle.angular_velocity = change.get_euler()/delta # not so simple huh
-	# this has errors at high speed, moves other axis
-	
-	# Actually maybe our rotation matrix is the tensor already
-	#puzzle.angular_velocity.x = change.y.z/delta
-	#puzzle.angular_velocity.y = change.z.x/delta
-	#puzzle.angular_velocity.z = change.x.y/delta
-	# nope, rotational tensor also only works for ||w|| << 1 since we are a rotating frame
-	
-	# Solve by du = w*u https://physics.stackexchange.com/questions/511227/a-question-about-the-angular-velocity-vector
-	#var b = puzzle.basis
-	#var nb = change * b
-	#var db = Basis(nb.x-b.x,nb.y-b.y,nb.z-b.z)
-	#puzzle.angular_velocity = 0.5*(b.x.cross(db.x) + b.y.cross(db.y) + b.z.cross(db.z))/delta
-	
-	# Simpler method
 	puzzle.apply_torque_impulse(-1.0 * puzzle.inertia * puzzle.angular_velocity)
-	var q := (puzzle_goal * puzzle.basis.inverse()).get_rotation_quaternion()
+	if Input.is_action_just_pressed("tap_puzzle"):
+		print(puzzle.angular_velocity)
+	
+	var change2 := (puzzle_goal * puzzle.basis.inverse())
+	var q := change2.get_rotation_quaternion()
 	var qmotion := q.get_axis() * q.get_angle()
 	if not qmotion.is_zero_approx():
-		#puzzle.angular_velocity = qmotion / delta
 		puzzle.apply_torque_impulse(puzzle.inertia * (qmotion / delta))
 	else: # above lacks precision at low angles
 		# bellow doesn't work at high angles
-		#puzzle.angular_velocity = (puzzle_goal * puzzle.basis.inverse()).get_euler()/delta
-		puzzle.apply_torque_impulse(puzzle.inertia * ((puzzle_goal * puzzle.basis.inverse()).get_euler()/delta))
+		puzzle.apply_torque_impulse(puzzle.inertia * (change2.get_euler()/delta))
 	
 	# Tap tap
-	if Input.is_action_just_pressed("tap_puzzle"):
-		print("tap")
-		puzzle.apply_central_impulse(0.3 * puzzle.mass *(puzzle.basis*Vector3.UP))
+	#if Input.is_action_just_pressed("tap_puzzle"):
+		#print("tap")
+		#puzzle.apply_central_impulse(0.3 * puzzle.mass *(puzzle.basis*Vector3.UP))
 	
 	puzzle.apply_central_force((-0.5 / delta) * puzzle.mass * puzzle.linear_velocity)
 	puzzle.apply_central_force((-20 / delta ) * puzzle.mass * puzzle.position)

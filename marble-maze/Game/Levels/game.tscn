@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
 [ext_resource type="PackedScene" uid="uid://dhhq8sls5diik" path="res://Game/Components/gizmo.tscn" id="6_ojvjq"]
 [ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_xfsjo"]
-[ext_resource type="Script" uid="uid://lnk8yrcf51qe" path="res://Game/Components/gizmo_event_picker.gd" id="7_78l5e"]
 [ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="7_odbtj"]
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 
@@ -43,56 +42,56 @@ volumetric_fog_enabled = true
 volumetric_fog_albedo = Color(0.93185276, 0.5686022, 3.8889648e-05, 1)
 volumetric_fog_length = 20.0
 
-[sub_resource type="TorusMesh" id="TorusMesh_3tkys"]
+[sub_resource type="TorusMesh" id="TorusMesh_ojvjq"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3oj00"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tkys"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ubs0m"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_78l5e"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_ei3f0"]
+[sub_resource type="TorusMesh" id="TorusMesh_3oj00"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04jbb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ubs0m"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_eksgd"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ei3f0"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_1ffif"]
+[sub_resource type="TorusMesh" id="TorusMesh_04jbb"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jg6aq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eksgd"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1cvfv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1ffif"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
@@ -272,21 +271,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 script = ExtResource("6_3tkys")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
-mesh = SubResource("TorusMesh_3tkys")
-material = SubResource("StandardMaterial3D_3oj00")
-shape = SubResource("CylinderShape3D_ubs0m")
+mesh = SubResource("TorusMesh_ojvjq")
+material = SubResource("StandardMaterial3D_3tkys")
+shape = SubResource("CylinderShape3D_78l5e")
 
 [node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=28477053 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("TorusMesh_ei3f0")
-material = SubResource("StandardMaterial3D_04jbb")
-shape = SubResource("CylinderShape3D_eksgd")
+mesh = SubResource("TorusMesh_3oj00")
+material = SubResource("StandardMaterial3D_ubs0m")
+shape = SubResource("CylinderShape3D_ei3f0")
 
 [node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
-mesh = SubResource("TorusMesh_1ffif")
-material = SubResource("StandardMaterial3D_jg6aq")
-shape = SubResource("CylinderShape3D_1cvfv")
+mesh = SubResource("TorusMesh_04jbb")
+material = SubResource("StandardMaterial3D_eksgd")
+shape = SubResource("CylinderShape3D_1ffif")
 
 [node name="Area3D" type="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1159704396]
 
@@ -300,9 +299,6 @@ cam_speed = 0.003
 puzzle_speed = 0.003
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
-
-[node name="GizmoEventPicker" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=571043768]
-script = ExtResource("7_78l5e")
 
 [node name="Ring" type="MeshInstance3D" parent="Gameplay/GameplayOrigin" unique_id=1778632841]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)

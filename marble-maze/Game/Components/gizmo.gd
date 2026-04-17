@@ -32,9 +32,7 @@ func _ready() -> void:
 # but also godot suggests using _unhandled_input for gameplay and _input for UI so /shrug
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("pan_puzzle"):
-		print("action!")
 		if grabbed && !event.is_pressed():
-			print("release!")
 			released()
 			get_viewport().set_input_as_handled()
 			return
