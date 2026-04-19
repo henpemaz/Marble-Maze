@@ -5,8 +5,6 @@ class_name Gizmo
 @export var material:StandardMaterial3D
 @export var shape:CylinderShape3D
 
-@export var active_gizmo_layer:int = 1<<15
-
 @export_range(0,0.4,0.00001) var base_size:float = 0.1605
 @export_range(0,0.01,0.00005) var min_swell:float = 0.001
 @export_range(0,0.01,0.00005) var max_swell:float = 0.004
@@ -35,15 +33,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		if grabbed && !event.is_pressed():
 			released()
 			get_viewport().set_input_as_handled()
-			return
 
-# called by GizmoEventPicker
-func input_picked(mouse_position:Vector2):
+# called by controls 
+func input_picked():
 	if !grabbed:
-		print("grab!")
-		grabbed_at_position(mouse_position)
+		grabbed_at_position(get_viewport().get_mouse_position())
 		get_viewport().set_input_as_handled()
-		return
 
 func _physics_process(_delta: float) -> void:
 	if grabbed:
@@ -53,6 +48,8 @@ func _physics_process(_delta: float) -> void:
 		else:
 			new_grab_position(get_viewport().get_mouse_position())
 
+var templayer : int = 1 # LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
+
 var original_shape_height:float
 var plane:Plane
 var grabbed_from_side:bool
@@ -60,7 +57,7 @@ var grabbed_point:Vector3
 func grabbed_at_position(mouse_position:Vector2):
 	grabbed = true
 	plane = Plane(global_basis.y, global_transform.origin)
-	collision_layer |= active_gizmo_layer
+	collision_layer |= templayer
 	
 	original_shape_height = shape.height
 	var camera := get_viewport().get_camera_3d()
@@ -82,7 +79,7 @@ func grabbed_at_position(mouse_position:Vector2):
 
 func released():
 	grabbed = false
-	collision_layer &= ~active_gizmo_layer
+	collision_layer &= ~templayer
 	shape.height = original_shape_height
 	update_graphics()
 	
@@ -102,7 +99,7 @@ func point_of_mouse(mouse_position:Vector2, cylinder_only:bool)->Vector3:
 	var ray_normal := camera.project_ray_normal(mouse_position)
 	
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal, active_gizmo_layer)
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal, templayer)
 	query.collide_with_areas = true
 	
 	var result = space_state.intersect_ray(query)
