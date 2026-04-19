@@ -25,6 +25,7 @@ Settings="*res://Autoloads/Settings/settings_manager.tscn"
 MusicPlayer="*res://Autoloads/MusicPlayer/music_player.tscn"
 Campaign="*res://Autoloads/Campaign/campaign.tscn"
 Progress="*res://Autoloads/Progress/progress.tscn"
+LayerNames="*res://addons/layerNames/generated/layerNames.gd"
 
 [display]
 
@@ -34,6 +35,10 @@ window/size/mode=3
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/size/mode.editor=0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/layerNames/plugin.cfg")
 
 [file_customization]
 
