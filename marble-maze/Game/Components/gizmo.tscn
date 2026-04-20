@@ -21,6 +21,8 @@ height = 0.01
 radius = 0.165
 
 [node name="Gizmo" type="Area3D" unique_id=1731333145]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("1_cdglj")
 mesh = SubResource("TorusMesh_mt08e")
 material = SubResource("StandardMaterial3D_mt08e")

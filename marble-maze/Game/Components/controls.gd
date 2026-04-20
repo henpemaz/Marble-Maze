@@ -6,6 +6,7 @@ extends Node3D
 @export var sphere_gizmo: Area3D
 @export var gizmos_root: Node3D
 var gizmos:Array[Gizmo]
+@export var input_backdrop: Area3D
 
 @export var cam_pan_speed := 0.003
 @export var puzzle_pan_speed := 0.003
@@ -23,7 +24,7 @@ enum InputMode{
 	SPHERE_RELATIVE_PUZZLE_UP,
 	SPHERE_RELATIVE_CAM_UP,
 	SPHERE_RELATIVE_LOCAL_UP,
-	
+	ARCBALL,
 }
 @export var input_mode:InputMode = InputMode.CAMERA_RELATIVE
 
@@ -49,18 +50,22 @@ func _raycast_for_area(mask:int):
 	return space_state.intersect_ray(query)
 
 var click_sphere_basis:Basis
+var click_puzzle_basis:Basis
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("pan_puzzle"):
 		if event.is_pressed():
 			click_sphere_basis = Basis.IDENTITY
 			var result = _raycast_for_area(LayerNames.PHYSICS_3D.GIZMO_BIT)
-			if result:
-				if result["collider"] is Gizmo:
-					result["collider"].input_picked()
-				if result["collider"] == sphere_gizmo:
-					click_sphere_basis = Basis.looking_at(-result["normal"])
-					_on_sphere_grabbed()
+			if result && result["collider"] is Gizmo:
+				result["collider"].input_picked()
+			else:
+				input_backdrop.collision_layer = LayerNames.PHYSICS_3D.GIZMO_BIT
+				result = _raycast_for_area(LayerNames.PHYSICS_3D.GIZMO_BIT)
+				var local_normal = (result["position"] - puzzle.global_position).normalized()
+				click_sphere_basis = Basis.looking_at(-local_normal, get_viewport().get_camera_3d().global_basis.y)
+				click_puzzle_basis = puzzle.global_basis
+				_on_sphere_grabbed()
 	
 	if event is InputEventMouseMotion:
 		if Input.is_action_pressed("pan_puzzle"):
@@ -83,10 +88,13 @@ func _physics_process(delta: float) -> void:
 	
 	if puzzle_motion:
 		var frame_of_reference:Basis
-		# TODO scale
+		var change := Basis()
 		match input_mode:
 			InputMode.CAMERA_RELATIVE:
 				frame_of_reference = get_viewport().get_camera_3d().global_basis
+				change = change.rotated(Vector3.RIGHT, puzzle_motion.y)
+				change = change.rotated(Vector3.UP, puzzle_motion.x)
+				puzzle_goal = frame_of_reference * change * frame_of_reference.inverse() * puzzle_goal
 			InputMode.SPHERE_RELATIVE_WORLD_UP,InputMode.SPHERE_RELATIVE_PUZZLE_UP,InputMode.SPHERE_RELATIVE_CAM_UP, InputMode.SPHERE_RELATIVE_LOCAL_UP:
 				var result = _raycast_for_area(LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT if sphere_grabbed else LayerNames.PHYSICS_3D.GIZMO_BIT)
 				if result && result["collider"] == sphere_gizmo:
@@ -101,12 +109,20 @@ func _physics_process(delta: float) -> void:
 							frame_of_reference = Basis.looking_at(-result["normal"], click_sphere_basis.y)
 				else:
 					frame_of_reference = get_viewport().get_camera_3d().global_basis
+				change = change.rotated(Vector3.RIGHT, puzzle_motion.y)
+				change = change.rotated(Vector3.UP, puzzle_motion.x)
+				puzzle_goal = frame_of_reference * change * frame_of_reference.inverse() * puzzle_goal
+			InputMode.ARCBALL:
+				var result = _raycast_for_area(LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT)
+				if result:
+					var a := click_sphere_basis.z
+					var b:Vector3 = (result["position"] - puzzle.global_position).normalized()
+					var c := a.cross(b).normalized()
+					var angle := a.angle_to(b)
+					puzzle_goal = click_puzzle_basis.rotated(c, angle)
+				else:
+					print("miss????")
 				
-			
-		var change := Basis()
-		change = change.rotated(Vector3.RIGHT, puzzle_motion.y)
-		change = change.rotated(Vector3.UP, puzzle_motion.x)
-		puzzle_goal = frame_of_reference * change * frame_of_reference.inverse() * puzzle_goal
 	elif gizmo_motion.y:
 		puzzle_goal = puzzle_goal.rotated(puzzle_goal.y.normalized(), gizmo_motion.y)
 	elif gizmo_motion.x:
@@ -143,28 +159,37 @@ func _on_gizmo_z_dragged(offset: float) -> void:
 var sphere_grabbed:bool
 func _on_sphere_grabbed()->void:
 	print("sphere grabbed")
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 	sphere_grabbed = true
 	sphere_gizmo.collision_layer |= LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
+	input_backdrop.collision_layer = LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	_lock_all_gizmos()
 	
 func _on_sphere_released()->void:
+	print("sphere released")
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	sphere_grabbed = false
-	sphere_gizmo.collision_layer &= ~LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
+	sphere_gizmo.collision_layer = ~LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
+	input_backdrop.collision_layer = 0
 	_unlock_all_gizmos()
 
 var gizmo_grabbed:bool
 func _on_gizmo_grabbed() -> void:
+	print("gizmo grabbed")
 	gizmo_grabbed = true
 	_lock_all_gizmos()
 
 func _on_gizmo_released() -> void:
+	print("gizmo released")
 	gizmo_grabbed = false
 	_unlock_all_gizmos()
 
 func _lock_all_gizmos():
+	print("lock")
 	for g in gizmos:
 		g.locked = true
 		
 func _unlock_all_gizmos():
+	print("unlock")
 	for g in gizmos:
 		g.locked = false

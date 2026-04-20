@@ -119,6 +119,9 @@ dof_blur_far_transition = 0.5
 dof_blur_near_distance = 0.3
 dof_blur_amount = 0.22
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_aymda"]
+plane = Plane(0, 0, 1, -0.1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_aymda"]
 size = Vector3(0.33, 0.33, 0.33)
 
@@ -397,11 +400,12 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Gizmos/Area3D" unique_id=77531814]
 shape = SubResource("SphereShape3D_3tkys")
 
-[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "sphere_gizmo", "gizmos_root")]
+[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "sphere_gizmo", "gizmos_root", "input_backdrop")]
 script = ExtResource("4_mt08e")
 camera_pivot = NodePath("../CameraPivot")
 sphere_gizmo = NodePath("../Gizmos/Area3D")
 gizmos_root = NodePath("../Gizmos")
+input_backdrop = NodePath("../CameraPivot/InputBackdrop")
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 
@@ -419,6 +423,13 @@ attributes = SubResource("CameraAttributesPractical_odbtj")
 fov = 33.0
 near = 0.2
 far = 20.0
+
+[node name="InputBackdrop" type="Area3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=1519962610]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/CameraPivot/InputBackdrop" unique_id=694179475]
+shape = SubResource("WorldBoundaryShape3D_aymda")
 
 [node name="Playarea" type="Area3D" parent="Gameplay/GameplayOrigin" unique_id=1865640190 node_paths=PackedStringArray("game")]
 collision_layer = 0

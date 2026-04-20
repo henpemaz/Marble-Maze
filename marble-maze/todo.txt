@@ -15,7 +15,14 @@ Add win condition DONE
 Add timer before win trigger DONE
 Add win fanfarre DONE
 
-Add texture overlay to level 1
+Add texture overlay to level 1 DONE
+
+test trackball input schemes DONE
+
+fix "tap" on puzzle 2, tap should have setting for puzzle up vs world up
+	maybe quadrant closest to up
+
+maybe: add "align to quadrant" input
 
 Add pebble roll SFX
 Add pebble hit SFX

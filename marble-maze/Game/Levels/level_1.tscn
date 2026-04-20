@@ -94,6 +94,7 @@ editor_description = "This captures clicks that shouldn't reach gizmos"
 [node name="Controls" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="1" unique_id=29022451 node_paths=PackedStringArray("puzzle", "pebble")]
 puzzle = NodePath("../SimplePuzzle")
 pebble = NodePath("../Pebble")
+input_mode = 5
 
 [node name="CameraPivot" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="3" unique_id=1088660874]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.76234084, 0.6471758, 0, -0.6471758, 0.76234084, 0, 0, 0)
