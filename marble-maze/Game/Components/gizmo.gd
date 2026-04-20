@@ -19,26 +19,12 @@ signal dragged(offset:float)
 signal gizmo_grabbed
 signal gizmo_released
 
-var grabbed:bool
-
 func _ready() -> void:
 	update_graphics()
 
-# had to switch from ray-pick to this because of the order of events
-# had to move most of this to a different object because this needs to be here for update-order
-# but also would need to have higher input priority
-# but also godot suggests using _unhandled_input for gameplay and _input for UI so /shrug
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("pan_puzzle"):
-		if grabbed && !event.is_pressed():
-			released()
-			get_viewport().set_input_as_handled()
-
 # called by controls 
 func input_picked():
-	if !grabbed:
-		grabbed_at_position(get_viewport().get_mouse_position())
-		get_viewport().set_input_as_handled()
+	grabbed_at_position(get_viewport().get_mouse_position())
 
 func _physics_process(_delta: float) -> void:
 	if grabbed:
@@ -48,8 +34,6 @@ func _physics_process(_delta: float) -> void:
 		else:
 			new_grab_position(get_viewport().get_mouse_position())
 
-var templayer : int = 1 # LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
-
 var original_shape_height:float
 var plane:Plane
 var grabbed_from_side:bool
@@ -57,7 +41,7 @@ var grabbed_point:Vector3
 func grabbed_at_position(mouse_position:Vector2):
 	grabbed = true
 	plane = Plane(global_basis.y, global_transform.origin)
-	collision_layer |= templayer
+	collision_layer |= LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	
 	original_shape_height = shape.height
 	var camera := get_viewport().get_camera_3d()
@@ -79,7 +63,7 @@ func grabbed_at_position(mouse_position:Vector2):
 
 func released():
 	grabbed = false
-	collision_layer &= ~templayer
+	collision_layer &= ~LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	shape.height = original_shape_height
 	update_graphics()
 	
@@ -99,7 +83,7 @@ func point_of_mouse(mouse_position:Vector2, cylinder_only:bool)->Vector3:
 	var ray_normal := camera.project_ray_normal(mouse_position)
 	
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal, templayer)
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal, LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT)
 	query.collide_with_areas = true
 	
 	var result = space_state.intersect_ray(query)
@@ -124,7 +108,27 @@ func point_of_mouse(mouse_position:Vector2, cylinder_only:bool)->Vector3:
 	return Vector3.ZERO
 
 
-var hover:bool
+func _mouse_enter() -> void:
+	hover = true
+
+func _mouse_exit() -> void:
+	hover = false
+
+
+var grabbed:bool:
+	set(val):
+		grabbed = val
+		update_graphics()
+
+var locked:bool:
+	set(val):
+		locked = val
+		update_graphics()
+
+var hover:bool:
+	set(val):
+		hover = val
+		update_graphics()
 
 var swell:float:
 	set(val):
@@ -137,18 +141,13 @@ var alpha:float:
 		alpha = val
 		material.albedo_color.a = val
 
-func _mouse_enter() -> void:
-	hover = true
-	update_graphics()
-
-func _mouse_exit() -> void:
-	hover = false
-	update_graphics()
-
 func update_graphics():
 	if grabbed:
 		swell = 1
 		alpha = active_alpha
+	elif locked:
+		swell = 0
+		alpha = inactive_alpha
 	elif hover:
 		swell = 1
 		alpha = hover_alpha
