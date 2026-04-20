@@ -120,7 +120,7 @@ dof_blur_near_distance = 0.3
 dof_blur_amount = 0.22
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_aymda"]
-plane = Plane(0, 0, 1, -0.1)
+plane = Plane(0, 0, 1, -0.09)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aymda"]
 size = Vector3(0.33, 0.33, 0.33)

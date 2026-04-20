@@ -159,7 +159,6 @@ func _on_gizmo_z_dragged(offset: float) -> void:
 var sphere_grabbed:bool
 func _on_sphere_grabbed()->void:
 	print("sphere grabbed")
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 	sphere_grabbed = true
 	sphere_gizmo.collision_layer |= LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	input_backdrop.collision_layer = LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
@@ -167,7 +166,6 @@ func _on_sphere_grabbed()->void:
 	
 func _on_sphere_released()->void:
 	print("sphere released")
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	sphere_grabbed = false
 	sphere_gizmo.collision_layer = ~LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	input_backdrop.collision_layer = 0
