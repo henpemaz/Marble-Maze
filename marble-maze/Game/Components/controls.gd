@@ -3,10 +3,9 @@ extends Node3D
 @export var puzzle: StaticBody3D
 @export var pebble: RigidBody3D
 @export var camera_pivot: Node3D
-@export var sphere_gizmo: Area3D
 @export var gizmos_root: Node3D
 var gizmos:Array[Gizmo]
-@export var input_backdrop: Area3D
+@export var trackball_area: Area3D
 
 @export var cam_pan_speed := 0.003
 @export var puzzle_pan_speed := 0.003
@@ -60,8 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if result && result["collider"] is Gizmo:
 				result["collider"].input_picked()
 			else:
-				input_backdrop.collision_layer = LayerNames.PHYSICS_3D.GIZMO_BIT
-				result = _raycast_for_area(LayerNames.PHYSICS_3D.GIZMO_BIT)
+				result = _raycast_for_area(LayerNames.PHYSICS_3D.TRACKBALL_BIT)
 				var local_normal = (result["position"] - puzzle.global_position).normalized()
 				click_sphere_basis = Basis.looking_at(-local_normal, get_viewport().get_camera_3d().global_basis.y)
 				click_puzzle_basis = puzzle.global_basis
@@ -96,8 +94,8 @@ func _physics_process(delta: float) -> void:
 				change = change.rotated(Vector3.UP, puzzle_motion.x)
 				puzzle_goal = frame_of_reference * change * frame_of_reference.inverse() * puzzle_goal
 			InputMode.SPHERE_RELATIVE_WORLD_UP,InputMode.SPHERE_RELATIVE_PUZZLE_UP,InputMode.SPHERE_RELATIVE_CAM_UP, InputMode.SPHERE_RELATIVE_LOCAL_UP:
-				var result = _raycast_for_area(LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT if sphere_grabbed else LayerNames.PHYSICS_3D.GIZMO_BIT)
-				if result && result["collider"] == sphere_gizmo:
+				var result = _raycast_for_area(LayerNames.PHYSICS_3D.TRACKBALL_BIT)
+				if result && result["collider"] == trackball_area:
 					match input_mode:
 						InputMode.SPHERE_RELATIVE_WORLD_UP:
 							frame_of_reference = Basis.looking_at(-result["normal"], Vector3.UP)
@@ -113,13 +111,14 @@ func _physics_process(delta: float) -> void:
 				change = change.rotated(Vector3.UP, puzzle_motion.x)
 				puzzle_goal = frame_of_reference * change * frame_of_reference.inverse() * puzzle_goal
 			InputMode.ARCBALL:
-				var result = _raycast_for_area(LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT)
+				var result = _raycast_for_area(LayerNames.PHYSICS_3D.TRACKBALL_BIT)
 				if result:
 					var a := click_sphere_basis.z
 					var b:Vector3 = (result["position"] - puzzle.global_position).normalized()
 					var c := a.cross(b).normalized()
-					var angle := a.angle_to(b)
-					puzzle_goal = click_puzzle_basis.rotated(c, angle)
+					if not c.is_zero_approx():
+						var angle := a.angle_to(b)
+						puzzle_goal = click_puzzle_basis.rotated(c, angle)
 				else:
 					print("miss????")
 				
@@ -160,15 +159,11 @@ var sphere_grabbed:bool
 func _on_sphere_grabbed()->void:
 	print("sphere grabbed")
 	sphere_grabbed = true
-	sphere_gizmo.collision_layer |= LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
-	input_backdrop.collision_layer = LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
 	_lock_all_gizmos()
 	
 func _on_sphere_released()->void:
 	print("sphere released")
 	sphere_grabbed = false
-	sphere_gizmo.collision_layer = ~LayerNames.PHYSICS_3D.ACTIVE_GIZMO_BIT
-	input_backdrop.collision_layer = 0
 	_unlock_all_gizmos()
 
 var gizmo_grabbed:bool

@@ -119,8 +119,14 @@ dof_blur_far_transition = 0.5
 dof_blur_near_distance = 0.3
 dof_blur_amount = 0.22
 
+[sub_resource type="QuadMesh" id="QuadMesh_78l5e"]
+
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_aymda"]
-plane = Plane(0, 0, 1, -0.09)
+plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_78l5e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_78l5e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aymda"]
 size = Vector3(0.33, 0.33, 0.33)
@@ -400,12 +406,11 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Gizmos/Area3D" unique_id=77531814]
 shape = SubResource("SphereShape3D_3tkys")
 
-[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "sphere_gizmo", "gizmos_root", "input_backdrop")]
+[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "gizmos_root", "trackball_area")]
 script = ExtResource("4_mt08e")
 camera_pivot = NodePath("../CameraPivot")
-sphere_gizmo = NodePath("../Gizmos/Area3D")
 gizmos_root = NodePath("../Gizmos")
-input_backdrop = NodePath("../CameraPivot/InputBackdrop")
+trackball_area = NodePath("../CameraPivot/Trackball")
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 
@@ -424,12 +429,27 @@ fov = 33.0
 near = 0.2
 far = 20.0
 
-[node name="InputBackdrop" type="Area3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=1519962610]
-collision_layer = 0
+[node name="Trackball" type="Area3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=1519962610]
+collision_layer = 64
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/CameraPivot/InputBackdrop" unique_id=694179475]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gameplay/GameplayOrigin/CameraPivot/Trackball" unique_id=1100186516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.220446e-16, 0, 0.09)
+visible = false
+mesh = SubResource("QuadMesh_78l5e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/CameraPivot/Trackball" unique_id=694179475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.220446e-16, 0, 0.09)
 shape = SubResource("WorldBoundaryShape3D_aymda")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Gameplay/GameplayOrigin/CameraPivot/Trackball" unique_id=978558291]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_78l5e")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/CameraPivot/Trackball" unique_id=1871071817]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("SphereShape3D_78l5e")
 
 [node name="Playarea" type="Area3D" parent="Gameplay/GameplayOrigin" unique_id=1865640190 node_paths=PackedStringArray("game")]
 collision_layer = 0

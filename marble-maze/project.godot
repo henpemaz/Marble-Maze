@@ -98,6 +98,7 @@ tap_puzzle={
 3d_physics/layer_4="Player"
 3d_physics/layer_5="Gizmo"
 3d_physics/layer_6="ActiveGizmo"
+3d_physics/layer_7="Trackball"
 
 [physics]
 
