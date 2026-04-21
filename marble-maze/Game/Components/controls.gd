@@ -135,8 +135,9 @@ func _physics_process(delta: float) -> void:
 	## Tap tap
 	if Input.is_action_just_pressed("tap_puzzle"):
 		print("tap")
-		puzzle_velocity += puzzle.basis.y * puzzle_tap_amount
-		pebble.apply_impulse(puzzle.basis.y * (pebble.mass * pebble.gravity_scale * puzzle_tap_amount))
+		var dir := closest_up_direction(puzzle.basis)
+		puzzle_velocity += dir * puzzle_tap_amount
+		pebble.apply_impulse(dir * (pebble.mass * pebble.gravity_scale * puzzle_tap_amount))
 	
 	puzzle_velocity *= (1 - (puzzle_damping * delta))
 	puzzle_velocity -= puzzle_offset * (puzzle_spring_force * delta)
@@ -144,6 +145,12 @@ func _physics_process(delta: float) -> void:
 	
 	# godot moment: AnimatableBody3D's transform can only be assigned once per tick
 	puzzle.transform = Transform3D(puzzle_goal, puzzle_offset)
+
+func closest_up_direction(rotated:Basis)->Vector3:
+	var dirs:Array[Vector3] = [rotated.y, -rotated.y, rotated.z, -rotated.z, rotated.x, -rotated.x]
+	var vals := dirs.map(func (v): return v.dot(Vector3.UP))
+	# Godot has nothing for returning the index of the maximun value, just rocks and sticks
+	return dirs[vals.find(vals.max())]
 
 var gizmo_motion:Vector3
 func _on_gizmo_y_dragged(offset: float) -> void:

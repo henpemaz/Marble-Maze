@@ -19,8 +19,7 @@ Add texture overlay to level 1 DONE
 
 test trackball input schemes DONE
 
-fix "tap" on puzzle 2, tap should have setting for puzzle up vs world up
-	maybe quadrant closest to up
+fix "tap" on puzzle 2, tap should have setting for puzzle up vs world up DONE
 
 maybe: add "align to quadrant" input
 
