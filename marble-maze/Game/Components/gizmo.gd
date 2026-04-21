@@ -54,7 +54,7 @@ func grabbed_at_position(mouse_position:Vector2):
 		grabbed_from_side = false
 		shape.height = 0.0 # shrimk
 	
-	grabbed_point = point_of_mouse(mouse_position, true)
+	grabbed_point = point_of_mouse(mouse_position, grabbed_from_side)
 	
 	update_graphics()
 	gizmo_grabbed.emit()

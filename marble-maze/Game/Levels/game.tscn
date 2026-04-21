@@ -110,7 +110,7 @@ ring_segments = 6
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
-albedo_color = Color(0.5524999, 0, 0.65, 0.09803922)
+albedo_color = Color(0.6901961, 0, 0.8117647, 0.3372549)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_odbtj"]
 dof_blur_far_enabled = true
@@ -432,6 +432,7 @@ far = 20.0
 [node name="Trackball" type="Area3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=1519962610]
 collision_layer = 64
 collision_mask = 0
+input_ray_pickable = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Gameplay/GameplayOrigin/CameraPivot/Trackball" unique_id=1100186516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.220446e-16, 0, 0.09)
