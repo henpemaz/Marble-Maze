@@ -415,12 +415,12 @@ cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059
 
 [node name="Ring" type="MeshInstance3D" parent="Gameplay/GameplayOrigin" unique_id=1778632841]
-transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
+transform = Transform3D(1.025, 0, 0, 0, 1.025, 0, 0, 0, 1.025, 0, 0, 0)
 mesh = SubResource("TorusMesh_mt08e")
 surface_material_override/0 = SubResource("StandardMaterial3D_78l5e")
 
 [node name="CameraPivot" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=1088660874]
-transform = Transform3D(-4.103599e-08, -0.34447908, 0.938794, -1.5057658e-08, 0.938794, 0.34447908, -1, 0, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.93909425, 0.3436597, 0, -0.3436597, 0.93909425, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=656062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)

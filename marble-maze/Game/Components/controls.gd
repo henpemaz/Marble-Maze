@@ -77,12 +77,26 @@ func _process(_delta: float) -> void:
 	camera_pivot.rotation.y += camera_motion.x
 	camera_motion = Vector2.ZERO
 
+@export var angular_max_speed:float = 1.0
+@export var angular_accel:float = 8.0
+@export var aa_epsylon:float = 0.01
+
 var puzzle_goal:Basis
 var puzzle_offset:Vector3
 var puzzle_velocity:Vector3
+var puzzle_angular_velocity:Vector3
 func _physics_process(delta: float) -> void:
 	if not Input.is_action_pressed("pan_puzzle") && sphere_grabbed:
 		_on_sphere_released()
+	
+	var ground_relative_basis:Basis = Basis(camera_pivot.basis.x, Vector3.UP, camera_pivot.basis.x.cross(Vector3.UP).normalized())
+	var local_velocity := ground_relative_basis.inverse()*puzzle_angular_velocity
+	var local_input := Vector3(Input.get_axis("turn_forward", "turn_backwards"),
+		Input.get_axis("twist_right", "twist_left"),
+		Input.get_axis("turn_right", "turn_left"))
+	local_velocity = local_velocity.move_toward(local_input*angular_max_speed, delta*angular_accel)
+	
+	puzzle_angular_velocity = ground_relative_basis*local_velocity
 	
 	if puzzle_motion:
 		var frame_of_reference:Basis
@@ -121,16 +135,15 @@ func _physics_process(delta: float) -> void:
 						puzzle_goal = click_puzzle_basis.rotated(c, angle)
 				else:
 					print("miss????")
-				
-	elif gizmo_motion.y:
-		puzzle_goal = puzzle_goal.rotated(puzzle_goal.y.normalized(), gizmo_motion.y)
-	elif gizmo_motion.x:
-		puzzle_goal = puzzle_goal.rotated(puzzle_goal.x.normalized(), gizmo_motion.x)
-	elif gizmo_motion.z:
-		puzzle_goal = puzzle_goal.rotated(puzzle_goal.z.normalized(), gizmo_motion.z)
-	
-	puzzle_motion = Vector2.ZERO
-	gizmo_motion = Vector3.ZERO
+		puzzle_motion = Vector2.ZERO
+	if gizmo_motion:
+		if gizmo_motion.y:
+			puzzle_goal = puzzle_goal.rotated(puzzle_goal.y.normalized(), gizmo_motion.y)
+		if gizmo_motion.x:
+			puzzle_goal = puzzle_goal.rotated(puzzle_goal.x.normalized(), gizmo_motion.x)
+		if gizmo_motion.z:
+			puzzle_goal = puzzle_goal.rotated(puzzle_goal.z.normalized(), gizmo_motion.z)
+		gizmo_motion = Vector3.ZERO
 	
 	## Tap tap
 	if Input.is_action_just_pressed("tap_puzzle"):
@@ -142,6 +155,9 @@ func _physics_process(delta: float) -> void:
 	puzzle_velocity *= (1 - (puzzle_damping * delta))
 	puzzle_velocity -= puzzle_offset * (puzzle_spring_force * delta)
 	puzzle_offset += puzzle_velocity * delta
+	
+	if not puzzle_angular_velocity.is_zero_approx():
+		puzzle_goal = puzzle_goal.rotated(puzzle_angular_velocity.normalized(), puzzle_angular_velocity.length() * delta)
 	
 	# godot moment: AnimatableBody3D's transform can only be assigned once per tick
 	puzzle.transform = Transform3D(puzzle_goal, puzzle_offset)
@@ -185,11 +201,9 @@ func _on_gizmo_released() -> void:
 	_unlock_all_gizmos()
 
 func _lock_all_gizmos():
-	print("lock")
 	for g in gizmos:
 		g.locked = true
 		
 func _unlock_all_gizmos():
-	print("unlock")
 	for g in gizmos:
 		g.locked = false
