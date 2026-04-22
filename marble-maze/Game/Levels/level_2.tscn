@@ -103,6 +103,7 @@ shape = SubResource("BoxShape3D_w3g7y")
 
 [node name="Pebble" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="5" unique_id=317528949 instance=ExtResource("4_d07f7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11357485, 0.033993363, 0.0002092123)
+freeze = true
 
 [node name="Playarea" parent="Gameplay/GameplayOrigin" parent_id_path=PackedInt32Array(474484639) index="6" unique_id=1865640190 node_paths=PackedStringArray("monitor_body")]
 input_ray_pickable = false

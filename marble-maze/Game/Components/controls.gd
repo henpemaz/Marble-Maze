@@ -79,7 +79,7 @@ func _process(_delta: float) -> void:
 
 @export var angular_max_speed:float = 1.0
 @export var angular_accel:float = 8.0
-@export var aa_epsylon:float = 0.01
+@export var aa_epsylon:float = 0.001
 
 var puzzle_goal:Basis
 var puzzle_offset:Vector3
@@ -95,6 +95,27 @@ func _physics_process(delta: float) -> void:
 		Input.get_axis("twist_right", "twist_left"),
 		Input.get_axis("turn_right", "turn_left"))
 	local_velocity = local_velocity.move_toward(local_input*angular_max_speed, delta*angular_accel)
+	
+	if not local_velocity.is_zero_approx() and Input.is_action_pressed("align"):
+		var q := (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()
+		var orientation_x := q.get_euler(EulerOrder.EULER_ORDER_XZY)[0] # Very empirical
+		var orientation_y := q.get_euler(EulerOrder.EULER_ORDER_YXZ)[1]
+		var orientation_z := q.get_euler(EulerOrder.EULER_ORDER_ZXY)[2]
+		print(Vector3(orientation_x, orientation_y, orientation_z))
+		for step in [-PI, -PI*0.5, 0, PI*0.5, PI]:
+			if (orientation_x <= step+aa_epsylon and (orientation_x + local_velocity.x*delta) >= step-aa_epsylon) \
+			or (orientation_x >= step-aa_epsylon and (orientation_x + local_velocity.x*delta) <= step+aa_epsylon):
+				local_velocity.x = 0# (step - orientation_x) / delta
+				print("stop x")
+			if (orientation_y <= step+aa_epsylon and (orientation_y + local_velocity.y*delta) >= step-aa_epsylon) \
+			or (orientation_y >= step-aa_epsylon and (orientation_y + local_velocity.y*delta) <= step+aa_epsylon):
+				local_velocity.y = 0#(step - orientation_y) / delta
+				print("stop y")
+			if (orientation_z <= step+aa_epsylon and (orientation_z + local_velocity.z*delta) >= step-aa_epsylon) \
+			or (orientation_z >= step-aa_epsylon and (orientation_z + local_velocity.z*delta) <= step+aa_epsylon):
+				local_velocity.z = 0#(step - orientation_z) / delta
+				print("stop z")
+	
 	
 	puzzle_angular_velocity = ground_relative_basis*local_velocity
 	
