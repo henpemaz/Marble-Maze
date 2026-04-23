@@ -81,6 +81,38 @@ func _process(_delta: float) -> void:
 @export var angular_accel:float = 8.0
 @export var aa_epsylon:float = 0.001
 
+func snap_motion_to_axis(motion:Vector3, orientation:Basis)->Vector3:
+	if not motion.is_zero_approx():
+		var qx := Plane(orientation.x)
+		var qy := Plane(orientation.y)
+		var qz := Plane(orientation.z)
+		var max_snap_angle_cos := 0.707
+		for plane:Plane in [qx, qy, qz]:
+			if motion.is_zero_approx():
+				continue
+			# X rotation snap
+			if not is_zero_approx(motion.x) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.FORWARD, aa_epsylon):
+					motion.x = 0
+				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(motion.normalized(), -motion.length())):
+					var goal = Vector3.FORWARD.slide(plane.normal) # innacurate but doesn't overshoot
+					motion.x = goal.signed_angle_to(Vector3.FORWARD, Vector3.RIGHT)
+			# Z rotation snap
+			if not is_zero_approx(motion.z) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.RIGHT, aa_epsylon):
+					motion.z = 0
+				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(motion.normalized(), -motion.length())):
+					var goal = Vector3.RIGHT.slide(plane.normal)
+					motion.z = goal.signed_angle_to(Vector3.RIGHT, Vector3.BACK)
+			# Y rotation snap
+			if not is_zero_approx(motion.y) and abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.BACK, aa_epsylon):
+					motion.y = 0
+				elif plane.is_point_over(Vector3.BACK) != plane.is_point_over(Vector3.BACK.rotated(motion.normalized(), -motion.length())):
+					var goal = Vector3.BACK.slide(plane.normal)
+					motion.y = goal.signed_angle_to(Vector3.BACK, Vector3.UP)
+	return motion
+
 var puzzle_goal:Basis
 var puzzle_offset:Vector3
 var puzzle_velocity:Vector3
@@ -95,41 +127,8 @@ func _physics_process(delta: float) -> void:
 		Input.get_axis("twist_right", "twist_left"),
 		Input.get_axis("turn_right", "turn_left"))
 	local_velocity = local_velocity.move_toward(local_input*angular_max_speed, delta*angular_accel)
-	
-	if not local_velocity.is_zero_approx() and Input.is_action_pressed("align"):
-		var q := (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()
-		var qx := Plane(q.x)
-		var qy := Plane(q.y)
-		var qz := Plane(q.z)
-		var max_snap_angle_cos := 0.707
-		for plane:Plane in [qx, qy, qz]:
-			if local_velocity.is_zero_approx():
-				continue
-			# X rotation snap
-			if not is_zero_approx(local_velocity.x) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
-				if plane.has_point(Vector3.FORWARD, aa_epsylon):
-					local_velocity.x = 0
-				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
-					var goal = Vector3.FORWARD.slide(plane.normal) # innacurate but doesn't overshoot
-					if abs(-goal.y / delta) > abs(local_velocity.x) : print("overshoot x???")
-					local_velocity.x = -goal.y / delta # yeah this whole thing is ignoring the z component
-			# Z rotation snap
-			if not is_zero_approx(local_velocity.z) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
-				if plane.has_point(Vector3.RIGHT, aa_epsylon):
-					local_velocity.z = 0
-				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
-					var goal = Vector3.RIGHT.slide(plane.normal)
-					if abs(-goal.y / delta) > abs(local_velocity.z) : print("overshoot z???")
-					local_velocity.z = -goal.y / delta
-			# Y rotation snap
-			if not is_zero_approx(local_velocity.y) and abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos:
-				if plane.has_point(Vector3.BACK, aa_epsylon):
-					local_velocity.y = 0
-				elif plane.is_point_over(Vector3.BACK) != plane.is_point_over(Vector3.BACK.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
-					var goal = Vector3.BACK.slide(plane.normal)
-					if abs(-goal.x / delta) > abs(local_velocity.y) : print("overshoot y???")
-					local_velocity.y = -goal.x / delta
-	
+	if Input.is_action_pressed("align"):
+		local_velocity = snap_motion_to_axis(local_velocity*delta, (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()) / delta
 	puzzle_angular_velocity = ground_relative_basis*local_velocity
 	
 	if puzzle_motion:
@@ -166,10 +165,21 @@ func _physics_process(delta: float) -> void:
 					var c := a.cross(b).normalized()
 					if not c.is_zero_approx():
 						var angle := a.angle_to(b)
-						puzzle_goal = click_puzzle_basis.rotated(c, angle)
+						if Input.is_action_pressed("align"):
+							var local_motion := ground_relative_basis.inverse()*(c*angle)
+							local_motion = snap_motion_to_axis(local_motion, (ground_relative_basis.inverse() * click_puzzle_basis))
+							var motion := ground_relative_basis*local_motion
+							if not motion.is_zero_approx():
+								puzzle_goal = click_puzzle_basis.rotated(motion.normalized(), motion.length())
+						else:
+							puzzle_goal = click_puzzle_basis.rotated(c, angle)
 				else:
 					print("miss????")
 		puzzle_motion = Vector2.ZERO
+	
+	if Input.is_action_pressed("align"):
+		gizmo_motion = snap_motion_to_axis(gizmo_motion, (ground_relative_basis.inverse() * puzzle.basis))
+		
 	if gizmo_motion:
 		if gizmo_motion.y:
 			puzzle_goal = puzzle_goal.rotated(puzzle_goal.y.normalized(), gizmo_motion.y)
