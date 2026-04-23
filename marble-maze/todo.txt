@@ -21,7 +21,9 @@ test trackball input schemes DONE
 
 fix "tap" on puzzle 2, tap should have setting for puzzle up vs world up DONE
 
-maybe: add "align to quadrant" input
+maybe: add "align to quadrant" input DONE
+
+maybe: Controller input scheme
 
 Add pebble roll SFX
 Add pebble hit SFX
