@@ -98,24 +98,37 @@ func _physics_process(delta: float) -> void:
 	
 	if not local_velocity.is_zero_approx() and Input.is_action_pressed("align"):
 		var q := (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()
-		var orientation_x := q.get_euler(EulerOrder.EULER_ORDER_XZY)[0] # Very empirical
-		var orientation_y := q.get_euler(EulerOrder.EULER_ORDER_YXZ)[1]
-		var orientation_z := q.get_euler(EulerOrder.EULER_ORDER_ZXY)[2]
-		print(Vector3(orientation_x, orientation_y, orientation_z))
-		for step in [-PI, -PI*0.5, 0, PI*0.5, PI]:
-			if (orientation_x <= step+aa_epsylon and (orientation_x + local_velocity.x*delta) >= step-aa_epsylon) \
-			or (orientation_x >= step-aa_epsylon and (orientation_x + local_velocity.x*delta) <= step+aa_epsylon):
-				local_velocity.x = 0# (step - orientation_x) / delta
-				print("stop x")
-			if (orientation_y <= step+aa_epsylon and (orientation_y + local_velocity.y*delta) >= step-aa_epsylon) \
-			or (orientation_y >= step-aa_epsylon and (orientation_y + local_velocity.y*delta) <= step+aa_epsylon):
-				local_velocity.y = 0#(step - orientation_y) / delta
-				print("stop y")
-			if (orientation_z <= step+aa_epsylon and (orientation_z + local_velocity.z*delta) >= step-aa_epsylon) \
-			or (orientation_z >= step-aa_epsylon and (orientation_z + local_velocity.z*delta) <= step+aa_epsylon):
-				local_velocity.z = 0#(step - orientation_z) / delta
-				print("stop z")
-	
+		var qx := Plane(q.x)
+		var qy := Plane(q.y)
+		var qz := Plane(q.z)
+		var max_snap_angle_cos := 0.707
+		for plane:Plane in [qx, qy, qz]:
+			if local_velocity.is_zero_approx():
+				continue
+			# X rotation snap
+			if not is_zero_approx(local_velocity.x) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.FORWARD, aa_epsylon):
+					local_velocity.x = 0
+				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(local_velocity.normalized(), local_velocity.length()*delta)):
+					var goal = Vector3.FORWARD.slide(plane.normal) # innacurate but doesn't overshoot
+					if abs(-goal.y / delta) > abs(local_velocity.x) : print("overshoot x???")
+					local_velocity.x = -goal.y / delta # yeah this whole thing is ignoring the z component
+			# Z rotation snap
+			if not is_zero_approx(local_velocity.z) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.RIGHT, aa_epsylon):
+					local_velocity.z = 0
+				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(local_velocity.normalized(), local_velocity.length()*delta)):
+					var goal = Vector3.RIGHT.slide(plane.normal)
+					if abs(-goal.y / delta) > abs(local_velocity.z) : print("overshoot z???")
+					local_velocity.z = -goal.y / delta
+			# Y rotation snap
+			if not is_zero_approx(local_velocity.y) and abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos:
+				if plane.has_point(Vector3.BACK, aa_epsylon):
+					local_velocity.y = 0
+				elif plane.is_point_over(Vector3.BACK) != plane.is_point_over(Vector3.BACK.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
+					var goal = Vector3.BACK.slide(plane.normal)
+					if abs(-goal.x / delta) > abs(local_velocity.y) : print("overshoot y???")
+					local_velocity.y = -goal.x / delta
 	
 	puzzle_angular_velocity = ground_relative_basis*local_velocity
 	
