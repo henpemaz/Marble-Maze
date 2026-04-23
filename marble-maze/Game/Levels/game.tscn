@@ -406,10 +406,12 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Gizmos/Area3D" unique_id=77531814]
 shape = SubResource("SphereShape3D_3tkys")
 
-[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "gizmos_root", "trackball_area")]
+[node name="Controls" type="Node3D" parent="Gameplay/GameplayOrigin" unique_id=29022451 node_paths=PackedStringArray("camera_pivot", "gizmo_x", "gizmo_y", "gizmo_z", "trackball_area")]
 script = ExtResource("4_mt08e")
 camera_pivot = NodePath("../CameraPivot")
-gizmos_root = NodePath("../Gizmos")
+gizmo_x = NodePath("../Gizmos/GizmoX")
+gizmo_y = NodePath("../Gizmos/GizmoY")
+gizmo_z = NodePath("../Gizmos/GizmoZ")
 trackball_area = NodePath("../CameraPivot/Trackball")
 cam_pitch_min = -1.4049900478554354
 cam_pitch_max = 1.213003830136059

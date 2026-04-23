@@ -3,8 +3,10 @@ extends Node3D
 @export var puzzle: StaticBody3D
 @export var pebble: RigidBody3D
 @export var camera_pivot: Node3D
-@export var gizmos_root: Node3D
-var gizmos:Array[Gizmo]
+@export var gizmo_x: Gizmo
+@export var gizmo_y: Gizmo
+@export var gizmo_z: Gizmo
+@onready var gizmos:Array[Gizmo] = [gizmo_x, gizmo_y, gizmo_z]
 @export var trackball_area: Area3D
 
 @export var cam_pan_speed := 0.003
@@ -30,9 +32,6 @@ enum InputMode{
 var puzzle_motion:Vector2
 var camera_motion:Vector2
 
-func _ready() -> void:
-	gizmos.assign(gizmos_root.find_children("*", "Gizmo", false, true))
-
 func _raycast_for_area(mask:int):
 	# manual ray-pick
 	var mouse_position := get_viewport().get_mouse_position()
@@ -44,7 +43,6 @@ func _raycast_for_area(mask:int):
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_normal, mask)
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
-	# TODO filter with mask
 	
 	return space_state.intersect_ray(query)
 
@@ -65,14 +63,24 @@ func _unhandled_input(event: InputEvent) -> void:
 				click_puzzle_basis = puzzle.global_basis
 				_on_sphere_grabbed()
 	
-	if event is InputEventMouseMotion:
+	elif event.is_action("grab_gizmo_x"):
+		gizmo_x.set_controller_grab(event.is_pressed())
+	elif event.is_action("grab_gizmo_y"):
+		gizmo_y.set_controller_grab(event.is_pressed())
+	elif event.is_action("grab_gizmo_z"):
+		gizmo_z.set_controller_grab(event.is_pressed())
+	
+	elif event is InputEventMouseMotion:
 		if Input.is_action_pressed("pan_puzzle"):
 			if not gizmo_grabbed:
 				puzzle_motion += event.screen_relative * puzzle_pan_speed
 		elif Input.is_action_pressed("pan_camera"):
 			camera_motion -= event.screen_relative * cam_pan_speed
 
-func _process(_delta: float) -> void:
+var controller_cam_sensitivity := 1.0
+func _process(delta: float) -> void:
+	var controller_pan := Input.get_vector("move_camera_left", "move_camera_right", "move_camera_up", "move_camera_down")
+	camera_motion -= controller_pan * delta * controller_cam_sensitivity
 	camera_pivot.rotation.x = clampf(camera_pivot.rotation.x + camera_motion.y, cam_pitch_min, cam_pitch_max)
 	camera_pivot.rotation.y += camera_motion.x
 	camera_motion = Vector2.ZERO
@@ -157,10 +165,13 @@ func _physics_process(delta: float) -> void:
 		_on_sphere_released()
 	
 	var ground_relative_basis:Basis = Basis(camera_pivot.basis.x, Vector3.UP, camera_pivot.basis.x.cross(Vector3.UP).normalized())
+	
 	var local_velocity := ground_relative_basis.inverse()*puzzle_angular_velocity
 	var local_input := Vector3(Input.get_axis("turn_forward", "turn_backwards"),
 		Input.get_axis("twist_right", "twist_left"),
 		Input.get_axis("turn_right", "turn_left"))
+	if gizmo_grabbed:
+		local_input = Vector3.ZERO
 	local_velocity = local_velocity.move_toward(local_input*angular_max_speed, delta*angular_accel)
 	if Input.is_action_pressed("align"):
 		local_velocity = snap_motion_to_axis(local_velocity*delta, (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()) / delta

@@ -77,13 +77,13 @@ func _unfreeze_gameplay():
 	$Gameplay.set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("pause"):
 		if not paused:
 			pause()
 			get_viewport().set_input_as_handled()
 			return
 			
-	if event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_accept") || event.is_action_pressed("pause"):
 		if $UI/WinPannel/AnimationPlayer.current_animation != "":
 			if Progress.can_skip_cutscene(credits_cutscene_id):
 				skip_credits()
