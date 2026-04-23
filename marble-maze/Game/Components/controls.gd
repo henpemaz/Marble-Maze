@@ -109,7 +109,7 @@ func _physics_process(delta: float) -> void:
 			if not is_zero_approx(local_velocity.x) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
 				if plane.has_point(Vector3.FORWARD, aa_epsylon):
 					local_velocity.x = 0
-				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(local_velocity.normalized(), local_velocity.length()*delta)):
+				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
 					var goal = Vector3.FORWARD.slide(plane.normal) # innacurate but doesn't overshoot
 					if abs(-goal.y / delta) > abs(local_velocity.x) : print("overshoot x???")
 					local_velocity.x = -goal.y / delta # yeah this whole thing is ignoring the z component
@@ -117,7 +117,7 @@ func _physics_process(delta: float) -> void:
 			if not is_zero_approx(local_velocity.z) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
 				if plane.has_point(Vector3.RIGHT, aa_epsylon):
 					local_velocity.z = 0
-				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(local_velocity.normalized(), local_velocity.length()*delta)):
+				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(local_velocity.normalized(), -local_velocity.length()*delta)):
 					var goal = Vector3.RIGHT.slide(plane.normal)
 					if abs(-goal.y / delta) > abs(local_velocity.z) : print("overshoot z???")
 					local_velocity.z = -goal.y / delta
