@@ -87,73 +87,96 @@ func _process(delta: float) -> void:
 
 @export var angular_max_speed:float = 1.0
 @export var angular_accel:float = 8.0
-@export var aa_epsylon:float = 0.001
+@export var aa_epsylon:float = 1e-5
 
-func snap_motion_to_axis(motion:Vector3, orientation:Basis)->Vector3:
-	if not motion.is_zero_approx():
-		var qx := Plane(orientation.x)
-		var qy := Plane(orientation.y)
-		var qz := Plane(orientation.z)
-		var max_snap_angle_cos := 0.707
-		for plane:Plane in [qx, qy, qz]:
-			if motion.is_zero_approx():
-				return Vector3.ZERO
-			# X rotation snap
-			if not is_zero_approx(motion.x) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
-				if plane.has_point(Vector3.FORWARD, aa_epsylon):
-					motion.x = 0
-				elif plane.is_point_over(Vector3.FORWARD) != plane.is_point_over(Vector3.FORWARD.rotated(motion.normalized(), -motion.length())):
-					var goal = Vector3.FORWARD.slide(plane.normal) # innacurate but doesn't overshoot
-					motion.x = goal.signed_angle_to(Vector3.FORWARD, Vector3.RIGHT)
-			# Z rotation snap
-			if not is_zero_approx(motion.z) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
-				if plane.has_point(Vector3.RIGHT, aa_epsylon):
-					motion.z = 0
-				elif plane.is_point_over(Vector3.RIGHT) != plane.is_point_over(Vector3.RIGHT.rotated(motion.normalized(), -motion.length())):
-					var goal = Vector3.RIGHT.slide(plane.normal)
-					motion.z = goal.signed_angle_to(Vector3.RIGHT, Vector3.BACK)
-			# Y rotation snap
-			if not is_zero_approx(motion.y) and (abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.RIGHT.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
-				if plane.has_point(Vector3.BACK, aa_epsylon):
-					motion.y = 0
-				elif plane.is_point_over(Vector3.BACK) != plane.is_point_over(Vector3.BACK.rotated(motion.normalized(), -motion.length())):
-					var goal = Vector3.BACK.slide(plane.normal)
-					motion.y = goal.signed_angle_to(Vector3.BACK, Vector3.UP)
-	return motion
-
-# Variant of the above that cuts motion short when crossing an axis, but doesnt' stick to an axis if starting on it
-func stop_motion_at_axis(motion:Vector3, orientation:Basis)->Vector3:
-	if not motion.is_zero_approx():
-		var qx := Plane(orientation.x)
-		var qy := Plane(orientation.y)
-		var qz := Plane(orientation.z)
-		var max_snap_angle_cos := 0.707
-		for plane:Plane in [qx, qy, qz]:
-			if motion.is_zero_approx():
-				return Vector3.ZERO
-			# X rotation snap
-			if not is_zero_approx(motion.x) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+func snap_free_motion(motion:Vector3, orientation:Basis)->Vector3:
+	var qx := Plane(orientation.x)
+	var qy := Plane(orientation.y)
+	var qz := Plane(orientation.z)
+	var max_snap_angle_cos := 0.707
+	for plane:Plane in [qx, qy, qz]:
+		if motion.is_zero_approx():
+			return Vector3.ZERO
+		# X rotation snap
+		if not is_zero_approx(motion.x) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+			if plane.has_point(Vector3.FORWARD, aa_epsylon):
+				motion.x = 0
+			else:
 				var intersection = plane.intersects_segment(Vector3.FORWARD, Vector3.FORWARD.rotated(motion.normalized(), -motion.length()))
-				if not plane.has_point(Vector3.FORWARD, aa_epsylon) and intersection:
+				if intersection:
 					var projected_motion = motion.project(Vector3.FORWARD.cross(intersection))
-					#if projected_motion.length() <= 0 : print("motion zero")
-					#if ((intersection.angle_to(Vector3.FORWARD)) / projected_motion.length()) <= 0 :
-						#print("negative")
-					#if ((intersection.angle_to(Vector3.FORWARD)) / projected_motion.length()) > 1 :
-						#print(">1")
 					motion.x *= (intersection.angle_to(Vector3.FORWARD)) / projected_motion.length()
-			# Z rotation snap
-			if not is_zero_approx(motion.z) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+		# Z rotation snap
+		if not is_zero_approx(motion.z) and abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos:
+			if plane.has_point(Vector3.RIGHT, aa_epsylon):
+				motion.z = 0
+			else:
 				var intersection = plane.intersects_segment(Vector3.RIGHT, Vector3.RIGHT.rotated(motion.normalized(), -motion.length()))
-				if not plane.has_point(Vector3.RIGHT, aa_epsylon) and intersection:
+				if intersection:
 					var projected_motion = motion.project(Vector3.RIGHT.cross(intersection))
 					motion.z *= (intersection.angle_to(Vector3.RIGHT)) / projected_motion.length()
-			# Y rotation snap
-			if not is_zero_approx(motion.y) and (abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.RIGHT.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+		# Y rotation snap
+		if not is_zero_approx(motion.y) and abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos:
+			if plane.has_point(Vector3.BACK, aa_epsylon):
+				motion.y = 0
+			else:
 				var intersection = plane.intersects_segment(Vector3.BACK, Vector3.BACK.rotated(motion.normalized(), -motion.length()))
-				if not plane.has_point(Vector3.BACK, aa_epsylon) and intersection:
+				if intersection:
 					var projected_motion = motion.project(Vector3.BACK.cross(intersection))
 					motion.y *= (intersection.angle_to(Vector3.BACK)) / projected_motion.length()
+	return motion
+
+# motion is local
+func snap_gizmo_motion(motion:Vector3, orientation:Basis)->Vector3:
+	if motion.is_zero_approx(): return motion
+	motion = orientation * motion
+	var qx := Plane(orientation.x)
+	var qy := Plane(orientation.y)
+	var qz := Plane(orientation.z)
+	var max_snap_angle_cos := 0.707
+	for plane:Plane in [qx, qy, qz]:
+		var last_criteria := Vector3.BACK
+		for criteria:Vector3 in [Vector3.RIGHT, Vector3.UP, Vector3.BACK]:
+			if motion.is_zero_approx(): return motion
+			var crossing_point := last_criteria.cross(motion).cross(criteria).normalized()
+			if not crossing_point.is_zero_approx() and not plane.normal.cross(motion).is_zero_approx() and abs(plane.normal.dot(criteria)) > max_snap_angle_cos:
+				if plane.has_point(crossing_point, aa_epsylon):
+					motion = Vector3.ZERO
+				else:
+					var intersection = plane.intersects_segment(crossing_point, crossing_point.rotated(motion.normalized(), -motion.length()))
+					if intersection:
+						var projected_motion = motion.project(crossing_point.cross(intersection))
+						motion *= (intersection.angle_to(crossing_point)) / projected_motion.length()
+			last_criteria = criteria
+	return orientation.inverse() * motion
+
+# allowed to leave lock (motion is calculated from grab-point to current drag)
+func snap_arcball_motion(motion:Vector3, orientation:Basis)->Vector3:
+	var qx := Plane(orientation.x)
+	var qy := Plane(orientation.y)
+	var qz := Plane(orientation.z)
+	var max_snap_angle_cos := 0.707
+	for plane:Plane in [qx, qy, qz]:
+		if motion.is_zero_approx():
+			return Vector3.ZERO
+		# X rotation snap
+		if not is_zero_approx(motion.x) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+			var intersection = plane.intersects_segment(Vector3.FORWARD, Vector3.FORWARD.rotated(motion.normalized(), -motion.length()))
+			if not plane.has_point(Vector3.FORWARD, aa_epsylon) and intersection:
+				var projected_motion = motion.project(Vector3.FORWARD.cross(intersection))
+				motion.x *= (intersection.angle_to(Vector3.FORWARD)) / projected_motion.length()
+		# Z rotation snap
+		if not is_zero_approx(motion.z) and (abs(plane.normal.dot(Vector3.UP)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.UP.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+			var intersection = plane.intersects_segment(Vector3.RIGHT, Vector3.RIGHT.rotated(motion.normalized(), -motion.length()))
+			if not plane.has_point(Vector3.RIGHT, aa_epsylon) and intersection:
+				var projected_motion = motion.project(Vector3.RIGHT.cross(intersection))
+				motion.z *= (intersection.angle_to(Vector3.RIGHT)) / projected_motion.length()
+		# Y rotation snap
+		if not is_zero_approx(motion.y) and (abs(plane.normal.dot(Vector3.RIGHT)) > max_snap_angle_cos or abs(plane.normal.dot(Vector3.RIGHT.rotated(motion.normalized(), -motion.length()))) > max_snap_angle_cos):
+			var intersection = plane.intersects_segment(Vector3.BACK, Vector3.BACK.rotated(motion.normalized(), -motion.length()))
+			if not plane.has_point(Vector3.BACK, aa_epsylon) and intersection:
+				var projected_motion = motion.project(Vector3.BACK.cross(intersection))
+				motion.y *= (intersection.angle_to(Vector3.BACK)) / projected_motion.length()
 	return motion
 
 var puzzle_goal:Basis
@@ -174,7 +197,7 @@ func _physics_process(delta: float) -> void:
 		local_input = Vector3.ZERO
 	local_velocity = local_velocity.move_toward(local_input*angular_max_speed, delta*angular_accel)
 	if Input.is_action_pressed("align"):
-		local_velocity = snap_motion_to_axis(local_velocity*delta, (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()) / delta
+		local_velocity = snap_free_motion(local_velocity*delta, (ground_relative_basis.inverse() * puzzle.basis).orthonormalized()) / delta
 	puzzle_angular_velocity = ground_relative_basis*local_velocity
 	
 	if puzzle_motion:
@@ -213,7 +236,7 @@ func _physics_process(delta: float) -> void:
 						var angle := a.angle_to(b)
 						if Input.is_action_pressed("align"):
 							var local_motion := ground_relative_basis.inverse()*(c*angle)
-							local_motion = stop_motion_at_axis(local_motion, (ground_relative_basis.inverse() * click_puzzle_basis))
+							local_motion = snap_arcball_motion(local_motion, (ground_relative_basis.inverse() * click_puzzle_basis))
 							var motion := ground_relative_basis*local_motion
 							if not motion.is_zero_approx():
 								puzzle_goal = click_puzzle_basis.rotated(motion.normalized(), motion.length())
@@ -224,7 +247,7 @@ func _physics_process(delta: float) -> void:
 		puzzle_motion = Vector2.ZERO
 	
 	if Input.is_action_pressed("align"):
-		gizmo_motion = snap_motion_to_axis(gizmo_motion, (puzzle.basis))
+		gizmo_motion = snap_gizmo_motion(gizmo_motion, ground_relative_basis.inverse() * puzzle_goal)
 		
 	if gizmo_motion:
 		if gizmo_motion.y:

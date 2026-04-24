@@ -23,7 +23,7 @@ fix "tap" on puzzle 2, tap should have setting for puzzle up vs world up DONE
 
 maybe: add "align to quadrant" input DONE
 
-maybe: Controller input scheme
+maybe: Controller input scheme DONE
 
 Add pebble roll SFX
 Add pebble hit SFX
