@@ -1,5 +1,18 @@
 [gd_scene format=3 uid="uid://dufh6o6vmdinn"]
 
+[ext_resource type="Script" uid="uid://cubdy7wucv82r" path="res://Game/Components/pebble.gd" id="1_24suq"]
+[ext_resource type="AudioStream" uid="uid://dlbaq4f1wfc7g" path="res://Game/Assets/slow_rolling.wav" id="2_ysb7t"]
+[ext_resource type="AudioStream" uid="uid://io42yue1r5eu" path="res://Game/Assets/fast_rolling.wav" id="3_vw1ns"]
+[ext_resource type="AudioStream" uid="uid://24vqaueqj1pt" path="res://Game/Assets/impact.wav" id="4_ink01"]
+
+[sub_resource type="Curve" id="Curve_24suq"]
+_data = [Vector2(0, 0), 0.0, 4.6905313, 0, 0, Vector2(0.49750003, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ysb7t"]
+_data = [Vector2(0.255, 0), 0.0, 0.0, 0, 0, Vector2(0.7487501, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_mt08e"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
@@ -19,11 +32,19 @@ roughness = 0.63
 
 [sub_resource type="SphereMesh" id="SphereMesh_ojvjq"]
 
-[node name="Pebble" type="RigidBody3D" unique_id=317528949]
+[node name="Pebble" type="RigidBody3D" unique_id=317528949 node_paths=PackedStringArray("loop_slow", "loop_fast", "impact")]
 input_ray_pickable = false
 mass = 0.1
 gravity_scale = 0.8
 can_sleep = false
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_24suq")
+loop_slow = NodePath("LoopSlow")
+loop_fast = NodePath("LoopFast")
+impact = NodePath("Impact")
+slow_loop_curve = SubResource("Curve_24suq")
+fast_loop_curve = SubResource("Curve_ysb7t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=851780660]
 transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
@@ -34,3 +55,21 @@ transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_aymda")
 material_overlay = SubResource("StandardMaterial3D_ojvjq")
 mesh = SubResource("SphereMesh_ojvjq")
+
+[node name="LoopSlow" type="AudioStreamPlayer3D" parent="." unique_id=900767257]
+stream = ExtResource("2_ysb7t")
+unit_size = 0.5
+bus = &"Sfx"
+
+[node name="LoopFast" type="AudioStreamPlayer3D" parent="." unique_id=1344617999]
+stream = ExtResource("3_vw1ns")
+unit_size = 0.5
+bus = &"Sfx"
+
+[node name="Impact" type="AudioStreamPlayer3D" parent="." unique_id=1351312576]
+stream = ExtResource("4_ink01")
+unit_size = 0.5
+max_polyphony = 4
+bus = &"Sfx"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

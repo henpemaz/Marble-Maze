@@ -25,8 +25,8 @@ maybe: add "align to quadrant" input DONE
 
 maybe: Controller input scheme DONE
 
-Add pebble roll SFX
-Add pebble hit SFX
+Add pebble roll SFX DONE
+Add pebble hit SFX DONE
 
 Add ambience/music
 
