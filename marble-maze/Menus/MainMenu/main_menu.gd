@@ -6,7 +6,6 @@ func _ready() -> void:
 	Progress.reload_progress()
 	
 	populate_level_buttons()
-	populate_items()
 	
 	MusicPlayer.request_music(menu_music)
 
@@ -42,24 +41,9 @@ func populate_level_buttons():
 			count += 1
 			var btn = levelButton.instantiate() as LevelButton
 			btn.level = level
-			$MenuTree/LevelSelect/PanelContainer/GridContainer.add_child(btn)
+			$MenuTree/LevelSelect/PanelContainer/Rows/GridContainer.add_child(btn)
 			btn.pressed.connect(level_selected.bind(btn))
 	if count == 0: $MenuTree/Main/PanelContainer/MainInterface/LevelSelectButton.disabled = true
 
 func level_selected(src:LevelButton):
 	Campaign.start_level(src.level.id)
-
-@export var itemButton:PackedScene
-func populate_items():
-	for item in Campaign.items:
-		var btn = itemButton.instantiate() as ItemButton
-		btn.item = item
-		$MenuTree/Collection/PanelContainer/GridContainer.add_child(btn)
-		btn.focus_entered.connect(item_selected.bind(btn))
-		btn.mouse_entered.connect(item_selected.bind(btn))
-
-func item_selected(src:ItemButton):
-	if Progress.get_item_collected(src.item.id):
-		$MenuTree/Collection/Description/Label.text = src.item.description
-	else:
-		$MenuTree/Collection/Description/Label.text = ""

@@ -32,7 +32,7 @@ Add ambience/music DONE
 
 Make menu environment DONE
 Make menu animation DONE
-Make menu pretty and functional
+Make menu pretty and functional DONE
 	black text on dark bg bad
 	remove collection button
 	back button from level select
