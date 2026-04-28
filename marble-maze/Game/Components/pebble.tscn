@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dufh6o6vmdinn"]
 
 [ext_resource type="Script" uid="uid://cubdy7wucv82r" path="res://Game/Components/pebble.gd" id="1_24suq"]
-[ext_resource type="AudioStream" uid="uid://dlbaq4f1wfc7g" path="res://Game/Assets/slow_rolling.wav" id="2_ysb7t"]
-[ext_resource type="AudioStream" uid="uid://io42yue1r5eu" path="res://Game/Assets/fast_rolling.wav" id="3_vw1ns"]
-[ext_resource type="AudioStream" uid="uid://24vqaueqj1pt" path="res://Game/Assets/impact.wav" id="4_ink01"]
+[ext_resource type="AudioStream" uid="uid://dlbaq4f1wfc7g" path="res://Game/Sound/slow_rolling.wav" id="2_ysb7t"]
+[ext_resource type="AudioStream" uid="uid://io42yue1r5eu" path="res://Game/Sound/fast_rolling.wav" id="3_vw1ns"]
+[ext_resource type="AudioStream" uid="uid://24vqaueqj1pt" path="res://Game/Sound/impact.wav" id="4_ink01"]
 
 [sub_resource type="Curve" id="Curve_24suq"]
 _data = [Vector2(0, 0), 0.0, 6.6090465, 0, 0, Vector2(0.010526314, 0.2512704), 3.5510213, 3.5510213, 0, 0, Vector2(0.49736845, 1), 0.0, 0.0, 0, 0]
