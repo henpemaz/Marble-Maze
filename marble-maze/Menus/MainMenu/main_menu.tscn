@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cacdholw1mgou"]
+[gd_scene format=3 uid="uid://cacdholw1mgou"]
 
 [ext_resource type="Script" uid="uid://b7x2yhjijm7xr" path="res://Menus/MainMenu/main_menu.gd" id="1_adu2g"]
 [ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="1_qgdf6"]
-[ext_resource type="Texture2D" uid="uid://rvfhiocj2vx2" path="res://Menus/MainMenu/Assets/menu art.png" id="2_0qgbs"]
-[ext_resource type="AudioStream" uid="uid://uyca3bg10ljp" path="res://Assets/Music/tunes/Track 1.ogg" id="2_e5cb7"]
+[ext_resource type="AudioStream" uid="uid://bu6besxki1ccg" path="res://Assets/Music/a.wav" id="2_rm7yp"]
 [ext_resource type="PackedScene" uid="uid://d2iet2vmuvxoj" path="res://Menus/Components/ItemButton/item_button.tscn" id="3_2r307"]
 [ext_resource type="LabelSettings" uid="uid://cfp4r10si73k5" path="res://Assets/Style/title_style.tres" id="3_adu2g"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="4_0qgbs"]
@@ -12,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://hbovykt2mf3c" path="res://Menus/Components/LevelButton/level_button.tscn" id="7_n5jej"]
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="9_83n0s"]
 [ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="9_no1ml"]
+[ext_resource type="PackedScene" uid="uid://d235gefaroxqr" path="res://Game/Environment/environment.tscn" id="12_ha2ro"]
+[ext_resource type="CameraAttributesPractical" uid="uid://ctkccjqgru638" path="res://Game/Environment/camera_attributes.tres" id="13_xsmfo"]
+[ext_resource type="Script" uid="uid://d3qwkcjod1sym" path="res://Menus/MainMenu/spinner.gd" id="14_rm7yp"]
+[ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Puzzles/puzzle.tscn" id="14_rmurx"]
 
 [sub_resource type="Resource" id="Resource_iej5p"]
 script = ExtResource("6_8n28k")
@@ -26,7 +29,7 @@ font_size = 32
 font_size = 64
 font_color = Color(0, 0, 0, 1)
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=68863180]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,36 +37,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_adu2g")
-menu_music = ExtResource("2_e5cb7")
+menu_music = ExtResource("2_rm7yp")
 levelButton = ExtResource("7_n5jej")
 itemButton = ExtResource("3_2r307")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ArtHolder" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -85.0
-offset_top = -20.0
-offset_bottom = 20.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="MenuArt" type="Sprite2D" parent="ArtHolder"]
-position = Vector2(-639, 44)
-texture = ExtResource("2_0qgbs")
-
-[node name="MenuTree" type="Control" parent="." node_paths=PackedStringArray("entry_point")]
+[node name="MenuTree" type="Control" parent="." unique_id=1403986772 node_paths=PackedStringArray("entry_point")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,7 +53,7 @@ default_transition = SubResource("Resource_iej5p")
 entry_point = NodePath("Main")
 metadata/_custom_type_script = "uid://cxyftya0q4lhn"
 
-[node name="Main" type="Control" parent="MenuTree"]
+[node name="Main" type="Control" parent="MenuTree" unique_id=2027763130]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -83,55 +61,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="MenuTree/Main"]
+[node name="Title" type="Label" parent="MenuTree/Main" unique_id=1354701528]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 116.0
+offset_left = 95.0
 offset_top = -288.0
-offset_right = 608.0
+offset_right = 809.0
 offset_bottom = -208.0
 grow_vertical = 2
-text = "Game Title"
+text = "Marble Puzzles"
 label_settings = ExtResource("3_adu2g")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Main"]
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Main" unique_id=611220805]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 117.0
+offset_left = 199.0
 offset_top = -213.0
-offset_right = 609.0
+offset_right = 691.0
 offset_bottom = 28.0
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/Main/PanelContainer"]
+[node name="Panel" type="Panel" parent="MenuTree/Main/PanelContainer" unique_id=1644009342]
 layout_mode = 2
 
-[node name="MainInterface" type="VBoxContainer" parent="MenuTree/Main/PanelContainer"]
+[node name="MainInterface" type="VBoxContainer" parent="MenuTree/Main/PanelContainer" unique_id=371892675]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="PlayButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+[node name="PlayButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=1302358599]
 layout_mode = 2
 text = "Play"
 
-[node name="FocusHelper" type="Control" parent="MenuTree/Main/PanelContainer/MainInterface/PlayButton"]
+[node name="FocusHelper" type="Control" parent="MenuTree/Main/PanelContainer/MainInterface/PlayButton" unique_id=107607678]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("9_no1ml")
 metadata/_custom_type_script = "uid://cpj0rnpj2pl8a"
 
-[node name="ContinueButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+[node name="ContinueButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=641166159]
 visible = false
 layout_mode = 2
 text = "Continue"
 
-[node name="LevelSelectButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+[node name="LevelSelectButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=600972807 node_paths=PackedStringArray("tree", "to_menu")]
 layout_mode = 2
 text = "Level Select"
 script = ExtResource("4_0qgbs")
@@ -139,7 +117,7 @@ tree = NodePath("../../../..")
 to_menu = NodePath("../../../../LevelSelect")
 metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
 
-[node name="CollectionButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+[node name="CollectionButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=688660542 node_paths=PackedStringArray("tree", "to_menu")]
 layout_mode = 2
 text = "Collection"
 script = ExtResource("4_0qgbs")
@@ -147,7 +125,7 @@ tree = NodePath("../../../..")
 to_menu = NodePath("../../../../Collection")
 metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
 
-[node name="SettingsButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" node_paths=PackedStringArray("tree", "to_menu")]
+[node name="SettingsButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=1505134227 node_paths=PackedStringArray("tree", "to_menu")]
 layout_mode = 2
 text = "Settings"
 script = ExtResource("4_0qgbs")
@@ -155,11 +133,11 @@ tree = NodePath("../../../..")
 to_menu = NodePath("../../../../SettingsMenu")
 metadata/_custom_type_script = "uid://bm66hhlsb7ib2"
 
-[node name="ExitButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface"]
+[node name="ExitButton" type="Button" parent="MenuTree/Main/PanelContainer/MainInterface" unique_id=1715250926]
 layout_mode = 2
 text = "Quit"
 
-[node name="ConfirmRestart" type="Control" parent="MenuTree"]
+[node name="ConfirmRestart" type="Control" parent="MenuTree" unique_id=1680115661]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -168,7 +146,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart"]
+[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart" unique_id=1864884087]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -176,7 +154,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Prompt" type="Label" parent="MenuTree/ConfirmRestart"]
+[node name="Prompt" type="Label" parent="MenuTree/ConfirmRestart" unique_id=241568947]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -193,7 +171,7 @@ text = "Would you like to restart the campaign?"
 label_settings = SubResource("LabelSettings_8n28k")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuTree/ConfirmRestart"]
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/ConfirmRestart" unique_id=1721728848]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -207,24 +185,24 @@ offset_bottom = 43.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart/PanelContainer"]
+[node name="Panel" type="Panel" parent="MenuTree/ConfirmRestart/PanelContainer" unique_id=1017431281]
 layout_mode = 2
 
-[node name="MainInterface" type="VBoxContainer" parent="MenuTree/ConfirmRestart/PanelContainer"]
+[node name="MainInterface" type="VBoxContainer" parent="MenuTree/ConfirmRestart/PanelContainer" unique_id=482561940]
 layout_mode = 2
 
-[node name="Confirm" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface"]
+[node name="Confirm" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface" unique_id=998837445]
 layout_mode = 2
 text = "Yes"
 
-[node name="Refuse" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface" node_paths=PackedStringArray("tree")]
+[node name="Refuse" type="Button" parent="MenuTree/ConfirmRestart/PanelContainer/MainInterface" unique_id=552322202 node_paths=PackedStringArray("tree")]
 layout_mode = 2
 text = "No"
 script = ExtResource("6_0l8wx")
 tree = NodePath("../../../..")
 metadata/_custom_type_script = "uid://diujs1h8q6yal"
 
-[node name="LevelSelect" type="Control" parent="MenuTree"]
+[node name="LevelSelect" type="Control" parent="MenuTree" unique_id=1981501239]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -233,39 +211,39 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Prompt" type="Label" parent="MenuTree/LevelSelect"]
+[node name="Prompt" type="Label" parent="MenuTree/LevelSelect" unique_id=194258854]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 118.0
+offset_left = 200.0
 offset_top = -272.0
-offset_right = 612.0
+offset_right = 694.0
 offset_bottom = -200.0
 grow_vertical = 2
 text = "Level Select"
 label_settings = SubResource("LabelSettings_n5jej")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuTree/LevelSelect"]
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/LevelSelect" unique_id=911363138]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 117.0
+offset_left = 199.0
 offset_top = -192.0
-offset_right = 609.0
+offset_right = 691.0
 offset_bottom = -102.0
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/LevelSelect/PanelContainer"]
+[node name="Panel" type="Panel" parent="MenuTree/LevelSelect/PanelContainer" unique_id=406642307]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MenuTree/LevelSelect/PanelContainer"]
+[node name="GridContainer" type="GridContainer" parent="MenuTree/LevelSelect/PanelContainer" unique_id=846432994]
 layout_mode = 2
 columns = 3
 
-[node name="Collection" type="Control" parent="MenuTree"]
+[node name="Collection" type="Control" parent="MenuTree" unique_id=2097889502]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -274,66 +252,82 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Prompt" type="Label" parent="MenuTree/Collection"]
+[node name="Prompt" type="Label" parent="MenuTree/Collection" unique_id=1631534774]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 118.0
+offset_left = 200.0
 offset_top = -272.0
-offset_right = 612.0
+offset_right = 694.0
 offset_bottom = -200.0
 grow_vertical = 2
 text = "Collection"
 label_settings = SubResource("LabelSettings_n5jej")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Collection"]
+[node name="PanelContainer" type="PanelContainer" parent="MenuTree/Collection" unique_id=212758914]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 117.0
+offset_left = 199.0
 offset_top = -192.0
-offset_right = 609.0
+offset_right = 691.0
 offset_bottom = -102.0
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/Collection/PanelContainer"]
+[node name="Panel" type="Panel" parent="MenuTree/Collection/PanelContainer" unique_id=1201935750]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MenuTree/Collection/PanelContainer"]
+[node name="GridContainer" type="GridContainer" parent="MenuTree/Collection/PanelContainer" unique_id=582780820]
 layout_mode = 2
 columns = 3
 
-[node name="Description" type="PanelContainer" parent="MenuTree/Collection"]
+[node name="Description" type="PanelContainer" parent="MenuTree/Collection" unique_id=113701100]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 117.0
+offset_left = 199.0
 offset_top = -3.0
-offset_right = 609.0
+offset_right = 691.0
 offset_bottom = 354.0
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="MenuTree/Collection/Description"]
+[node name="Panel" type="Panel" parent="MenuTree/Collection/Description" unique_id=1065820308]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MenuTree/Collection/Description"]
+[node name="Label" type="Label" parent="MenuTree/Collection/Description" unique_id=539039583]
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="SettingsMenu" parent="MenuTree" instance=ExtResource("9_83n0s")]
+[node name="SettingsMenu" parent="MenuTree" unique_id=787668533 instance=ExtResource("9_83n0s")]
 visible = false
 layout_mode = 1
-offset_left = -886.0
-offset_top = -258.0
-offset_right = -194.0
-offset_bottom = 250.0
+offset_left = -346.0
+offset_top = -254.0
+offset_right = 346.0
+offset_bottom = 254.0
 
 [node name="Back" parent="MenuTree/SettingsMenu/BottomRow" index="1" node_paths=PackedStringArray("tree")]
 tree = NodePath("../../..")
+
+[node name="Environment" parent="." unique_id=306701979 instance=ExtResource("12_ha2ro")]
+
+[node name="Camera3D" type="Camera3D" parent="Environment" unique_id=600599555]
+transform = Transform3D(0.8937797, -0.07902199, 0.44148996, 0, 0.9843563, 0.17618929, -0.44850624, -0.1574744, 0.8797977, 1.1053008, 1.1741816, 3.0595455)
+attributes = ExtResource("13_xsmfo")
+fov = 33.0
+near = 0.2
+far = 20.0
+
+[node name="Spinner" type="Node3D" parent="Environment" unique_id=113121865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.93810326, 0.87429416, 2.385868)
+script = ExtResource("14_rm7yp")
+
+[node name="Puzzle" parent="Environment/Spinner" unique_id=709713352 instance=ExtResource("14_rmurx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07102215, 0)
 
 [connection signal="back" from="MenuTree" to="." method="quit"]
 [connection signal="pressed" from="MenuTree/Main/PanelContainer/MainInterface/PlayButton" to="." method="_on_play_button_pressed"]

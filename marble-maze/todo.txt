@@ -28,11 +28,24 @@ maybe: Controller input scheme DONE
 Add pebble roll SFX DONE
 Add pebble hit SFX DONE
 
-Add ambience/music
+Add ambience/music DONE
 
-Make menu environment
-Make menu animation
+Make menu environment DONE
+Make menu animation DONE
 Make menu pretty and functional
+	black text on dark bg bad
+	remove collection button
+	back button from level select
+
+Ingame UI for control reminders
+
+win fanfarre audio
+menu btn sfx
+
+fix ambience cutting off on pause/win/lose
+make collision detection actually detect walls etc, not limited to idx 0
+fix wobble on map 0 ball-stoppers
+cap angular movement (for instance letting go of align btn)
 
 Update credits
 

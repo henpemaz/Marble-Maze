@@ -1,102 +1,70 @@
 [gd_scene format=3 uid="uid://b3ttch8na3727"]
 
 [ext_resource type="Script" uid="uid://cngd0s8xa651l" path="res://Game/Levels/game.gd" id="1_ejc32"]
-[ext_resource type="PackedScene" uid="uid://dnb3wx7gvo0lo" path="res://Game/Components/environment.tscn" id="2_uio3x"]
 [ext_resource type="Script" uid="uid://c7mdqsbx7qw2s" path="res://Game/Components/controls.gd" id="4_mt08e"]
-[ext_resource type="LightmapGIData" uid="uid://dxvd1n8rt7l77" path="res://Game/Levels/game.lmbake" id="4_odbtj"]
 [ext_resource type="Script" uid="uid://cxyftya0q4lhn" path="res://addons/MenuTree/menu_tree.gd" id="5_jycte"]
+[ext_resource type="CameraAttributesPractical" uid="uid://ctkccjqgru638" path="res://Game/Environment/camera_attributes.tres" id="6_3oj00"]
 [ext_resource type="Script" uid="uid://vf31pcqflju7" path="res://Game/Components/gizmos.gd" id="6_3tkys"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="6_ev4ff"]
 [ext_resource type="PackedScene" uid="uid://dhhq8sls5diik" path="res://Game/Components/gizmo.tscn" id="6_ojvjq"]
 [ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_xfsjo"]
-[ext_resource type="Script" uid="uid://cg3jo0e4rs6n3" path="res://Game/playarea.gd" id="7_3tkys"]
+[ext_resource type="Script" uid="uid://cg3jo0e4rs6n3" path="res://Game/Components/playarea.gd" id="7_3tkys"]
+[ext_resource type="PackedScene" uid="uid://d235gefaroxqr" path="res://Game/Environment/environment.tscn" id="7_78l5e"]
 [ext_resource type="Script" uid="uid://cpj0rnpj2pl8a" path="res://addons/MenuTree/focus_helper.gd" id="7_odbtj"]
-[ext_resource type="AudioStream" uid="uid://cfk75a5072m6s" path="res://Game/Sound/07 Wind_cypress tree canopy_near field.wav" id="8_ubs0m"]
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
-[ext_resource type="AudioStream" uid="uid://csfi6mjyaxwq1" path="res://Game/Sound/0008_Wind_heavy_slow_headwind_distant_birds_cows.wav" id="9_ei3f0"]
 [ext_resource type="AudioStream" uid="uid://bu6besxki1ccg" path="res://Assets/Music/a.wav" id="10_ei3f0"]
 [ext_resource type="Texture2D" uid="uid://bkaa6hrxa2gsd" path="res://Assets/UI/confetti.png" id="13_78l5e"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ojvjq"]
-sky_top_color = Color(0.9098039, 0.8666667, 0.8117647, 1)
-sky_horizon_color = Color(0.54901963, 0.52156866, 0.4745098, 1)
-sky_energy_multiplier = 0.5
-ground_bottom_color = Color(0.47843137, 0.39215687, 0.30588236, 1)
-ground_horizon_color = Color(0.7607843, 0.7254902, 0.6901961, 1)
-sun_angle_max = 0.0
-
-[sub_resource type="Sky" id="Sky_3tkys"]
-sky_material = SubResource("ProceduralSkyMaterial_ojvjq")
-
-[sub_resource type="Environment" id="Environment_odbtj"]
-background_mode = 2
-sky = SubResource("Sky_3tkys")
-ambient_light_color = Color(1, 1, 1, 1)
-ssr_enabled = true
-ssao_enabled = true
-ssil_enabled = true
-glow_enabled = true
-fog_enabled = true
-fog_mode = 1
-fog_light_color = Color(1.1417615, 0.6862156, 4.002732e-05, 1)
-fog_light_energy = 0.16
-fog_density = 1.0
-fog_depth_begin = 0.2
-fog_depth_end = 20.0
-volumetric_fog_enabled = true
-volumetric_fog_albedo = Color(0.93185276, 0.5686022, 3.8889648e-05, 1)
-volumetric_fog_length = 20.0
-
-[sub_resource type="TorusMesh" id="TorusMesh_04jbb"]
+[sub_resource type="TorusMesh" id="TorusMesh_ubs0m"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eksgd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei3f0"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1ffif"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_04jbb"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_jg6aq"]
+[sub_resource type="TorusMesh" id="TorusMesh_eksgd"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1cvfv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ffif"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_aymda"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jg6aq"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_nshks"]
+[sub_resource type="TorusMesh" id="TorusMesh_1cvfv"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yjrft"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_s3mpa"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nshks"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
@@ -115,13 +83,6 @@ depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.6901961, 0, 0.8117647, 0.3372549)
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_odbtj"]
-dof_blur_far_enabled = true
-dof_blur_far_distance = 0.5
-dof_blur_far_transition = 0.5
-dof_blur_near_distance = 0.3
-dof_blur_amount = 0.22
-
 [sub_resource type="QuadMesh" id="QuadMesh_78l5e"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_aymda"]
@@ -133,8 +94,6 @@ plane = Plane(0, 0, 1, 0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aymda"]
 size = Vector3(0.33, 0.33, 0.33)
-
-[sub_resource type="QuadMesh" id="QuadMesh_uio3x"]
 
 [sub_resource type="Resource" id="Resource_qe8hq"]
 script = ExtResource("6_xfsjo")
@@ -363,23 +322,6 @@ credits_cutscene_id = &"credits"
 
 [node name="Gameplay" type="Node3D" parent="." unique_id=603060878]
 
-[node name="LightmapGI" type="LightmapGI" parent="Gameplay" unique_id=1522680919]
-quality = 2
-bounces = 5
-bounce_indirect_energy = 0.8
-directional = true
-interior = true
-denoiser_range = 4
-bias = 0.001
-environment_mode = 0
-generate_probes_subdiv = 0
-light_data = ExtResource("4_odbtj")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Gameplay" unique_id=1636714739]
-environment = SubResource("Environment_odbtj")
-
-[node name="house" parent="Gameplay" unique_id=520542571 instance=ExtResource("2_uio3x")]
-
 [node name="GameplayOrigin" type="Node3D" parent="Gameplay" unique_id=474484639]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
 
@@ -387,21 +329,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 script = ExtResource("6_3tkys")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
-mesh = SubResource("TorusMesh_04jbb")
-material = SubResource("StandardMaterial3D_eksgd")
-shape = SubResource("CylinderShape3D_1ffif")
+mesh = SubResource("TorusMesh_ubs0m")
+material = SubResource("StandardMaterial3D_ei3f0")
+shape = SubResource("CylinderShape3D_04jbb")
 
 [node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=28477053 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("TorusMesh_jg6aq")
-material = SubResource("StandardMaterial3D_1cvfv")
-shape = SubResource("CylinderShape3D_aymda")
+mesh = SubResource("TorusMesh_eksgd")
+material = SubResource("StandardMaterial3D_1ffif")
+shape = SubResource("CylinderShape3D_jg6aq")
 
 [node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
-mesh = SubResource("TorusMesh_nshks")
-material = SubResource("StandardMaterial3D_yjrft")
-shape = SubResource("CylinderShape3D_s3mpa")
+mesh = SubResource("TorusMesh_1cvfv")
+material = SubResource("StandardMaterial3D_aymda")
+shape = SubResource("CylinderShape3D_nshks")
 
 [node name="Area3D" type="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1159704396]
 collision_layer = 16
@@ -430,7 +372,7 @@ transform = Transform3D(1, 0, 0, 0, 0.93909425, 0.3436597, 0, -0.3436597, 0.9390
 
 [node name="Camera3D" type="Camera3D" parent="Gameplay/GameplayOrigin/CameraPivot" unique_id=656062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-attributes = SubResource("CameraAttributesPractical_odbtj")
+attributes = ExtResource("6_3oj00")
 fov = 33.0
 near = 0.2
 far = 20.0
@@ -466,54 +408,7 @@ game = NodePath("../../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/GameplayOrigin/Playarea" unique_id=255711573]
 shape = SubResource("BoxShape3D_aymda")
 
-[node name="Room" type="OmniLight3D" parent="Gameplay" unique_id=911252367]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18189234, 2.0296369, -0.1325891)
-light_color = Color(0.9991904, 0.9639967, 0.89071363, 1)
-light_energy = 0.8
-light_indirect_energy = 0.5
-light_specular = 0.25
-shadow_enabled = true
-omni_attenuation = 2.0
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Gameplay" unique_id=1098060927]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.18189234, 2.0296369, -0.1325891)
-light_color = Color(0.98856705, 0.953394, 0.88883185, 1)
-light_energy = 2.0
-light_indirect_energy = 0.5
-light_specular = 0.2
-shadow_enabled = true
-spot_attenuation = 2.0
-spot_angle_attenuation = 2.0
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Gameplay" unique_id=363882570]
-transform = Transform3D(0.70255053, -0.5032011, 0.5032011, 0, 0.7071068, 0.70710677, -0.71163386, -0.49677825, 0.4967783, 1, 1, 2)
-light_color = Color(0.98039216, 0.8980392, 0.7607843, 1)
-light_energy = 8.0
-shadow_enabled = true
-
-[node name="roof" type="MeshInstance3D" parent="Gameplay" unique_id=108707800]
-transform = Transform3D(7.485, 0, 0, 0, -3.2717975e-07, 7.485, 0, -7.485, -3.2717975e-07, 0, 4.042903, 0.87495255)
-mesh = SubResource("QuadMesh_uio3x")
-
-[node name="LightmapProbe" type="LightmapProbe" parent="Gameplay" unique_id=1739414398]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
-visible = false
-
-[node name="Wind" type="AudioStreamPlayer3D" parent="Gameplay" unique_id=1493794769]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5424476, 1.1045951)
-stream = ExtResource("8_ubs0m")
-volume_db = -24.0
-autoplay = true
-panning_strength = 0.1
-bus = &"Sfx"
-
-[node name="Birds" type="AudioStreamPlayer3D" parent="Gameplay" unique_id=526224726]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3507576, 1.4497685, -1.1186454)
-stream = ExtResource("9_ei3f0")
-volume_db = -18.0
-autoplay = true
-panning_strength = 0.6
-bus = &"Sfx"
+[node name="Environment" parent="Gameplay" unique_id=306701979 instance=ExtResource("7_78l5e")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=363509072]
 layer = 3

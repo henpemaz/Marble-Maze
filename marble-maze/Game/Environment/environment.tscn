@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://d235gefaroxqr"]
+
+[ext_resource type="LightmapGIData" uid="uid://6e0lk1yv8mhh" path="res://Game/Environment/environment.lmbake" id="1_7dod7"]
+[ext_resource type="PackedScene" uid="uid://dnb3wx7gvo0lo" path="res://Game/Environment/house.tscn" id="2_1tdha"]
+[ext_resource type="AudioStream" uid="uid://cfk75a5072m6s" path="res://Game/Sound/07 Wind_cypress tree canopy_near field.wav" id="3_ibhg5"]
+[ext_resource type="AudioStream" uid="uid://csfi6mjyaxwq1" path="res://Game/Sound/0008_Wind_heavy_slow_headwind_distant_birds_cows.wav" id="4_5ax4d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ojvjq"]
+sky_top_color = Color(0.9098039, 0.8666667, 0.8117647, 1)
+sky_horizon_color = Color(0.54901963, 0.52156866, 0.4745098, 1)
+sky_energy_multiplier = 0.5
+ground_bottom_color = Color(0.47843137, 0.39215687, 0.30588236, 1)
+ground_horizon_color = Color(0.7607843, 0.7254902, 0.6901961, 1)
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_3tkys"]
+sky_material = SubResource("ProceduralSkyMaterial_ojvjq")
+
+[sub_resource type="Environment" id="Environment_odbtj"]
+background_mode = 2
+sky = SubResource("Sky_3tkys")
+ambient_light_color = Color(1, 1, 1, 1)
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(1.1417615, 0.6862156, 4.002732e-05, 1)
+fog_light_energy = 0.16
+fog_density = 1.0
+fog_depth_begin = 0.2
+fog_depth_end = 20.0
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.93185276, 0.5686022, 3.8889648e-05, 1)
+volumetric_fog_length = 20.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_uio3x"]
+
+[node name="Environment" type="Node3D" unique_id=306701979]
+
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=799733195]
+quality = 2
+bounces = 5
+bounce_indirect_energy = 0.8
+directional = true
+interior = true
+denoiser_range = 4
+bias = 0.001
+environment_mode = 0
+generate_probes_subdiv = 0
+light_data = ExtResource("1_7dod7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=509684427]
+environment = SubResource("Environment_odbtj")
+
+[node name="house" parent="." unique_id=1204529541 instance=ExtResource("2_1tdha")]
+
+[node name="Room" type="OmniLight3D" parent="." unique_id=545655979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18189234, 2.0296369, -0.1325891)
+light_color = Color(0.9991904, 0.9639967, 0.89071363, 1)
+light_energy = 0.8
+light_indirect_energy = 0.5
+light_specular = 0.25
+shadow_enabled = true
+omni_attenuation = 2.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1523151824]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.18189234, 2.0296369, -0.1325891)
+light_color = Color(0.98856705, 0.953394, 0.88883185, 1)
+light_energy = 2.0
+light_indirect_energy = 0.5
+light_specular = 0.2
+shadow_enabled = true
+spot_attenuation = 2.0
+spot_angle_attenuation = 2.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1689160721]
+transform = Transform3D(0.70255053, -0.5032011, 0.5032012, 0, 0.7071068, 0.70710677, -0.71163386, -0.49677822, 0.49677828, 1, 1, 2)
+light_color = Color(0.98039216, 0.8980392, 0.7607843, 1)
+light_energy = 8.0
+shadow_enabled = true
+
+[node name="roof" type="MeshInstance3D" parent="." unique_id=955804998]
+transform = Transform3D(7.485, 0, 0, 0, -3.2717975e-07, 7.485, 0, -7.485, -3.2717975e-07, 0, 4.042903, 0.87495255)
+mesh = SubResource("QuadMesh_uio3x")
+
+[node name="LightmapProbe" type="LightmapProbe" parent="." unique_id=457155464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27413657)
+visible = false
+
+[node name="Wind" type="AudioStreamPlayer3D" parent="." unique_id=377637875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5424476, 1.1045951)
+stream = ExtResource("3_ibhg5")
+volume_db = -24.0
+autoplay = true
+panning_strength = 0.1
+bus = &"Sfx"
+
+[node name="Birds" type="AudioStreamPlayer3D" parent="." unique_id=657176038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3507576, 1.4497685, -1.1186454)
+stream = ExtResource("4_5ax4d")
+volume_db = -18.0
+autoplay = true
+panning_strength = 0.6
+bus = &"Sfx"

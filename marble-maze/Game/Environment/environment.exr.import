@@ -2,8 +2,8 @@
 
 importer="2d_array_texture"
 type="CompressedTexture2DArray"
-uid="uid://yiso8f3n0q8w"
-path.bptc="res://.godot/imported/game.exr-828cdc4fc21d98a29fb5ec21767769fa.bptc.ctexarray"
+uid="uid://bduj8xesovslf"
+path.bptc="res://.godot/imported/environment.exr-e826e7e3fcd906ce431817628fc1878c.bptc.ctexarray"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Game/Levels/game.exr"
-dest_files=["res://.godot/imported/game.exr-828cdc4fc21d98a29fb5ec21767769fa.bptc.ctexarray"]
+source_file="res://Game/Environment/environment.exr"
+dest_files=["res://.godot/imported/environment.exr-e826e7e3fcd906ce431817628fc1878c.bptc.ctexarray"]
 
 [params]
 

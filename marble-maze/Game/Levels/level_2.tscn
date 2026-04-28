@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cny3ugtadfupp"]
 
 [ext_resource type="PackedScene" uid="uid://b3ttch8na3727" path="res://Game/Levels/game.tscn" id="1_4uqwg"]
-[ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Components/puzzle.tscn" id="2_4uqwg"]
-[ext_resource type="Script" uid="uid://c4k8majle4rjd" path="res://Game/win.gd" id="3_cxmng"]
+[ext_resource type="PackedScene" uid="uid://cv1oi67xgy7yt" path="res://Game/Puzzles/puzzle.tscn" id="2_4uqwg"]
+[ext_resource type="Script" uid="uid://c4k8majle4rjd" path="res://Game/Components/win.gd" id="3_cxmng"]
 [ext_resource type="PackedScene" uid="uid://dufh6o6vmdinn" path="res://Game/Components/pebble.tscn" id="4_d07f7"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_4uqwg"]
