@@ -5,7 +5,9 @@ extends RigidBody3D
 @export var impact: AudioStreamPlayer3D
 
 @export var slow_loop_curve:Curve
+@export var slow_loop_pitch_curve:Curve
 @export var fast_loop_curve:Curve
+@export var fast_loop_pitch_curve:Curve
 
 
 func _ready() -> void:
@@ -15,20 +17,50 @@ func _ready() -> void:
 	loop_slow.play()
 	loop_fast.play()
 
+@export var roll_speed_reference := 1.0
+@export var roll_volume_mult := 1.0
 
 func _physics_process(delta: float) -> void:
 	if get_contact_count() > 0:
 		var state = PhysicsServer3D.body_get_direct_state(get_rid())
 		var other_speed = state.get_contact_collider_velocity_at_position(0)
-		var rel_speed = (linear_velocity - other_speed).length()
-		loop_slow.volume_linear = slow_loop_curve.sample_baked(rel_speed)
-		loop_fast.volume_linear = fast_loop_curve.sample_baked(rel_speed)
-		print(rel_speed)
+		var rel_speed = (linear_velocity - other_speed).length() / roll_speed_reference
+		loop_slow.volume_db = -60.0 + 60.0 * roll_volume_mult * slow_loop_curve.sample_baked(rel_speed)
+		loop_fast.volume_db = -60.0 + 60.0 * roll_volume_mult * fast_loop_curve.sample_baked(rel_speed)
+		loop_slow.pitch_scale = slow_loop_pitch_curve.sample(rel_speed)
+		loop_fast.pitch_scale = fast_loop_pitch_curve.sample(rel_speed)
+		#print(rel_speed)
 	else:
 		loop_slow.volume_linear = 0
 		loop_fast.volume_linear = 0
-		
+	
+	if queue_impact:
+		impact_playback.play_stream(impact_sound, 
+			0, 
+			-60.0 + 60.0 * impact_volume_curve.sample_baked(queue_impact), 
+			impact_pitch_curve.sample_baked(queue_impact), 
+			AudioServer.PlaybackType.PLAYBACK_TYPE_DEFAULT,
+			&"Sfx")
+		queue_impact = 0.0
 
-func _on_body_entered(body: Node) -> void:
-	impact.play()
-	print("impact")
+func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	var state = PhysicsServer3D.body_get_direct_state(get_rid())
+	var self_speed = linear_velocity #state.get_contact_local_velocity_at_position(0)
+	#self_speed -= get_gravity() * get_physics_process_delta_time() # dismiss one gravity tick
+	var other_speed = state.get_contact_collider_velocity_at_position(0)
+	var contact_normal = state.get_contact_local_normal(0)
+	var rel_speed = (self_speed - other_speed).project(contact_normal).length()
+	if rel_speed > 0.1:
+		print("self_speed: ", (self_speed ))
+		print("other_speed: ", (other_speed))
+		print("rel_speed: ", (self_speed - other_speed))
+		print("contact_normal: ", contact_normal)
+		print("impact: ", rel_speed)
+	
+	queue_impact = maxf(queue_impact, rel_speed)
+	
+var queue_impact : float
+@onready var impact_playback:AudioStreamPlaybackPolyphonic = impact.get_stream_playback() 
+@export var impact_sound: AudioStreamWAV
+@export var impact_volume_curve:Curve
+@export var impact_pitch_curve:Curve

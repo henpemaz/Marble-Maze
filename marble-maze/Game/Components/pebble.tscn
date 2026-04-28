@@ -6,11 +6,28 @@
 [ext_resource type="AudioStream" uid="uid://24vqaueqj1pt" path="res://Game/Assets/impact.wav" id="4_ink01"]
 
 [sub_resource type="Curve" id="Curve_24suq"]
-_data = [Vector2(0, 0), 0.0, 4.6905313, 0, 0, Vector2(0.49750003, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 6.6090465, 0, 0, Vector2(0.010526314, 0.2512704), 3.5510213, 3.5510213, 0, 0, Vector2(0.49736845, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_0ynq1"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0.4968152), 0.0, 1.9385185, 0, 0, Vector2(1, 1.5014927), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_ysb7t"]
-_data = [Vector2(0.255, 0), 0.0, 0.0, 0, 0, Vector2(0.7487501, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0133333355, 0.19911987), 0.72168475, 0.72168475, 0, 0, Vector2(1, 0.66878974), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_jbble"]
+_data = [Vector2(0, 0.3036093), 0.0, 0.9483059, 0, 0, Vector2(1, 1), 0.35360718, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_vw1ns"]
+_data = [Vector2(0.017777778, 0), 0.0, 2.8337736, 0, 0, Vector2(0.05111111, 0.49740684), 2.0506444, 2.0506444, 0, 0, Vector2(0.7526316, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_ink01"]
+_data = [Vector2(0, 0.33072656), 0.0, 0.0, 0, 0, Vector2(0.4222222, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mt08e"]
@@ -32,6 +49,8 @@ roughness = 0.63
 
 [sub_resource type="SphereMesh" id="SphereMesh_ojvjq"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5518r"]
+
 [node name="Pebble" type="RigidBody3D" unique_id=317528949 node_paths=PackedStringArray("loop_slow", "loop_fast", "impact")]
 input_ray_pickable = false
 mass = 0.1
@@ -44,7 +63,13 @@ loop_slow = NodePath("LoopSlow")
 loop_fast = NodePath("LoopFast")
 impact = NodePath("Impact")
 slow_loop_curve = SubResource("Curve_24suq")
+slow_loop_pitch_curve = SubResource("Curve_0ynq1")
 fast_loop_curve = SubResource("Curve_ysb7t")
+fast_loop_pitch_curve = SubResource("Curve_jbble")
+roll_volume_mult = 1.5
+impact_sound = ExtResource("4_ink01")
+impact_volume_curve = SubResource("Curve_vw1ns")
+impact_pitch_curve = SubResource("Curve_ink01")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=851780660]
 transform = Transform3D(0.011, 0, 0, 0, 0.011, 0, 0, 0, 0.011, 0, 0, 0)
@@ -58,18 +83,26 @@ mesh = SubResource("SphereMesh_ojvjq")
 
 [node name="LoopSlow" type="AudioStreamPlayer3D" parent="." unique_id=900767257]
 stream = ExtResource("2_ysb7t")
-unit_size = 0.5
+attenuation_model = 1
+unit_size = 1.0
+max_db = 6.0
 bus = &"Sfx"
+attenuation_filter_cutoff_hz = 1200.0
 
 [node name="LoopFast" type="AudioStreamPlayer3D" parent="." unique_id=1344617999]
 stream = ExtResource("3_vw1ns")
-unit_size = 0.5
+attenuation_model = 1
+unit_size = 1.0
 bus = &"Sfx"
+attenuation_filter_cutoff_hz = 1200.0
 
 [node name="Impact" type="AudioStreamPlayer3D" parent="." unique_id=1351312576]
-stream = ExtResource("4_ink01")
-unit_size = 0.5
+stream = SubResource("AudioStreamPolyphonic_5518r")
+attenuation_model = 1
+unit_size = 1.0
+autoplay = true
 max_polyphony = 4
 bus = &"Sfx"
+attenuation_filter_cutoff_hz = 1200.0
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
