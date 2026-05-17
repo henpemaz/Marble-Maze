@@ -14,59 +14,60 @@
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 [ext_resource type="AudioStream" uid="uid://bu6besxki1ccg" path="res://Assets/Music/a.wav" id="10_ei3f0"]
 [ext_resource type="Texture2D" uid="uid://bkaa6hrxa2gsd" path="res://Assets/UI/confetti.png" id="13_78l5e"]
+[ext_resource type="AudioStream" uid="uid://d3volk7oab103" path="res://Assets/SFX/fanfarre/fanfarre.wav" id="14_04jbb"]
 [ext_resource type="Script" uid="uid://bsqv5ns34rytx" path="res://Game/input_ui.gd" id="15_ubs0m"]
 [ext_resource type="Script" uid="uid://c4wj06uma6vv" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="16_ei3f0"]
 
-[sub_resource type="TorusMesh" id="TorusMesh_ei3f0"]
+[sub_resource type="TorusMesh" id="TorusMesh_eksgd"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04jbb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ffif"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_eksgd"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jg6aq"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_1ffif"]
+[sub_resource type="TorusMesh" id="TorusMesh_1cvfv"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jg6aq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1cvfv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nshks"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_aymda"]
+[sub_resource type="TorusMesh" id="TorusMesh_yjrft"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nshks"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3mpa"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_yjrft"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ycqe2"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
@@ -272,6 +273,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("14_04jbb")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ubs0m"]
 _data = {
@@ -431,21 +447,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 script = ExtResource("6_3tkys")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
-mesh = SubResource("TorusMesh_ei3f0")
-material = SubResource("StandardMaterial3D_04jbb")
-shape = SubResource("CylinderShape3D_eksgd")
+mesh = SubResource("TorusMesh_eksgd")
+material = SubResource("StandardMaterial3D_1ffif")
+shape = SubResource("CylinderShape3D_jg6aq")
 
 [node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=28477053 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("TorusMesh_1ffif")
-material = SubResource("StandardMaterial3D_jg6aq")
-shape = SubResource("CylinderShape3D_1cvfv")
+mesh = SubResource("TorusMesh_1cvfv")
+material = SubResource("StandardMaterial3D_aymda")
+shape = SubResource("CylinderShape3D_nshks")
 
 [node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
-mesh = SubResource("TorusMesh_aymda")
-material = SubResource("StandardMaterial3D_nshks")
-shape = SubResource("CylinderShape3D_yjrft")
+mesh = SubResource("TorusMesh_yjrft")
+material = SubResource("StandardMaterial3D_s3mpa")
+shape = SubResource("CylinderShape3D_ycqe2")
 
 [node name="Area3D" type="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1159704396]
 collision_layer = 16
@@ -504,6 +520,7 @@ shape = SubResource("SphereShape3D_78l5e")
 
 [node name="Playarea" type="Area3D" parent="Gameplay/GameplayOrigin" unique_id=1865640190 node_paths=PackedStringArray("game")]
 collision_layer = 0
+input_ray_pickable = false
 script = ExtResource("7_3tkys")
 game = NodePath("../../..")
 
@@ -898,6 +915,8 @@ lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_1ffif")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UI/WinFanfarre" unique_id=1195453551]
 
 [node name="InputUI" type="Control" parent="UI" unique_id=1998956939 node_paths=PackedStringArray("pan_puzzle_kbm", "pan_cam_kbm", "pan_puzzle_ctrl", "pan_cam_ctrl")]
 layout_mode = 3

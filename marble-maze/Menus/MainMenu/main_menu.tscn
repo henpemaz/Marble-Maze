@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bu6besxki1ccg" path="res://Assets/Music/a.wav" id="2_rm7yp"]
 [ext_resource type="LabelSettings" uid="uid://cfp4r10si73k5" path="res://Assets/Style/title_style.tres" id="3_adu2g"]
 [ext_resource type="Script" uid="uid://bm66hhlsb7ib2" path="res://addons/MenuTree/navigation_button.gd" id="4_0qgbs"]
+[ext_resource type="AudioStream" uid="uid://dwmqqj6nvkh4j" path="res://Assets/SFX/boop/boop.wav" id="4_ha2ro"]
 [ext_resource type="Script" uid="uid://diujs1h8q6yal" path="res://addons/MenuTree/back_button.gd" id="6_0l8wx"]
 [ext_resource type="Script" uid="uid://nafvgiykrl1a" path="res://addons/MenuTree/menu_transition.gd" id="6_8n28k"]
 [ext_resource type="PackedScene" uid="uid://hbovykt2mf3c" path="res://Menus/Components/LevelButton/level_button.tscn" id="7_n5jej"]
@@ -28,7 +29,7 @@ font_size = 32
 font_size = 64
 font_color = Color(0, 0, 0, 1)
 
-[node name="MainMenu" type="Control" unique_id=68863180]
+[node name="MainMenu" type="Control" unique_id=68863180 node_paths=PackedStringArray("button_sound")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +38,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_adu2g")
 menu_music = ExtResource("2_rm7yp")
+button_sound = NodePath("ButtonSound")
 levelButton = ExtResource("7_n5jej")
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="." unique_id=884213650]
+stream = ExtResource("4_ha2ro")
 
 [node name="MenuTree" type="Control" parent="." unique_id=1403986772 node_paths=PackedStringArray("entry_point")]
 layout_mode = 1

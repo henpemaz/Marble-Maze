@@ -39,13 +39,16 @@ Make menu pretty and functional DONE
 
 Ingame UI for control reminders DONE
 
+win fanfarre audio DONE
 
-win fanfarre audio
 menu btn sfx
 
-fix ambience cutting off on pause/win/lose
+fix ambience cutting off on pause/win/lose DONE
+
 make collision detection actually detect walls etc, not limited to idx 0
+
 fix wobble on map 0 ball-stoppers
+
 cap angular movement (for instance letting go of align btn)
 
 more soundtrack

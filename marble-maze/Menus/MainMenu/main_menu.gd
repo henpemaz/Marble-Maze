@@ -8,6 +8,15 @@ func _ready() -> void:
 	populate_level_buttons()
 	
 	MusicPlayer.request_music(menu_music)
+	
+	var buttons: Array = find_children("*", "Button")
+	for inst in buttons:
+		inst.pressed.connect(on_button_pressed)
+
+@export var button_sound: AudioStreamPlayer
+
+func on_button_pressed()->void:
+	button_sound.play()
 
 func _on_play_button_pressed() -> void:
 	if Progress.all_levels_played():

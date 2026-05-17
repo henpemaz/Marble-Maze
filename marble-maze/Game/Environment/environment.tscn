@@ -90,6 +90,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 visible = false
 
 [node name="Wind" type="AudioStreamPlayer3D" parent="." unique_id=377637875]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5424476, 1.1045951)
 stream = ExtResource("3_ibhg5")
 volume_db = -24.0
@@ -98,6 +99,7 @@ panning_strength = 0.1
 bus = &"Sfx"
 
 [node name="Birds" type="AudioStreamPlayer3D" parent="." unique_id=657176038]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3507576, 1.4497685, -1.1186454)
 stream = ExtResource("4_5ax4d")
 volume_db = -18.0
