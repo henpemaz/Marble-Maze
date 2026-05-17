@@ -134,6 +134,7 @@ monitor_body = NodePath("../Pebble")
 [node name="WinFanfarre" parent="UI" parent_id_path=PackedInt32Array(363509072) index="3" unique_id=499827643]
 mouse_filter = 2
 
+[connection signal="won" from="." to="UI/InputUI" method="hide"]
 [connection signal="body_entered" from="Gameplay/GameplayOrigin/SimplePuzzle/Win" to="Gameplay/GameplayOrigin/SimplePuzzle/Win" method="_on_body_entered"]
 
 [editable path="UI/PauseScreen/MenuTree/SettingsMenu"]

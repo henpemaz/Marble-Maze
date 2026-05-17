@@ -8,6 +8,8 @@ extends Node
 
 @export var credits_cutscene_id:StringName
 
+signal won
+
 func _ready() -> void:
 	MusicPlayer.request_music(music)
 
@@ -32,6 +34,7 @@ func win():
 	$UI/WinFanfarre/AnimationPlayer.play("win")
 	await $UI/WinFanfarre/AnimationPlayer.animation_finished
 	
+	won.emit()
 	frozen = true
 	_freeze_gameplay()
 	Campaign.level_completed()

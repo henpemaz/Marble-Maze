@@ -37,7 +37,8 @@ Make menu pretty and functional DONE
 	remove collection button
 	back button from level select
 
-Ingame UI for control reminders
+Ingame UI for control reminders DONE
+
 
 win fanfarre audio
 menu btn sfx
@@ -46,6 +47,8 @@ fix ambience cutting off on pause/win/lose
 make collision detection actually detect walls etc, not limited to idx 0
 fix wobble on map 0 ball-stoppers
 cap angular movement (for instance letting go of align btn)
+
+more soundtrack
 
 Update credits
 

@@ -14,57 +14,59 @@
 [ext_resource type="PackedScene" uid="uid://4uub0g2ai32q" path="res://Menus/Components/SettingsMenu/settings_menu.tscn" id="8_xfsjo"]
 [ext_resource type="AudioStream" uid="uid://bu6besxki1ccg" path="res://Assets/Music/a.wav" id="10_ei3f0"]
 [ext_resource type="Texture2D" uid="uid://bkaa6hrxa2gsd" path="res://Assets/UI/confetti.png" id="13_78l5e"]
+[ext_resource type="Script" uid="uid://bsqv5ns34rytx" path="res://Game/input_ui.gd" id="15_ubs0m"]
+[ext_resource type="Script" uid="uid://c4wj06uma6vv" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="16_ei3f0"]
 
-[sub_resource type="TorusMesh" id="TorusMesh_ubs0m"]
+[sub_resource type="TorusMesh" id="TorusMesh_ei3f0"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei3f0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04jbb"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.5137255, 0.8039216, 0.023529412, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_04jbb"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eksgd"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_eksgd"]
+[sub_resource type="TorusMesh" id="TorusMesh_1ffif"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ffif"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jg6aq"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.92156863, 0.20392157, 0.30980393, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_jg6aq"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1cvfv"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
 
-[sub_resource type="TorusMesh" id="TorusMesh_1cvfv"]
+[sub_resource type="TorusMesh" id="TorusMesh_aymda"]
 resource_local_to_scene = true
 inner_radius = 0.16
 outer_radius = 0.161
 ring_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nshks"]
 resource_local_to_scene = true
 transparency = 1
 depth_draw_mode = 1
 shading_mode = 0
 albedo_color = Color(0.16078432, 0.54901963, 0.95686275, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_nshks"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yjrft"]
 resource_local_to_scene = true
 height = 0.01
 radius = 0.165
@@ -315,6 +317,106 @@ hue_variation_min = -1.0
 hue_variation_max = 0.99999994
 anim_offset_max = 1.0
 
+[sub_resource type="Texture2D" id="Texture2D_04jbb"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "pan_puzzle"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_ei3f0"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/q"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_eksgd"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/w"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_1ffif"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/e"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_jg6aq"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/a"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_ycqe2"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/s"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_debuj"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "key/d"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_s3mpa"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "pan_camera"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_1cvfv"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "joypad/l_stick"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_rgqve"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "twist_left"
+force_type = 2
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_22d46"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "twist_right"
+force_type = 2
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_aymda"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "joypad/r_stick"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_nshks"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "tap_puzzle"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
+[sub_resource type="Texture2D" id="Texture2D_yjrft"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("16_ei3f0")
+path = "align"
+metadata/_custom_type_script = "uid://c4wj06uma6vv"
+
 [node name="Game" type="Node" unique_id=618378998]
 script = ExtResource("1_ejc32")
 music = ExtResource("10_ei3f0")
@@ -329,21 +431,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32842276, 0.62387425, 0.27
 script = ExtResource("6_3tkys")
 
 [node name="GizmoY" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1731333145 instance=ExtResource("6_ojvjq")]
-mesh = SubResource("TorusMesh_ubs0m")
-material = SubResource("StandardMaterial3D_ei3f0")
-shape = SubResource("CylinderShape3D_04jbb")
+mesh = SubResource("TorusMesh_ei3f0")
+material = SubResource("StandardMaterial3D_04jbb")
+shape = SubResource("CylinderShape3D_eksgd")
 
 [node name="GizmoX" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=28477053 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("TorusMesh_eksgd")
-material = SubResource("StandardMaterial3D_1ffif")
-shape = SubResource("CylinderShape3D_jg6aq")
+mesh = SubResource("TorusMesh_1ffif")
+material = SubResource("StandardMaterial3D_jg6aq")
+shape = SubResource("CylinderShape3D_1cvfv")
 
 [node name="GizmoZ" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=2113012164 instance=ExtResource("6_ojvjq")]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
-mesh = SubResource("TorusMesh_1cvfv")
-material = SubResource("StandardMaterial3D_aymda")
-shape = SubResource("CylinderShape3D_nshks")
+mesh = SubResource("TorusMesh_aymda")
+material = SubResource("StandardMaterial3D_nshks")
+shape = SubResource("CylinderShape3D_yjrft")
 
 [node name="Area3D" type="Area3D" parent="Gameplay/GameplayOrigin/Gizmos" unique_id=1159704396]
 collision_layer = 16
@@ -796,6 +898,348 @@ lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_1ffif")
+
+[node name="InputUI" type="Control" parent="UI" unique_id=1998956939 node_paths=PackedStringArray("pan_puzzle_kbm", "pan_cam_kbm", "pan_puzzle_ctrl", "pan_cam_ctrl")]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -541.0
+offset_right = 380.0
+grow_vertical = 0
+script = ExtResource("15_ubs0m")
+pan_puzzle_kbm = NodePath("VBoxContainer/PanPuzzleKbm")
+pan_cam_kbm = NodePath("VBoxContainer/PanCamKbm")
+pan_puzzle_ctrl = NodePath("VBoxContainer/PanPuzzleCtrl")
+pan_cam_ctrl = NodePath("VBoxContainer/PanCamCtrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/InputUI" unique_id=425140328]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -120.0
+offset_right = 330.0
+offset_bottom = -60.0
+grow_vertical = 0
+alignment = 2
+
+[node name="PanPuzzleKbm" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=1188782206]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=606703930]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Pan Puzzle"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=1349327698]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_04jbb")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=607774745]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -25.000002
+offset_right = 68.0
+offset_bottom = 38.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_ei3f0")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=742881284]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -25.000002
+offset_right = 87.0
+offset_bottom = 38.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_eksgd")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=1650950091]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 43.0
+offset_top = -25.000002
+offset_right = 106.0
+offset_bottom = 38.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_1ffif")
+expand_mode = 1
+
+[node name="TextureRect5" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=1390792699]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 9.0
+offset_top = -7.000004
+offset_right = 72.0
+offset_bottom = 56.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_jg6aq")
+expand_mode = 1
+
+[node name="TextureRect6" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=2001610907]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 28.00003
+offset_top = -7.000004
+offset_right = 91.00003
+offset_bottom = 56.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_ycqe2")
+expand_mode = 1
+
+[node name="TextureRect7" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleKbm" unique_id=1283069674]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 47.0
+offset_top = -7.000004
+offset_right = 110.0
+offset_bottom = 56.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.41233212, 0.41233212)
+texture = SubResource("Texture2D_debuj")
+expand_mode = 1
+
+[node name="PanCamKbm" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=1458229720]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/PanCamKbm" unique_id=1951789232]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Pan Camera"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanCamKbm" unique_id=1787087987]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_s3mpa")
+expand_mode = 1
+
+[node name="PanPuzzleCtrl" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=111157312]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/PanPuzzleCtrl" unique_id=1884761116]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Pan Puzzle"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleCtrl" unique_id=313902947]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_1cvfv")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleCtrl" unique_id=1495843992]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -23.0
+offset_right = 64.0
+offset_bottom = 40.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.67239994, 0.67239994)
+texture = SubResource("Texture2D_rgqve")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanPuzzleCtrl" unique_id=998510837]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 36.0
+offset_top = -23.0
+offset_right = 99.0
+offset_bottom = 40.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.67239994, 0.67239994)
+texture = SubResource("Texture2D_22d46")
+expand_mode = 1
+
+[node name="PanCamCtrl" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=1159496828]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/PanCamCtrl" unique_id=191188296]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Pan Camera"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/PanCamCtrl" unique_id=1244745895]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_aymda")
+expand_mode = 1
+
+[node name="TapPuzzle" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=538147470]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/TapPuzzle" unique_id=1684390913]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Tap Puzzle"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/TapPuzzle" unique_id=1067059164]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_nshks")
+expand_mode = 1
+
+[node name="Align" type="Control" parent="UI/InputUI/VBoxContainer" unique_id=1069620483]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/InputUI/VBoxContainer/Align" unique_id=342710070]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 71.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Align"
+
+[node name="TextureRect" type="TextureRect" parent="UI/InputUI/VBoxContainer/Align" unique_id=1001298277]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = -31.5
+offset_bottom = 31.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("Texture2D_yjrft")
+expand_mode = 1
 
 [connection signal="dragged" from="Gameplay/GameplayOrigin/Gizmos/GizmoY" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_y_dragged"]
 [connection signal="gizmo_grabbed" from="Gameplay/GameplayOrigin/Gizmos/GizmoY" to="Gameplay/GameplayOrigin/Controls" method="_on_gizmo_grabbed"]

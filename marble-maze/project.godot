@@ -26,6 +26,7 @@ MusicPlayer="*res://Autoloads/MusicPlayer/music_player.tscn"
 Campaign="*res://Autoloads/Campaign/campaign.tscn"
 Progress="*res://Autoloads/Progress/progress.tscn"
 LayerNames="*res://addons/layerNames/generated/layerNames.gd"
+ControllerIcons="*uid://dljiwvvngwfuo"
 
 [display]
 
@@ -38,7 +39,7 @@ window/size/mode.editor=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/layerNames/plugin.cfg")
+enabled=PackedStringArray("res://addons/controller_icons/plugin.cfg", "res://addons/layerNames/plugin.cfg")
 
 [file_customization]
 
