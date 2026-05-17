@@ -43,6 +43,7 @@ levelButton = ExtResource("7_n5jej")
 
 [node name="ButtonSound" type="AudioStreamPlayer" parent="." unique_id=884213650]
 stream = ExtResource("4_ha2ro")
+bus = &"Sfx"
 
 [node name="MenuTree" type="Control" parent="." unique_id=1403986772 node_paths=PackedStringArray("entry_point")]
 layout_mode = 1

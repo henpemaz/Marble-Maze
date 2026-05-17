@@ -59,19 +59,14 @@ size = Vector3(0.03, 0.0060000047, 0.07)
 
 [node name="SimplePuzzle" unique_id=1401497948 instance=ExtResource("1_535gi")]
 input_ray_pickable = false
-mass = 10.0
-gravity_scale = 0.0
-center_of_mass_mode = 1
-can_sleep = false
-continuous_cd = true
 
-[node name="Floor" parent="." index="0" unique_id=745897617]
+[node name="Floor" parent="." index="0" unique_id=1650714]
 gi_mode = 2
 
 [node name="CollisionShape3D18" type="CollisionShape3D" parent="." index="1" unique_id=1684616209]
 shape = SubResource("ConcavePolygonShape3D_535gi")
 
-[node name="Outer Walls" parent="." index="2" unique_id=1743879215]
+[node name="Outer Walls" parent="." index="2" unique_id=2007881527]
 gi_mode = 2
 
 [node name="CollisionShape3D14" type="CollisionShape3D" parent="." index="3" unique_id=1325963346]
@@ -90,84 +85,84 @@ shape = SubResource("BoxShape3D_gu86u")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10482882, 0, -7.450581e-09)
 shape = SubResource("BoxShape3D_ew477")
 
-[node name="Wall" parent="." index="7" unique_id=1611667183]
+[node name="Wall" parent="." index="7" unique_id=293828866]
 gi_mode = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="8" unique_id=121663460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039311588, 0.01, 0.022677155)
 shape = SubResource("BoxShape3D_34xdh")
 
-[node name="Wall_001" parent="." index="9" unique_id=1516375823]
+[node name="Wall_001" parent="." index="9" unique_id=555813125]
 gi_mode = 2
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="10" unique_id=874483497]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07, 0.01, -0.049999997)
 shape = SubResource("BoxShape3D_qfftx")
 
-[node name="Wall_002" parent="." index="11" unique_id=1428034454]
+[node name="Wall_002" parent="." index="11" unique_id=1935234688]
 gi_mode = 2
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="12" unique_id=885569542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07, 0.01, 0.065)
 shape = SubResource("BoxShape3D_537oa")
 
-[node name="Wall_003" parent="." index="13" unique_id=538621811]
+[node name="Wall_003" parent="." index="13" unique_id=1129301643]
 gi_mode = 2
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." index="14" unique_id=557301755]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016940393, 0.01, -0.030152978)
 shape = SubResource("BoxShape3D_3vnuy")
 
-[node name="Wall_005" parent="." index="15" unique_id=1353349345]
+[node name="Wall_005" parent="." index="15" unique_id=1039906360]
 gi_mode = 2
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." index="16" unique_id=731833975]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008778688, 0.01, -0.059999995)
 shape = SubResource("BoxShape3D_xowr0")
 
-[node name="Wall_004" parent="." index="17" unique_id=134705190]
+[node name="Wall_004" parent="." index="17" unique_id=1579699862]
 gi_mode = 2
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="." index="18" unique_id=296968234]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04415158, 0.01, 0.06966801)
 shape = SubResource("BoxShape3D_g4cpq")
 
-[node name="Wall_007" parent="." index="19" unique_id=683190623]
+[node name="Wall_007" parent="." index="19" unique_id=1051651276]
 gi_mode = 2
 
 [node name="CollisionShape3D7" type="CollisionShape3D" parent="." index="20" unique_id=894277385]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.01, -0.008699527)
 shape = SubResource("BoxShape3D_4gjx4")
 
-[node name="Wall_006" parent="." index="21" unique_id=1409814190]
+[node name="Wall_006" parent="." index="21" unique_id=853479887]
 gi_mode = 2
 
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="." index="22" unique_id=856219941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008045797, 0.01, 0.03489252)
 shape = SubResource("BoxShape3D_e4n2r")
 
-[node name="Wall_008" parent="." index="23" unique_id=1960005780]
+[node name="Wall_008" parent="." index="23" unique_id=183091817]
 gi_mode = 2
 
 [node name="CollisionShape3D9" type="CollisionShape3D" parent="." index="24" unique_id=1319177055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.022964478, 0.01, -0.00013570135)
 shape = SubResource("BoxShape3D_hwkba")
 
-[node name="stop" parent="." index="25" unique_id=1651238755]
+[node name="stop" parent="." index="25" unique_id=2099819660]
 gi_mode = 2
 
 [node name="CollisionShape3D13" type="CollisionShape3D" parent="." index="26" unique_id=1860795134]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041796897, 0.00371827, -0.07971104)
 shape = SubResource("ConcavePolygonShape3D_eh0m1")
 
-[node name="stop_001" parent="." index="27" unique_id=1820740896]
+[node name="stop_001" parent="." index="27" unique_id=1794949022]
 gi_mode = 2
 
 [node name="CollisionShape3D12" type="CollisionShape3D" parent="." index="28" unique_id=640532100]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.043156564, 0.00371827, 0.08511369)
 shape = SubResource("ConcavePolygonShape3D_rlrva")
 
-[node name="Floor_001" parent="." index="29" unique_id=1146246734]
+[node name="Floor_001" parent="." index="29" unique_id=2076552355]
 gi_mode = 2
 
 [node name="CollisionShape3D11" type="CollisionShape3D" parent="." index="30" unique_id=1854692863]

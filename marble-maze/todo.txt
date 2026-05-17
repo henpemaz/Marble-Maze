@@ -41,7 +41,7 @@ Ingame UI for control reminders DONE
 
 win fanfarre audio DONE
 
-menu btn sfx
+menu btn sfx DONE
 
 fix ambience cutting off on pause/win/lose DONE
 
