@@ -31,6 +31,7 @@ _data = [Vector2(0, 0.33072656), 0.0, 0.0, 0, 0, Vector2(0.4222222, 1), 0.0, 0.0
 point_count = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mt08e"]
+margin = 0.001
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aymda"]
 albedo_color = Color(0.5681342, 0.5935658, 0.65258235, 1)

@@ -44,21 +44,14 @@ func _physics_process(delta: float) -> void:
 		queue_impact = 0.0
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	var dir := linear_velocity.normalized()
 	var state = PhysicsServer3D.body_get_direct_state(get_rid())
-	var self_speed = linear_velocity #state.get_contact_local_velocity_at_position(0)
-	#self_speed -= get_gravity() * get_physics_process_delta_time() # dismiss one gravity tick
-	var other_speed = state.get_contact_collider_velocity_at_position(0)
-	var contact_normal = state.get_contact_local_normal(0)
-	var rel_speed = (self_speed - other_speed).project(contact_normal).length()
-	if rel_speed > 0.1:
-		print("self_speed: ", (self_speed ))
-		print("other_speed: ", (other_speed))
-		print("rel_speed: ", (self_speed - other_speed))
-		print("contact_normal: ", contact_normal)
-		print("impact: ", rel_speed)
-	
-	queue_impact = maxf(queue_impact, rel_speed)
-	
+	for i in state.get_contact_count():
+		if state.get_contact_collider(i) == body_rid && state.get_contact_collider_shape(i) == body_shape_index:
+			var impulse := state.get_contact_impulse(i).project(dir).length() * 10
+			if impulse < 0.1: continue
+			queue_impact = maxf(queue_impact, impulse)
+
 var queue_impact : float
 @onready var impact_playback:AudioStreamPlaybackPolyphonic = impact.get_stream_playback() 
 @export var impact_sound: AudioStreamWAV
