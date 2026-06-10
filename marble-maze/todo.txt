@@ -45,7 +45,7 @@ menu btn sfx DONE
 
 fix ambience cutting off on pause/win/lose DONE
 
-make collision detection actually detect walls etc, not limited to idx 0
+make collision detection actually detect walls etc, not limited to idx 0 DONE
 
 fix wobble on map 0 ball-stoppers
 
